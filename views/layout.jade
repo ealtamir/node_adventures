@@ -1,7 +1,8 @@
 doctype 5
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    - var page_t = page_title || "Node Adventures"
+    title= page_t
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
   body
     block content

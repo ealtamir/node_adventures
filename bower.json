@@ -1,0 +1,20 @@
+{
+  "name": "node_adventures",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ealtamir/node_adventures",
+  "authors": [
+    "Enzo Altamiranda <enzo.alt@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "~2.1.3"
+  }
+}
