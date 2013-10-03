@@ -1,5 +1,9 @@
-extends layout
+extends sectioned_layout
 
-block content
-  h1= title
-  p Welcome to #{title}
+block main_section
+  h1 Node Adventures
+  form(method='GET', action='/')
+    label(for='main_sfield') Busca un profesor
+    input(class='search_field', type='text', name='search_field', id='main_sfield')
+    input(class='search_button', type='submit', value='Search')
+
