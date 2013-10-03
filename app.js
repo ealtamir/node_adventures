@@ -5,10 +5,7 @@ var http    = require('http');
 var path    = require('path');
 
 // User Modules
-var helpers = require('./helpers');
-var routes  = require('./routes');
-var user    = require('./routes/user');
-
+var routes = require('./routes');
 
 var app = express();
 
@@ -30,7 +27,6 @@ app.use(express.favicon());
 app.use(express.logger('dev')); // Choose position carefully
 app.use(express.multipart);
 app.use(express.methodOverride());
-//app.use(express.bodyParser());
 
 
 // development only
@@ -38,8 +34,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+// Load routes
+routes.Routes(app);
+
 
 /*
  * Server stuff
