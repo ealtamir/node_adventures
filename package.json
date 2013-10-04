@@ -6,7 +6,9 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "underscore": "*",
     "express": "3.4.0",
-    "jade": "*"
+    "jade": "*",
+    "pg": "*"
   }
 }

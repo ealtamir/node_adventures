@@ -1,5 +1,5 @@
-var main  = require('./routes/index');
-var user    = require('./routes/user');
+var main    = require('./controllers/index');
+var user    = require('./controllers/user');
 
 var urls = [
     {
@@ -15,7 +15,6 @@ var urls = [
 ];
 
 exports.Routes = function(app) {
-
     for( var i = 0, url = null; i < urls.length; i++) {
         url = urls[i];
         app.set(url.name, url.pattern);
