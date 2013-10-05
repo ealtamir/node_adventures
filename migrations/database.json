@@ -1,0 +1,9 @@
+{
+    "dev": {
+        "driver": "pg",
+        "user": "pr_dev",
+        "password": "asd",
+        "host": "localhost",
+        "database": "n_pr_dev"
+    }
+}

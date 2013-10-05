@@ -9,6 +9,7 @@
     "underscore": "*",
     "express": "3.4.0",
     "jade": "*",
-    "pg": "*"
+    "pg": "*",
+    "db-migrate": "*"
   }
 }

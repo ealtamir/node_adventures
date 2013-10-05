@@ -15,11 +15,11 @@ var urls = [
 ];
 
 exports.Routes = function(app) {
-    for( var i = 0, url = null; i < urls.length; i++) {
-        url = urls[i];
+
+    urls.forEach(function(url) {
         app.set(url.name, url.pattern);
         app.all(url.pattern, url.view);
-    }
+    });
 
     app.locals.reverse = function(name) {
         return app.get(name) || '';

@@ -32,11 +32,15 @@ app.use(express.methodOverride());
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
+
+  var db_string = 'postgres://pf_dev:asd@localhost:5432/n_pf_dev';
 }
 
 // Load routes
 routes.Routes(app);
 
+// DB Settings
+app.set('db_string', db_string);
 
 /*
  * Server stuff
