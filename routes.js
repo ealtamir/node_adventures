@@ -1,5 +1,7 @@
 var main    = require('./controllers/index');
 var user    = require('./controllers/user');
+var auth    = require('./controllers/auth');
+var rgstr   = require('./controllers/register');
 
 var urls = [
     {
@@ -8,9 +10,14 @@ var urls = [
         name: 'index'
     },
     {
-        pattern: '/users',
-        view: user.list,
-        name: 'users'
+        pattern: '/auth',
+        view: auth.authenticate,
+        name: 'auth'
+    },
+    {
+        pattern: '/register',
+        view: rgstr.register,
+        name: 'register'
     }
 ];
 
@@ -21,8 +28,20 @@ exports.Routes = function(app) {
         app.all(url.pattern, url.view);
     });
 
-    app.locals.reverse = function(name) {
+    app.locals.reverse = function(name, params) {
+        var str = '';
+
+        if (params) {
+            str = '?';
+
+            for( var key in params) {
+                if (params[key] !== '') {
+                    str += key + '=' + params[key];
+                }
+            }
+            return app.get(name) + str || '';
+        }
+
         return app.get(name) || '';
     };
 };
-

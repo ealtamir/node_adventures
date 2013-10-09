@@ -8,18 +8,29 @@ block main_section
     input.search_button(type='submit', value='search')
 
   h1 Ingresa
-  form(method='POST', action=locals.reverse('index'))
+  form(method='POST', action=locals.reverse('auth'))
     label(for='login-un') Nombre de Usuario
-    input.login-un(type='text', name='usr', id='login-un')
-    label(for='login-un') Contraseña
-    input.login-pw(type='password', name='pw', id='login-pw')
+    input.login-un(type='text', name='login_usr', id='login-un', value=query.l_un || '')
+
+    label(for='login-pw') Contraseña
+    input.login-pw(type='password', name='login_psw', id='login-pw')
+
+    label.register-tag(for='login-email')
+    input.login-email(type='email', name='login_email', id='login-email')
+
     input.login-button(type='submit', value='ingresar')
 
+
   h1 Regístrate
-  form(method='POST', action=locals.reverse('index'))
-    label(for='login-un') Elige un Nombre de Usuario
-    input.login-un(type='text', name='usr', id='login-un')
-    label(for='login-un') Elige una Contraseña
-    input.login-pw(type='password', name='pw', id='login-pw')
+  form(method='POST', action=locals.reverse('register'))
+    label(for='register-un') Elige un Nombre de Usuario
+    input.register-un(type='text', name='register_usr', id='register-un', value=query.r_un || '')
+
+    label(for='register-pw') Elige una Contraseña
+    input.register-pw(type='password', name='register_psw', id='register-pw')
+
+    label.register-tag(for='register-email')
+    input.register-email(type='email', name='register-email', id='register-email')
+
     input.login-button(type='submit', value='registrarse')
-  p= url
+  p= query.q || ''
