@@ -9,6 +9,8 @@ var routes = require('./routes');
 
 var app = express();
 
+exports.App = function() { return app; };
+
 
 /*
  * Settings
@@ -17,7 +19,6 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
 
 
 /*
@@ -25,15 +26,17 @@ app.use(app.router);
  */
 app.use(express.favicon());
 app.use(express.logger('dev')); // Choose position carefully
-app.use(express.multipart);
 app.use(express.methodOverride());
+app.use(express.urlencoded());
 
+// Must go after middleware
+app.use(app.router);
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 
-  var db_string = 'postgres://pf_dev:asd@localhost:5432/n_pf_dev';
+  var db_string = 'postgres://pr_dev:asd@localhost:5432/n_pr_dev';
 }
 
 // Load routes

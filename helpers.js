@@ -9,6 +9,12 @@ exports.listProps = function(obj) {
     return keys;
 };
 
+exports.sanitize = function(str) {
+    var pattern = /[^0-9a-zA-Z@\-_\.\+]/g;
+
+    return str.replace(pattern, '');
+};
+
 //exports.AsyncTools = (function() {
 //    var module = {};
 //

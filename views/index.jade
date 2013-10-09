@@ -5,6 +5,21 @@ block main_section
   form(method='GET', action=locals.reverse('index'))
     label(for='main_sfield') Busca un profesor
     input.search_field(type='text', name='q', id='main_sfield')
-    input.search_button(type='submit', value='Search')
-  p= url.query.q
+    input.search_button(type='submit', value='search')
 
+  h1 Ingresa
+  form(method='POST', action=locals.reverse('index'))
+    label(for='login-un') Nombre de Usuario
+    input.login-un(type='text', name='usr', id='login-un')
+    label(for='login-un') Contraseña
+    input.login-pw(type='password', name='pw', id='login-pw')
+    input.login-button(type='submit', value='ingresar')
+
+  h1 Regístrate
+  form(method='POST', action=locals.reverse('index'))
+    label(for='login-un') Elige un Nombre de Usuario
+    input.login-un(type='text', name='usr', id='login-un')
+    label(for='login-un') Elige una Contraseña
+    input.login-pw(type='password', name='pw', id='login-pw')
+    input.login-button(type='submit', value='registrarse')
+  p= url
