@@ -3,9 +3,9 @@ var crypto = require('crypto');
 var helpers = require('./helpers');
 var app_file = require('./app');
 
-exports.query_db    = db_query;
+exports.query_db    = query_db;
 
-function db_query(params, app, q_str, callback) {
+function query_db(params, app, q_str, callback) {
     var db_str = app.get('db_string');
     var query = null;
 

@@ -10,7 +10,7 @@ exports.index = function(req, res) {
     console.log(query);
 
     if (query.q) {
-        models.db_query([query.q], req.app, q_str, function(result) {
+        models.query_db([query.q], req.app, q_str, function(result) {
             console.log(result);
             res.render('index', { title: 'Express', query: query });
         });
