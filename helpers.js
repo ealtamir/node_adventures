@@ -13,3 +13,7 @@ exports.sanitize = function(str) {
 
     return str.replace(pattern, '');
 };
+
+exports.set_flash = function(obj) {
+
+};

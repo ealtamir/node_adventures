@@ -18,6 +18,7 @@ exports.App = function() { return app; };
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.set('seed', 'dis will change ;)'); // seed
 app.use(express.static(path.join(__dirname, 'public')));
 
 /*

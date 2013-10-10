@@ -1,24 +1,31 @@
 var pg = require('pg');
+var crypto = require('crypto');
+var helpers = require('./helpers');
+var app_file = require('./app');
 
-exports.query_db = function(query, app) {
+exports.query_db    = db_query;
 
-    var q_result = null;
-    var client = new pg.Client(app.get('db_string'));
+function db_query(params, app, q_str, callback) {
+    var db_str = app.get('db_string');
+    var query = null;
 
-    client.connect(function(err) {
-        if (err) {
-            return console.error('error running quer', err);
-        }
-        client.query(sql_query, function(err, result) {
-            if (err) {
-                return console.error('error running query', err);
-            }
+    pg.connect(db_str, function(err, client, done) {
+        if (err)
+            return console.error('Error at requesting a connection from the pool.');
 
-            q_result = result;
+        query = client.query(q_str, params);
 
-            client.end();
+        query.on('row', function(row, result) {
+            result.addRow(row);
         });
 
-    });
+        query.on('error', function(err) {
+            console.log('Error when executing register query');
+        });
 
-};
+        query.on('end', function(result) {
+            callback(result);
+            done();
+        });
+    });
+}

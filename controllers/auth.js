@@ -1,10 +1,12 @@
+var models = require('../models');
 
 exports.authenticate = function(req, res) {
 
+    var app = req.app;
     var body = req.body;
     var msg = '';
     var state = {};
-    var app = req.app;
+    var val = false;
 
     if (body.login_usr &&
         body.login_pw  &&
@@ -14,7 +16,9 @@ exports.authenticate = function(req, res) {
 
     }
 
+    state.l_un = body.login_usr || '';
+
     res.redirect( app.locals.reverse(
-        'index', { l_un: body.login_usr || '' }
+        'index', state
     ));
 };

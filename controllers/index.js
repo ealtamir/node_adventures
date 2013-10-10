@@ -4,20 +4,18 @@ var models = require('../models');
 exports.index = function(req, res) {
 
     var query = req.query;
+    var q_str = 'SELECT * FROM usuario WHERE username = $1';
 
     console.log(req.params);
     console.log(query);
 
     if (query.q) {
-        var q_result = null;
-        var sql_query = 'SELECT * FROM usuario WHERE ' +
-        'username = ' + '\'' + helpers.sanitize(query) + '\';';
-
-        q_result = models.query_db(query, req.app);
-        console.log(q_result);
+        models.db_query([query.q], req.app, q_str, function(result) {
+            console.log(result);
+            res.render('index', { title: 'Express', query: query });
+        });
+    } else {
+        res.render('index', { title: 'Express', query: query });
     }
-
-    res.render('index', { title: 'Express', query: query });
-
 };
 
