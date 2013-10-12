@@ -8,7 +8,7 @@ block main_section
   h1 Node Adventures
   form(method='GET', action=locals.reverse('index'))
     label(for='main_sfield') Busca un profesor
-    input.search_field(type='text', name='q', id='main_sfield')
+    input.search_field(type='text', name='q', id='main_sfield', autocomplete="off")
     input.search_button(type='submit', value='search')
 
   h1 Ingresa
@@ -38,3 +38,6 @@ block main_section
 
     input.login-button(type='submit', value='registrarse')
   p= state.q || ''
+
+block append js_scripts
+  script(src='javascripts/index.js')
