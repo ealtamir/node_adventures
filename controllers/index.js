@@ -6,8 +6,7 @@ exports.index = function(req, res) {
     var query = req.query;
     var q_str = 'SELECT * FROM usuario WHERE username = $1';
 
-    console.log(req.params);
-    console.log(query);
+    console.log(req.state);
 
     if (query.q) {
         models.query_db([query.q], req.app, q_str, function(result) {

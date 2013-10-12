@@ -2,6 +2,7 @@ var main    = require('./controllers/index');
 var user    = require('./controllers/user');
 var auth    = require('./controllers/auth');
 var rgstr   = require('./controllers/register');
+var mware   = require('./middleware');
 
 var urls = [
     {
@@ -23,9 +24,13 @@ var urls = [
 
 exports.Routes = function(app) {
 
+    var middleware = [];
+
+    middleware.push(mware.setFlash);
+
     urls.forEach(function(url) {
         app.set(url.name, url.pattern);
-        app.all(url.pattern, url.view);
+        app.all(url.pattern, middleware, url.view);
     });
 
     app.locals.reverse = function(name, params) {

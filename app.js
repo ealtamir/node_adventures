@@ -28,6 +28,7 @@ app.use(express.favicon());
 app.use(express.logger('dev')); // Choose position carefully
 app.use(express.methodOverride());
 app.use(express.urlencoded());
+app.use(express.cookieParser('this will change :)'));
 
 // Must go after middleware
 app.use(app.router);

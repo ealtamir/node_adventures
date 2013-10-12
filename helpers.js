@@ -14,8 +14,8 @@ exports.sanitize = function(str) {
     return str.replace(pattern, '');
 };
 
-exports.set_flash = function(obj) {
-
+exports.set_flash = function(obj, res) {
+    res.cookie('flash', JSON.stringify(obj));
 };
 
 exports.check_valid = function() {
