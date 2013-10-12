@@ -1,6 +1,10 @@
 extends sectioned_layout
 
 block main_section
+  if state.flash
+    #flash_msg(class=state.flash.status || '')
+      p= state.flash.msg
+
   h1 Node Adventures
   form(method='GET', action=locals.reverse('index'))
     label(for='main_sfield') Busca un profesor
@@ -10,7 +14,7 @@ block main_section
   h1 Ingresa
   form(method='POST', action=locals.reverse('auth'))
     label(for='login-un') Nombre de Usuario
-    input.login-un(type='email', name='login_usr', id='login-un', value=query.l_un || '')
+    input.login-un(type='email', name='login_usr', id='login-un', value=state.l_un || '')
 
     label(for='login-pw') Contraseña
     input.login-pw(type='password', name='login_psw', id='login-pw')
@@ -24,7 +28,7 @@ block main_section
   h1 Regístrate
   form(method='POST', action=locals.reverse('register'))
     label(for='register-un') Elige un Nombre de Usuario
-    input.register-un(type='email', name='register_usr', id='register-un', value=query.r_un || '')
+    input.register-un(type='email', name='register_usr', id='register-un', value=state.r_un || '')
 
     label(for='register-pw') Elige una Contraseña
     input.register-pw(type='password', name='register_psw', id='register-pw')
@@ -33,4 +37,4 @@ block main_section
     input.register-e(type='email', name='register_email', id='register-email')
 
     input.login-button(type='submit', value='registrarse')
-  p= query.q || ''
+  p= state.q || ''

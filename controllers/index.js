@@ -11,10 +11,12 @@ exports.index = function(req, res) {
     if (query.q) {
         models.query_db([query.q], req.app, q_str, function(result) {
             console.log(result);
-            res.render('index', { title: 'Express', query: query });
+            req.state.q = query.q;
+            res.render('index', { title: 'Express', state: req.state });
         });
     } else {
-        res.render('index', { title: 'Express', query: query });
+        req.state.q = query.q;
+        res.render('index', { title: 'Express', state: req.state });
     }
 };
 

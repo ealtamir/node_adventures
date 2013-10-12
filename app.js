@@ -9,8 +9,6 @@ var routes = require('./routes');
 
 var app = express();
 
-exports.App = function() { return app; };
-
 
 /*
  * Settings
@@ -18,8 +16,12 @@ exports.App = function() { return app; };
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.set('seed', 'dis will change ;)'); // seed
+app.set('hash_type', 'sha256');
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Seeds
+app.set('seed', 'dis will change ;)');
+app.set('cookie_seed', 'this will change too :)');
 
 /*
  * Middleware
@@ -28,9 +30,12 @@ app.use(express.favicon());
 app.use(express.logger('dev')); // Choose position carefully
 app.use(express.methodOverride());
 app.use(express.urlencoded());
-app.use(express.cookieParser('this will change :)'));
+app.use(express.cookieParser(app.get('cookie_seed')));
+app.use(express.cookieSession({
+    key: 's', secret: 'this will change ;)'
+}));
 
-// Must go after middleware
+// Must go after middlewares
 app.use(app.router);
 
 // development only

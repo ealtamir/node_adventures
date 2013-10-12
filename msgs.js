@@ -18,6 +18,11 @@ exports.msg = (function() {
         msg: 'Tu nombre de usuario o contraseña fueron incorrectos.'
     };
 
+    obj.LOGIN_SUCCESSFUL = {
+        status: 'successful',
+        msg: 'Pudiste ingresar con éxtio.'
+    };
+
     return obj;
 
 }());
