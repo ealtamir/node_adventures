@@ -1,8 +1,5 @@
-window.MAX_SOURCE_SIZE  = 100;
-window.MIN_TEXT_SIZE    = 3;        // Min letters before ajax call
-window.MAX_TEXT_SIZE    = 0;        // Look in data even with 0 chars.
 
-var Autocomplete = Backbone.Model.extend({
+var DataSource = Backbone.Model.extend({
     defaults: function() {
         return {
             'field_text'    : '',
@@ -19,6 +16,8 @@ var Autocomplete = Backbone.Model.extend({
                 { label: "andreas johnson", category: "People" },
             ],
             'source'        : [],
+            'url'           : '',
+            'state'         : 'ready',
         };
     },
 
@@ -26,16 +25,34 @@ var Autocomplete = Backbone.Model.extend({
         this.on('change:field_text', this.sync);
     },
 
-    sync: function() {
-        var text = this.get('field_text');
+    sync: (function() {
+        var success = function(data, status, xhr) {
+            this.set('state', READY);
+        };
+        var error   = function(xhr, status, err) {
+            this.set('state', READY);
+        };
+        return function() {
+            var text = this.get('field_text');
 
-        if (text !== this.get('last_text') &&
-            text.length <= MIN_TEXT_SIZE) {
-            // get data from server.
-            this.set('source', this.get('example_data'));
-            this.set('last_text', text);
-        }
-    }
+            if (text !== this.get('last_text') &&
+                text.length <= MIN_TEXT_SIZE) {
+                // get data from server.
+                this.set('source', this.get('example_data'));
+                this.set('last_text', text);
+                this.set('state', BUSY);
+
+                return $.ajax({
+                    url         : this.get('url'),
+                    type        : 'get',
+                    dataType    : 'json',
+                    data        : text,
+                    success     : success,
+                    error       : error
+                });
+            }
+        };
+    }())
 });
 
 var SearchBar   = Backbone.View.extend({
@@ -67,10 +84,27 @@ var SearchBar   = Backbone.View.extend({
     },
 });
 
-var index_sb_model    = new  Autocomplete();
-var index_search_bar  = new SearchBar({
-    el: 'input#main_sfield',
-    id: 'main_sfield',
-    container: '#auto-complete',
-    model: index_sb_model,
-});
+(function (scoper) {
+    scoper(jQuery, window, document);
+}(function($, window, document) {
+    window.MAX_SOURCE_SIZE  = 100;
+    window.MIN_TEXT_SIZE    = 3;        // Min letters before ajax call
+    window.MAX_TEXT_SIZE    = 0;        // Look in data even with 0 chars.
+    window.STATE            = {
+        READY   : 'ready',
+        ERROR   : 'error',
+        BUSY    : 'busy'
+    };
+
+    $(function() {
+        var index_sb_model    = new  DataSource({
+            url: '/search_query',
+        });
+        var index_search_bar  = new SearchBar({
+            el: 'input#main_sfield',
+            id: 'main_sfield',
+            container: '#auto-complete',
+            model: index_sb_model,
+        });
+    });
+}));
