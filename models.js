@@ -3,7 +3,7 @@ var crypto      = require('crypto');
 var helpers     = require('./helpers');
 var app_file    = require('./app');
 
-exports.query_db        = query_db;
+exports.query_db = query_db;
 
 function query_db(params, app, q_str, callback) {
     var db_str = app.get('db_string');
@@ -20,7 +20,8 @@ function query_db(params, app, q_str, callback) {
         });
 
         query.on('error', function(err) {
-            console.log('Error when executing register query');
+            console.log('Error when executing query.');
+            // done() not required.
         });
 
         query.on('end', function(result) {

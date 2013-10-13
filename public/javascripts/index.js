@@ -26,29 +26,36 @@ var DataSource = Backbone.Model.extend({
     },
 
     sync: (function() {
-        var success = function(data, status, xhr) {
-            this.set('state', READY);
+        var success = function(model) {
+            return function(data, status, xhr) {
+                console.log('ajax call got success: ' + data);
+                model.set('state', STATE.READY);
+            };
         };
-        var error   = function(xhr, status, err) {
-            this.set('state', READY);
+        var error   = function(model) {
+            return function(xhr, status, err) {
+                console.log('ajax call got error');
+                model.set('state', STATE.READY);
+            };
         };
         return function() {
             var text = this.get('field_text');
+            console.log('text from model: ' + text);
 
             if (text !== this.get('last_text') &&
-                text.length <= MIN_TEXT_SIZE) {
+                text.length >= MIN_TEXT_SIZE) {
                 // get data from server.
                 this.set('source', this.get('example_data'));
                 this.set('last_text', text);
-                this.set('state', BUSY);
+                this.set('state', STATE.BUSY);
 
                 return $.ajax({
                     url         : this.get('url'),
                     type        : 'get',
                     dataType    : 'json',
-                    data        : text,
-                    success     : success,
-                    error       : error
+                    data        : { q: text },
+                    success     : success(this),
+                    error       : error(this)
                 });
             }
         };
@@ -98,7 +105,7 @@ var SearchBar   = Backbone.View.extend({
 
     $(function() {
         var index_sb_model    = new  DataSource({
-            url: '/search_query',
+            url: '/prof_query',
         });
         var index_search_bar  = new SearchBar({
             el: 'input#main_sfield',

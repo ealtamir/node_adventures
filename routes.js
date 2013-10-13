@@ -2,23 +2,29 @@ var main    = require('./controllers/index');
 var user    = require('./controllers/user');
 var auth    = require('./controllers/auth');
 var rgstr   = require('./controllers/register');
+var ajax    = require('./controllers/ajax');
 var mware   = require('./middleware');
 
 var urls = [
     {
-        pattern: '/',
-        view: main.index,
-        name: 'index'
+        pattern : '/',
+        view    : main.index,
+        name    : 'index'
     },
     {
-        pattern: '/auth',
-        view: auth.authenticate,
-        name: 'auth'
+        pattern : '/auth',
+        view    : auth.authenticate,
+        name    : 'auth'
     },
     {
-        pattern: '/register',
-        view: rgstr.register,
-        name: 'register'
+        pattern : '/register',
+        view    : rgstr.register,
+        name    : 'register'
+    },
+    {
+        pattern : '/prof_query',
+        view    : ajax.prof_query,
+        name    : ''
     }
 ];
 
