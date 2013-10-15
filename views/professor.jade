@@ -1,0 +1,8 @@
+extends sectioned_layout
+
+block main_section
+  h1 Profesores Encontrados
+  - if (!!rows === false)
+    p= rows
+  - else
+    p No se encontró ningún profesor

@@ -3,6 +3,7 @@ var user    = require('./controllers/user');
 var auth    = require('./controllers/auth');
 var rgstr   = require('./controllers/register');
 var ajax    = require('./controllers/ajax');
+var results = require('./controllers/results');
 var mware   = require('./middleware');
 
 var urls = [
@@ -21,6 +22,13 @@ var urls = [
         view    : rgstr.register,
         name    : 'register'
     },
+    {
+        pattern : '/professor',
+        view    : results.professor,
+        name    : 'professor'
+    },
+
+    // Ajax calls
     {
         pattern : '/prof_query',
         view    : ajax.prof_query,

@@ -1,22 +1,22 @@
 var helpers = require('../helpers');
 var models = require('../models');
 
-exports.index = function(req, res) {
+exports.index = index;
+
+function index(req, res) {
 
     var query = req.query;
     var q_str = 'SELECT * FROM usuario WHERE username = $1';
+    var state = req.state;
 
-    console.log(req.state);
+    state.q = query.q;
 
     if (query.q) {
         models.query_db([query.q], req.app, q_str, function(result) {
-            console.log(result);
-            req.state.q = query.q;
-            res.render('index', { title: 'Express', state: req.state });
+            res.render('professor', { state: req.state, rows: result.rows });
         });
     } else {
-        req.state.q = query.q;
-        res.render('index', { title: 'Express', state: req.state });
+        res.render('index', { state: req.state });
     }
-};
+}
 
