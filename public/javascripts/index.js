@@ -1,34 +1,28 @@
 
 var DataSource = Backbone.Model.extend({
-    defaults: function() {
+    defaults: (function() {
         return {
             'field_text'    : '',
             'last_text'     : '',
-            'example_data'  : [
-                { label: "anders", category: "" },
-                { label: "andreas", category: "" },
-                { label: "antal", category: "" },
-                { label: "annhhx10", category: "Products" },
-                { label: "annk K12", category: "Products" },
-                { label: "annttop C13", category: "Products" },
-                { label: "anders andersson", category: "People" },
-                { label: "andreas andersson", category: "People" },
-                { label: "andreas johnson", category: "People" },
-            ],
             'source'        : [],
             'url'           : '',
-            'state'         : 'ready',
+            'state'         : 'ready'
         };
-    },
+    }()),
 
     initialize: function() {
         this.on('change:field_text', this.sync);
+        console.log(this.defaults);
     },
 
     sync: (function() {
         var success = function(model) {
             return function(data, status, xhr) {
-                console.log('ajax call got success: ' + data);
+                console.log('ajax call got success: ');
+
+                if (!!data.data === true)
+                    model.set('source', process_data(data.data));
+
                 model.set('state', STATE.READY);
             };
         };
@@ -40,12 +34,11 @@ var DataSource = Backbone.Model.extend({
         };
         return function() {
             var text = this.get('field_text');
-            console.log('text from model: ' + text);
 
             if (text !== this.get('last_text') &&
-                text.length >= MIN_TEXT_SIZE) {
+                text.length === MIN_TEXT_SIZE) {
                 // get data from server.
-                this.set('source', this.get('example_data'));
+                // this.set('source', this.get('example_data'));
                 this.set('last_text', text);
                 this.set('state', STATE.BUSY);
 
@@ -87,7 +80,16 @@ var SearchBar   = Backbone.View.extend({
     },
 
     handleKeyup: function(e) {
-        this.model.set('field_text', this.$el.val());
+        var val = this.$el.val();
+
+        this.model.set('field_text', val);
+
+        if (val.length === 0) {
+            this.$el.autocomplete('disable');
+        } else {
+            this.$el.autocomplete('enable');
+        }
+
     },
 });
 
@@ -115,3 +117,17 @@ var SearchBar   = Backbone.View.extend({
         });
     });
 }));
+
+function process_data(data) {
+    var autocom_rows = [];
+
+    if (data instanceof Array) {
+        data.forEach(function(row, i, arr) {
+            autocom_rows.push({
+                label : row.name
+            });
+        });
+    }
+
+    return autocom_rows;
+}

@@ -11,7 +11,8 @@ function prof_query(req, res) {
     var q       = '';
 
     var q_str   = "SELECT CONCAT(name, ' ', last_name) AS name " +
-        "FROM professor WHERE name = $1 OR last_name = $1;";
+        "FROM professor WHERE LOWER(name) LIKE LOWER(( '%' || $1 || '%' )) " +
+        "OR LOWER(last_name) LIKE LOWER(( '%' || $1 || '%' ));";
 
     if (req.method === 'GET' && params.q !== undefined) {
         q = helpers.sanitize(params.q);

@@ -6,7 +6,7 @@ block main_section
       p= state.flash.msg
 
   h1 Node Adventures
-  form(method='GET', action=locals.reverse('index'))
+  form(method='GET', action=locals.reverse('professor'))
     label(for='main_sfield') Busca un profesor
     input.search_field(type='text', name='q', id='main_sfield', autocomplete="off")
     input.search_button(type='submit', value='search')

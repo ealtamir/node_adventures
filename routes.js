@@ -1,10 +1,10 @@
-var main    = require('./controllers/index');
-var user    = require('./controllers/user');
-var auth    = require('./controllers/auth');
-var rgstr   = require('./controllers/register');
-var ajax    = require('./controllers/ajax');
-var results = require('./controllers/results');
-var mware   = require('./middleware');
+var main        = require('./controllers/index');
+var user        = require('./controllers/user');
+var auth        = require('./controllers/auth');
+var rgstr       = require('./controllers/register');
+var ajax        = require('./controllers/ajax');
+var professors  = require('./controllers/professors');
+var mware       = require('./middleware');
 
 var urls = [
     {
@@ -24,8 +24,18 @@ var urls = [
     },
     {
         pattern : '/professor',
-        view    : results.professor,
+        view    : professors.get_prof,
         name    : 'professor'
+    },
+    {
+        pattern : '/professor/:id(\\d+)',
+        view    : professors.get_prof,
+        name    : 'get_prof'               // Has no name.
+    },
+    {
+        pattern : '*',
+        view    : function(req, res) { res.render('404', {}); },
+        name    : '404'
     },
 
     // Ajax calls
@@ -62,5 +72,9 @@ exports.Routes = function(app) {
         }
 
         return app.get(name) || '';
+    };
+    // Adds param to the main route: /user/1 (param == 1).
+    app.locals.param_rev = function(name, params) {
+        console.error('not implemented');
     };
 };

@@ -1,5 +1,3 @@
-
-
 exports.msg = (function() {
     var obj = {};
 
