@@ -1,0 +1,28 @@
+$header_bg_c    : #3498db;
+$footer_bg_c    : #34495e;
+$mains_bg_c     : $header_bg_c;
+$bg_blue        : $header_bg_c;
+$bg_green       : #2ecc71;
+
+#main_header {
+    background-color: gray;
+}
+#main_section {
+    background-color: $mains_bg_c;
+}
+#main_footer {
+    background-color: $footer_bg_c;
+}
+body {
+    background-color: black;
+}
+#first-section {
+    background: {
+        color: $bg_blue;
+    }
+}
+#second-section {
+    background: {
+        color: $bg_green;
+    }
+}

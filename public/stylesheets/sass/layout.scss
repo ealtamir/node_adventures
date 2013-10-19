@@ -1,0 +1,51 @@
+$h_h            : 4em;
+$foo_h          : 6em;
+$page_width     : 80%;
+$section_height : 100%;
+
+html, body {
+    height: 100%;
+}
+.main_div {
+    width: 100%;
+    height: 100%;
+}
+#main_header {
+    width: 100%;
+    height: $h_h;
+    position: absolute;
+    top: 0;
+}
+#main_section {
+    padding: {
+        top: $h_h;
+    }
+    height: 100%;
+    width: 100%;
+}
+#main_footer {
+    height: $foo_h;
+    margin: -0.1px 0;
+    padding: 0;
+}
+.header-content {
+    width: $page_width;
+    margin: 0 auto;
+}
+.content-section {
+    margin: {
+        top:-($h_h/2);
+        bottom: 0;
+    }
+    padding-top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+}
+.footer-content, .section-content {
+    width: $page_width;
+    margin: 0 auto;
+}
+#first-section .section-content {
+    padding-top: $h_h/2;
+}

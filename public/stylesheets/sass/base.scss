@@ -1,0 +1,27 @@
+@mixin form-input-defaults() {
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+form input[type=text],
+form input[type=password],
+form input[type=email] {
+    @include form-input-defaults();
+    background-color: white;
+    color: blue;
+}
+form input[type=submit] {
+    @include form-input-defaults();
+    background-color: blue;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 12pt;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-size: 12pt;
+}

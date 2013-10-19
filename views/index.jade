@@ -1,45 +1,53 @@
 extends sectioned_layout
 
-block main_section
+block prepend main_section
   if state.flash
     #flash_msg(class=state.flash.status || '')
       p= state.flash.msg
 
-  h1 Node Adventures
-  form(method='GET', action=locals.reverse('professor'))
-    label(for='main_sfield') Busca un profesor
-    input.search_field(type='text', name='q', id='main_sfield', autocomplete="off")
-    input.search_button(type='submit', value='search')
+  section.content-section#first-section
+    div.section-content.pure-g-r
+        div.left-content.pure-u-1-2
+          h1 Node Adventures
+          form(method='GET', action=locals.reverse('professor'))
+            label(for='main_sfield') Busca un profesor
+            input.search_field(type='text', name='q', id='main_sfield', autocomplete="off")
+            input.search_button(type='submit', value='search')
 
-  h1 Ingresa
-  form(method='POST', action=locals.reverse('auth'))
-    label(for='login-un') Nombre de Usuario
-    input.login-un(type='email', name='login_usr', id='login-un', value=state.l_un || '')
+          h1 Ingresa
+          form(method='POST', action=locals.reverse('auth'))
+            label(for='login-un') Nombre de Usuario
+            input.login-un(type='email', name='login_usr', id='login-un', value=state.l_un || '')
 
-    label(for='login-pw') Contraseña
-    input.login-pw(type='password', name='login_psw', id='login-pw')
+            label(for='login-pw') Contraseña
+            input.login-pw(type='password', name='login_psw', id='login-pw')
 
-    label.register-tag(for='login_email') Ingresa tu email
-    input.login-e(type='email', name='login_email', id='login-email')
+            label.register-tag(for='login_email') Ingresa tu email
+            input.login-e(type='email', name='login_email', id='login-email')
 
-    input.login-button(type='submit', value='ingresar')
+            input.login-button(type='submit', value='ingresar')
 
+          h1 Regístrate
+          form(method='POST', action=locals.reverse('register'))
+            label(for='register-un') Elige un Nombre de Usuario
+            input.register-un(type='email', name='register_usr', id='register-un', value=state.r_un || '')
 
-  h1 Regístrate
-  form(method='POST', action=locals.reverse('register'))
-    label(for='register-un') Elige un Nombre de Usuario
-    input.register-un(type='email', name='register_usr', id='register-un', value=state.r_un || '')
+            label(for='register-pw') Elige una Contraseña
+            input.register-pw(type='password', name='register_psw', id='register-pw')
 
-    label(for='register-pw') Elige una Contraseña
-    input.register-pw(type='password', name='register_psw', id='register-pw')
+            label.register-tag(for='register_email') Ingresa tu email
+            input.register-e(type='email', name='register_email', id='register-email')
 
-    label.register-tag(for='register_email') Ingresa tu email
-    input.register-e(type='email', name='register_email', id='register-email')
+            input.login-button(type='submit', value='registrarse')
+        div.right-content.pure-u-1-2
+          p Stuff that goes on the right.
 
-    input.login-button(type='submit', value='registrarse')
-  p= state.q || ''
-
-  div#auto-complete
+  section.content-section#second-section
+    div.section-content.pure-g-r
+        div.left-content.pure-u-1-2
+            p this section has other stuff..
+        div.right-content.pure-u-1-2
+            p this section has other stuff..
 
 block append js_scripts
   script(src='javascripts/index.js')

@@ -1,0 +1,41 @@
+html, body {
+  height: 100%; }
+
+.main_div {
+  width: 100%;
+  height: 100%; }
+
+#main_header {
+  width: 100%;
+  height: 4em;
+  position: absolute;
+  top: 0; }
+
+#main_section {
+  padding-top: 4em;
+  height: 100%;
+  width: 100%; }
+
+#main_footer {
+  height: 6em;
+  margin: -0.1px 0;
+  padding: 0; }
+
+.header-content {
+  width: 80%;
+  margin: 0 auto; }
+
+.content-section {
+  margin-top: -2em;
+  margin-bottom: 0;
+  padding-top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: gray; }
+
+.footer-content, .section-content {
+  width: 80%;
+  margin: 0 auto; }
+
+#first-section .section-content {
+  padding-top: 2em; }
