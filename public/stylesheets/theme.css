@@ -1,5 +1,5 @@
 #main_header {
-  background-color: gray; }
+  background-color: #3498db; }
 
 #main_section {
   background-color: #3498db; }
@@ -15,3 +15,41 @@ body {
 
 #second-section {
   background-color: #2ecc71; }
+
+.h_link {
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  color: #ecf0f1; }
+
+.sep {
+  color: #2c81ba; }
+
+.f_big {
+  font-size: 1.25em; }
+
+.f_large {
+  font-size: 1.56em; }
+
+.f_x_large {
+  font-size: 1.95em; }
+
+.f_huge {
+  font-size: 2.43em; }
+
+.f_x_huge {
+  font-size: 3.04em; }
+
+input[type=submit].b_small {
+  padding: 0.5em 0.7em;
+  font-size: 1em; }
+
+input[type=submit].b_normal {
+  padding: 0.5em 0.7em;
+  font-size: 1.25em; }
+
+input[type=submit].b_big {
+  padding: 0.5em 0.7em;
+  font-size: 1.5625em; }
+
+input[type=submit].b_large {
+  padding: 0.5em 0.7em;
+  font-size: 1.95313em; }

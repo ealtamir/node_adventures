@@ -1,7 +1,15 @@
-$h_h            : 4em;
-$foo_h          : 6em;
+$h_h            : 5em;
+$foo_h          : 10%;
 $page_width     : 80%;
 $section_height : 100%;
+
+$page_min_w     : 102.4em;
+$page_min_h     : 76.8em;
+
+@mixin content-dims() {
+    min-height: $page_min_h;
+    min-width: $page_min_w;
+}
 
 html, body {
     height: 100%;
@@ -9,12 +17,14 @@ html, body {
 .main_div {
     width: 100%;
     height: 100%;
+    @include content-dims();
 }
 #main_header {
     width: 100%;
     height: $h_h;
-    position: absolute;
+    position: fixed;
     top: 0;
+    min-width: $page_min_w;
 }
 #main_section {
     padding: {
@@ -31,6 +41,7 @@ html, body {
 .header-content {
     width: $page_width;
     margin: 0 auto;
+    height: 100%;
 }
 .content-section {
     margin: {

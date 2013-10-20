@@ -1,4 +1,12 @@
+$logo_width     : 21.8em;
+$h_h            : 5em;
+$sfield_w       : 80%;
+$sfield_h       : 40px;
+
 .header-links {
+    float: right;
+    height: $h_h;
+    line-height: $h_h;
     ul  {
         margin: 0;
         padding: 0;
@@ -8,10 +16,37 @@
         li {
             display: inline;
             padding-right: 10px;
+            position: relative;
         }
     }
+}
+.links-container {
+    height: 100%;
 }
 .register-tag, .login-e,
 .register-tag, .register-e {
     display: none;
+}
+
+.header-logo {
+    margin-top: 0.6em;
+    width: $logo_width;
+    height: auto;
+}
+#main_sfield {
+    width: $sfield_w;
+    height: $sfield_h;
+    font-size: 24px;
+    margin-right: 5px;
+}
+#search_button {
+    height: $sfield_h;
+    width: 10%;
+    background: {
+        image: url(/img/icon-search@2.png);
+        position: 50%;
+        size: 25px 25px;
+        repeat: no-repeat;
+    }
+    color: transparent;
 }

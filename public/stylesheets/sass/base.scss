@@ -1,27 +1,36 @@
+
 @mixin form-input-defaults() {
+    background-color: white;
+    border-radius: 2px;
     border: none;
     outline: none;
     margin: 0;
     padding: 0;
 }
 
-form input[type=text],
-form input[type=password],
-form input[type=email] {
+input[type=text],
+input[type=password],
+input[type=email] {
     @include form-input-defaults();
-    background-color: white;
-    color: blue;
+    color: black;
+    height: 1.5em;
+    width: 10em;
 }
-form input[type=submit] {
+input[type=submit] {
     @include form-input-defaults();
-    background-color: blue;
+    position: relative;
+    bottom: 4px;
 }
 h1, h2, h3, h4, h5, h6 {
-    font-size: 12pt;
+    font-size: 1em;
     font-weight: normal;
     margin: 0;
     padding: 0;
 }
 body {
-    font-size: 12pt;
+    font-size: 62.5%;
+    line-height: 1.8em; // 18px
+}
+form label {
+    display: block;
 }
