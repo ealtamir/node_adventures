@@ -19,6 +19,7 @@ var DataSource = Backbone.Model.extend({
         var success = function(model) {
             return function(data, status, xhr) {
                 console.log('ajax call got success: ');
+                console.log(data);
 
                 if (!!data.data === true)
                     model.set('source', process_data(data.data));
@@ -28,7 +29,7 @@ var DataSource = Backbone.Model.extend({
         };
         var error   = function(model) {
             return function(xhr, status, err) {
-                console.log('ajax call got error');
+                console.log('ajax call got error: ' + err);
                 model.set('state', STATE.READY);
             };
         };

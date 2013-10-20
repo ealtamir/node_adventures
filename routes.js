@@ -32,18 +32,20 @@ var urls = [
         view    : professors.get_prof,
         name    : 'get_prof'               // Has no name.
     },
-    {
-        pattern : '*',
-        view    : function(req, res) { res.render('404', {}); },
-        name    : '404'
-    },
 
     // Ajax calls
     {
         pattern : '/prof_query',
         view    : ajax.prof_query,
         name    : ''
-    }
+    },
+
+    // Catch all
+    {
+        pattern : '*',
+        view    : function(req, res) { res.render('404', {}); },
+        name    : '404'
+    },
 ];
 
 exports.Routes = function(app) {

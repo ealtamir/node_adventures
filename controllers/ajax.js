@@ -7,6 +7,7 @@ var MIN_QUERY_SIZE  = 3;
 exports.prof_query = prof_query;
 
 function prof_query(req, res) {
+    console.log('hola!!');
     var params  = req.query || {};
     var q       = '';
 
