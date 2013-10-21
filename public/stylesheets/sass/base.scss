@@ -18,8 +18,6 @@ input[type=email] {
 }
 input[type=submit] {
     @include form-input-defaults();
-    position: relative;
-    bottom: 4px;
 }
 h1, h2, h3, h4, h5, h6 {
     font-size: 1em;

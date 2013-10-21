@@ -4,42 +4,29 @@ html, body {
 .main_div {
   width: 100%;
   height: 100%;
-  min-height: 76.8em;
-  min-width: 102.4em; }
+  min-width: 1024px; }
 
 #main_header {
   width: 100%;
   height: 5em;
   position: fixed;
-  top: 0;
-  min-width: 102.4em; }
+  min-width: 1024px;
+  top: 0; }
 
 #main_section {
-  padding-top: 5em;
   height: 100%;
   width: 100%; }
 
-#main_footer {
-  height: 10%;
-  margin: -0.1px 0;
-  padding: 0; }
-
-.header-content {
-  width: 80%;
-  margin: 0 auto;
-  height: 100%; }
-
 .content-section {
-  margin-top: -2.5em;
-  margin-bottom: 0;
-  padding-top: 0;
   width: 100%;
   height: 100%;
   background-color: gray; }
 
-.footer-content, .section-content {
+.header-content,
+.footer-content,
+.section-content {
   width: 80%;
   margin: 0 auto; }
 
-#first-section .section-content {
-  padding-top: 2.5em; }
+.section-content {
+  padding-top: 5.25em; }

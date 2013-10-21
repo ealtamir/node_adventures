@@ -23,12 +23,12 @@ var urls = [
         name    : 'register'
     },
     {
-        pattern : '/professor',
+        pattern : '/profesor',
         view    : professors.get_prof,
         name    : 'professor'
     },
     {
-        pattern : '/professor/:id(\\d+)',
+        pattern : '/profesor/:id(\\d+)',
         view    : professors.get_prof,
         name    : 'get_prof'               // Has no name.
     },

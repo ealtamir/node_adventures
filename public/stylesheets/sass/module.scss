@@ -2,6 +2,8 @@ $logo_width     : 21.8em;
 $h_h            : 5em;
 $sfield_w       : 80%;
 $sfield_h       : 40px;
+$min_page_w     : 1024px;
+$min_page_h     : 768px;
 
 .header-links {
     float: right;
@@ -49,4 +51,10 @@ $sfield_h       : 40px;
         repeat: no-repeat;
     }
     color: transparent;
+}
+#professor_filters {
+    background-color: white;
+}
+#professor_content {
+    background-color: green;
 }

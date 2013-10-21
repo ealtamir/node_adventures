@@ -1,8 +1,25 @@
 extends sectioned_layout
 
-block main_section
-  h1 Profesores Encontrados
-  if (rows.length > 0)
-    p= rows
-  else
-    p No se encontró ningún profesor
+block prepend main_section
+  section.content-section#first-section
+    div.section-content.pure-g-r
+      div.pure-u-1
+        h1 call to action that occupies whole screen.
+      div.pure-u-1
+        div.pure-u-1-3
+          h1 first button
+        div.pure-u-1-3
+          h1 second button
+        div.pure-u-1-3
+          h1 third button
+      div.pure-u-1
+        div#professor_filters.pure-u-3-11
+          h1 Filtros
+        div#professor_content.pure-u-8-11
+          h1 Profesores Encontrados
+          if (rows.length > 0)
+            p= rows
+          else
+            p No se encontró ningún profesor
+      div.pure-u-1
+        h1 same call to action that goes on the bottom of the page

@@ -38,3 +38,9 @@
   background-size: 25px 25px;
   background-repeat: no-repeat;
   color: transparent; }
+
+#professor_filters {
+  background-color: white; }
+
+#professor_content {
+  background-color: green; }
