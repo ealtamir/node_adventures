@@ -18,7 +18,10 @@ block prepend main_section
         div#professor_content.pure-u-8-11
           h1 Profesores Encontrados
           if (rows.length > 0)
-            p= rows
+            ul
+              - for (var i = 0; i < rows.length; i++)
+                li= rows[i].name
+                li= rows[i].lastName
           else
             p No se encontró ningún profesor
       div.pure-u-1
