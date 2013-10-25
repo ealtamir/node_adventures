@@ -16,6 +16,10 @@ body {
 #second-section {
   background-color: #2ecc71; }
 
+#professor_filters,
+#professor_content {
+  background-color: #e5f4fe; }
+
 .h_link {
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   color: #ecf0f1; }
@@ -27,16 +31,20 @@ body {
   font-size: 1.25em; }
 
 .f_large {
-  font-size: 1.56em; }
+  font-size: 1.56em;
+  padding-top: 1px; }
 
 .f_x_large {
-  font-size: 1.95em; }
+  font-size: 1.95em;
+  padding-top: 4px; }
 
 .f_huge {
-  font-size: 2.43em; }
+  font-size: 2.43em;
+  padding-top: 7px; }
 
 .f_x_huge {
-  font-size: 3.04em; }
+  font-size: 3.04em;
+  padding-top: 10px; }
 
 input[type=submit].b_small {
   padding: 0.5em 0.7em;

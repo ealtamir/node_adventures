@@ -5,6 +5,7 @@ block prepend main_section
     div.section-content.pure-g-r
       div.pure-u-1
         h1 call to action that occupies whole screen.
+
       div.pure-u-1
         div.pure-u-1-3
           h1 first button
@@ -12,17 +13,55 @@ block prepend main_section
           h1 second button
         div.pure-u-1-3
           h1 third button
+
       div.pure-u-1
-        div#professor_filters.pure-u-3-11
-          h1 Filtros
-        div#professor_content.pure-u-8-11
-          h1 Profesores Encontrados
-          if (rows.length > 0)
-            ul
-              - for (var i = 0; i < rows.length; i++)
-                li= rows[i].name
-                li= rows[i].lastName
-          else
-            p No se encontró ningún profesor
+        div.pure-u-3-11
+          div#professor_filters
+            h1 Filtros
+
+        div.pure-u-8-11
+          div#professor_content
+            if rows.length > 0
+                - for (var i = 0; i < rows.length; i++)
+                  div.professor_pill.pure-u-1(class=(i + 1 != rows.length)? 'bottom_border': '')
+                    div.pure-u-1-5
+                      img.professor_img(src="/img/default_prof_img.jpg", alt="prof_img")
+                    div.pure-u-4-5
+                      div.pure-u-5-7
+                        div.pure-u-1.f_huge
+                          h1= rows[i].name + ' ' + rows[i].last_name
+                        div.pure-u-1
+                          span social networks here!
+                        div.pure-u-1
+                          div.pure-u-1
+                            div.pure-u-4-5
+                              span Instituto Tecnológico de Buenos Aires
+                            div.pure-u-1-5
+                              span ITBA
+                            div.pure-u-4-5
+                              span Instituto Tecnológico de Buenos Aires
+                            div.pure-u-1-5
+                              span ITBA
+                            div.pure-u-4-5
+                              span Instituto Tecnológico de Buenos Aires
+                            div.pure-u-1-5
+                              span ITBA
+                          div.pure-u-1
+                            div.pure-u-1
+                              span Economía
+                            div.pure-u-1
+                              span Exáctas
+                            div.pure-u-1
+                              span Algún otro departamento
+
+                      div.pure-u-2-7
+                        p.center Calificación
+                        h3.center.f_x_huge 8.3
+                        div.pure-u-1
+                          a.pull-right(href="#") see professor profile
+
+            else
+              p No se encontró ningún profesor
+
       div.pure-u-1
         h1 same call to action that goes on the bottom of the page

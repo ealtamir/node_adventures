@@ -52,9 +52,28 @@ $min_page_h     : 768px;
     }
     color: transparent;
 }
+//
+//
+// PROFESSOR LIST VIEW
+//
+//
 #professor_filters {
-    background-color: white;
+    border-radius: 2px;
+    min-height: 100px;
+    width: 98%;
 }
 #professor_content {
-    background-color: green;
+    border-radius: 2px;
+    min-height: 40%;
+    width: 100%;
+    padding: 10px 0;
+}
+.professor_pill {
+    padding-top: 9px;
+    width: 90%;
+    margin: 0 auto;
+}
+.professor_img {
+    width: 95%;
+    height: auto;
 }

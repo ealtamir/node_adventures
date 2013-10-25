@@ -21,8 +21,10 @@ function get_prof(req, res) {
 }
 
 function process_query(req, res, query) {
-    var q_str   = "SELECT * FROM professor WHERE ";
-    var pattern = "LOWER(name) LIKE LOWER(( '%' || $? || '%' )) OR LOWER(last_name) LIKE LOWER(( '%' || $? || '%' ))";
+    var q_str   = "SELECT  FROM professor WHERE ";
+
+    // the $? gets replaced, careful with changing '?'.
+    var pattern = "name ILIKE ( '%' || $? || '%' ) OR last_name ILIKE ( '%' || $? || '%' )";
     var q       = '';
     var max_par = 5;
 

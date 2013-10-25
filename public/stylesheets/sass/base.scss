@@ -32,3 +32,20 @@ body {
 form label {
     display: block;
 }
+.pull-right {
+    display: block;
+    float: right;
+}
+.pull-left {
+    display: block;
+    float: left;
+}
+.bottom_border {
+    padding-bottom: 5px;
+    border: {
+        bottom: solid 1px #E0E4EA;
+    }
+}
+.center {
+    text-align: center;
+}

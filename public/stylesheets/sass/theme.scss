@@ -4,6 +4,7 @@ $mains_bg_c     : $header_bg_c;
 $bg_blue        : $header_bg_c;
 $bg_green       : #2ecc71;
 $f_color        : #ecf0f1;
+$filters_bg     : #E5F4FE;
 
 $b_w        : 0.7em;
 $b_h        : 0.5em;
@@ -31,6 +32,10 @@ body {
         color: $bg_green;
     }
 }
+#professor_filters,
+#professor_content {
+    background-color: $filters_bg;
+}
 .h_link {
     font: {
         family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
@@ -46,15 +51,19 @@ body {
 }
 .f_large {
     font-size: 1.56em;
+    padding-top: 1px;
 }
 .f_x_large {
     font-size: 1.95em;
+    padding-top: 4px;
 }
 .f_huge {
     font-size: 2.43em;
+    padding-top: 7px;
 }
 .f_x_huge {
     font-size: 3.04em;
+    padding-top: 10px;
 }
 input[type=submit].b_small {
     padding: $b_h $b_w;
