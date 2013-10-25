@@ -1,5 +1,10 @@
 extends sectioned_layout
 
+include common/search_bar
+
+block header
+  mixin search_bar()
+
 block prepend main_section
   section.content-section#first-section
     div.section-content.pure-g-r

@@ -1,0 +1,4 @@
+mixin search_bar
+  form(method='GET', action=locals.reverse('professor'))
+    input.search_field(type='text', name='q', id='main_sfield', autocomplete="off",)
+    input#search_button(type='submit', value='search')

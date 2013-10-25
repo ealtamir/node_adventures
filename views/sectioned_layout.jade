@@ -1,19 +1,20 @@
 extends layout
 
 block content
-  div.main_div
+  div.main_div.pure-g-r
     header#main_header
-      block header
-        div.header-content.pure-g-r
-          div.pure-u-1-3
+      div.header-content.pure-u-1
+        div.pure-u-2-9
+          a(href=locals.reverse('index'))
             img.header-logo(src="img/h_logo@2.png", alt="none")
-          div.pure-u-1-3
-          div.pure-u-1-3.links-container
-            nav.header-links
-              ul.f_large
-                li.h_link Ingresar
-                li.h_link.sep |
-                li.h_link Registrarse
+        div.pure-u-5-9
+          block header
+        div.pure-u-2-9.links-container
+          nav.header-links
+            ul
+              li.h_link Ingresar
+              li.h_link.sep |
+              li.h_link Registrarse
     section#main_section
       block main_section
         footer#main_footer

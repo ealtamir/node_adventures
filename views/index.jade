@@ -1,5 +1,7 @@
 extends sectioned_layout
 
+include common/search_bar
+
 block prepend main_section
   if state.flash
     #flash_msg(class=state.flash.status || '')
@@ -10,10 +12,7 @@ block prepend main_section
         div.left-content.pure-u-1-2
           h1.f_huge Calificá a un profesor
           h2.f_big Calificá a tus profesores y conocé la opinión de tus compañeros.
-          form(method='GET', action=locals.reverse('professor'))
-            //label.input_label(for='main_sfield') Busca un profesor
-            input.search_field(type='text', name='q', id='main_sfield', autocomplete="off")
-            input#search_button(type='submit', value='search')
+          mixin search_bar
 
           h1.f_huge Ingresa
           form(method='POST', action=locals.reverse('auth'))
