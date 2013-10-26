@@ -8,5 +8,52 @@ block header
 block prepend main_section
   section.content-section#first-section
     div.section-content.pure-g-r
-      div.pure-u-1
-        h1.f_huge El profesor que estabas buscando.
+      div.pure-u-1#professor_content
+        div.pure-u-1.bottom_border
+          div.pure-u-2-9
+            div.pure-u-1
+              img.professor_img.pull-right(src="/img/default_prof_img.jpg", alt="prof_img")
+            div.pure-u-1.professor_social.pull-right
+                p Facebook Twitter Linkedin
+          div.pure-u-7-9
+            div.pure-u-3-5
+              h1.f_x_huge= rows.name + ' ' + rows.last_name
+              h2 Universidad de Morón
+              h3 Economía
+            div.pure-u-2-5
+              div.pure-u-1
+                p Calificación general
+              div.pure-u-1
+                p.f_huge 8.3
+            div.pure-u-1
+              div.pure-u-1-2
+                div.pure-u-2-3
+                  p Conocimiento:
+                div.pure-u-1-3
+                  p 10
+                div.pure-u-2-3
+                  p Claridad:
+                div.pure-u-1-3
+                  p 10
+                div.pure-u-2-3
+                  p Exigencia:
+                div.pure-u-1-3
+                  p 10
+              div.pure-u-1-2
+                div.pure-u-2-3
+                  p Conocimiento:
+                div.pure-u-1-3
+                  p 10
+                div.pure-u-2-3
+                  p Claridad:
+                div.pure-u-1-3
+                  p 10
+                div.pure-u-2-3
+                  p Exigencia:
+                div.pure-u-1-3
+                  p 10
+            div.pure-u-1
+              h1.f_x_huge Botón para Calificar
+
+        div#reviews.pure-u-1
+          h1 more stuff to show

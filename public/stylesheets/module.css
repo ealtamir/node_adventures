@@ -48,7 +48,9 @@
   border-radius: 2px;
   min-height: 40%;
   width: 100%;
-  padding: 10px 0; }
+  max-width: 819.2px;
+  padding: 10px;
+  margin: 0 auto; }
 
 .professor_pill {
   padding-top: 9px;
@@ -56,5 +58,12 @@
   margin: 0 auto; }
 
 .professor_img {
-  width: 95%;
+  width: 80%;
   height: auto; }
+
+.professor_social,
+.professor_img {
+  padding: 5px 10px 0 5px; }
+
+#reviews {
+  padding-top: 10px; }

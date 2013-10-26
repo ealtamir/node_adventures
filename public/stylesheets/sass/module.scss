@@ -52,6 +52,7 @@ $min_page_h     : 768px;
     }
     color: transparent;
 }
+
 //
 //
 // PROFESSOR LIST VIEW
@@ -66,7 +67,9 @@ $min_page_h     : 768px;
     border-radius: 2px;
     min-height: 40%;
     width: 100%;
-    padding: 10px 0;
+    max-width: $min_page_w * 0.8;
+    padding: 10px;
+    margin: 0 auto;
 }
 .professor_pill {
     padding-top: 9px;
@@ -74,6 +77,19 @@ $min_page_h     : 768px;
     margin: 0 auto;
 }
 .professor_img {
-    width: 95%;
+    width: 80%;
     height: auto;
+}
+.professor_social,
+.professor_img {
+    padding: 5px 10px 0 5px;
+}
+
+//
+//
+// PROFESSOR VIEW
+//
+//
+#reviews {
+    padding-top: 10px;
 }

@@ -56,7 +56,8 @@ function serve_prof(req, res, query) {
 
         models.query_db([prof_name], req.app, q_str, function(result) {
             if (result.rowCount === 1) {
-                res.render('professor_view', { rows: result.rows });
+                console.log(result.rows);
+                res.render('professor_view', { rows: result.rows[0] });
             } else {
                 res.redirect(app.locals.reverse('professor'));
             }
