@@ -32,7 +32,10 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
 }
 body {
-    font-size: 62.5%;
+    font: {
+        size: 62.5%;
+        family: "Lato", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    }
     line-height: 1.8em; // 18px
 }
 form label {

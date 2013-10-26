@@ -28,8 +28,8 @@ var urls = [
         name    : 'professor'
     },
     {
-        pattern : '/profesor/:id(\\d+)',
-        view    : professors.get_prof,
+        pattern : '/profesor/:prof_name',
+        view    : professors.serve_prof,
         name    : 'get_prof'               // Has no name.
     },
 
@@ -76,7 +76,24 @@ exports.Routes = function(app) {
         return app.get(name) || '';
     };
     // Adds param to the main route: /user/1 (param == 1).
-    app.locals.param_rev = function(name, params) {
-        console.error('not implemented');
+    app.locals.url_p_reverse = function(name, param_name, params) {
+        var str = app.get(name);
+        var pos = str.indexOf(param_name);
+
+        if (pos > 0) {
+            str = str.substring(0, pos);
+            params.forEach(function(param, i, a) {
+                str += param;
+                str += (i + 1 < a.length)? '-': '';
+            });
+        } else {
+            str = '';
+        }
+
+        return str;
+    };
+    app.locals.params_from_row = function(row) {
+        var result = row.name.split(' ').concat(row.last_name.split(' '));
+        return result.map(function(s) { return s.toLowerCase; });
     };
 };

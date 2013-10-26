@@ -63,7 +63,7 @@ block prepend main_section
                         p.center Calificación
                         h3.center.f_x_huge 8.3
                         div.pure-u-1
-                          a.pull-right(href="#") see professor profile
+                          a.pull-right(href=locals.url_p_reverse('get_prof', ':prof_name', locals.params_from_row(rows[i]))) see professor profile
 
             else
               p No se encontró ningún profesor
