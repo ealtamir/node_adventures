@@ -1,4 +1,12 @@
 extends sectioned_layout
 
-block main_section
-  h1 El profesor que estabas buscando.
+include common/search_bar
+
+block header
+  mixin search_bar()
+
+block prepend main_section
+  section.content-section#first-section
+    div.section-content.pure-g-r
+      div.pure-u-1
+        h1.f_huge El profesor que estabas buscando.

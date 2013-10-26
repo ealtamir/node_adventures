@@ -28,9 +28,9 @@ var urls = [
         name    : 'professor'
     },
     {
-        pattern : '/profesor/:prof_name',
+        pattern : '/profesor/:prof_name/?',
         view    : professors.serve_prof,
-        name    : 'get_prof'               // Has no name.
+        name    : 'get_prof'
     },
 
     // Ajax calls
@@ -86,6 +86,7 @@ exports.Routes = function(app) {
                 str += param;
                 str += (i + 1 < a.length)? '-': '';
             });
+            str += '/';
         } else {
             str = '';
         }
@@ -94,6 +95,6 @@ exports.Routes = function(app) {
     };
     app.locals.params_from_row = function(row) {
         var result = row.name.split(' ').concat(row.last_name.split(' '));
-        return result.map(function(s) { return s.toLowerCase; });
+        return result.map(function(s) { return s.toLowerCase(); });
     };
 };

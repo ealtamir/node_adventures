@@ -27,7 +27,7 @@ function get_prof(req, res) {
             if (result.rowCount !== 0) {
                 res.render('professor', { rows: result.rows });
             } else {
-                res.render('professor', { rows: {} });
+                res.render('professor', { rows: [] });
             }
         });
     } else {

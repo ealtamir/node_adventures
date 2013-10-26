@@ -6,7 +6,7 @@ block content
       div.header-content.pure-u-1
         div.pure-u-2-9
           a(href=locals.reverse('index'))
-            img.header-logo(src="img/h_logo@2.png", alt="none")
+            img.header-logo(src="/img/h_logo@2.png", alt="none")
         div.pure-u-5-9
           block header
         div.pure-u-2-9.links-container
@@ -28,8 +28,7 @@ block content
                 p part3
 
   block js_scripts
-    script(src='javascripts/lib/jquery.min.js')
-    script(src='javascripts/lib/underscore-min.js')
-    script(src='javascripts/lib/backbone-min.js')
-    script(src='http://code.jquery.com/ui/1.10.3/jquery-ui.js')
-
+    script(type='text/javascript', src='/javascripts/lib/jquery.min.js')
+    script(type='text/javascript', src='/javascripts/lib/underscore-min.js')
+    script(type='text/javascript', src='/javascripts/lib/backbone-min.js')
+    script(type='text/javascript', src='http://code.jquery.com/ui/1.10.3/jquery-ui.js')
