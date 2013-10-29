@@ -39,6 +39,11 @@ var urls = [
         view    : ajax.prof_query,
         name    : ''
     },
+    {
+        pattern : '/reviews_query',
+        view    : ajax.reviews_query,
+        name    : ''
+    },
 
     // Catch all
     {
@@ -75,6 +80,7 @@ exports.Routes = function(app) {
 
         return app.get(name) || '';
     };
+
     // Adds param to the main route: /user/1 (param == 1).
     app.locals.url_p_reverse = function(name, param_name, params) {
         var str = app.get(name);

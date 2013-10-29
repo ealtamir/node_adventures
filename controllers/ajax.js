@@ -4,10 +4,10 @@ var models      = require('../models');
 // Constant
 var MIN_QUERY_SIZE  = 3;
 
-exports.prof_query = prof_query;
+exports.prof_query      = prof_query;
+exports.reviews_query   = reviews_query;
 
 function prof_query(req, res) {
-    console.log('hola!!');
     var params  = req.query || {};
     var q       = '';
 
@@ -31,4 +31,8 @@ function prof_query(req, res) {
     } else {
         res.json(500, {error: 'Method wasn\'t GET or wrong query.'});
     }
+}
+
+function reviews_query(req, res) {
+
 }

@@ -28,7 +28,5 @@ block content
                 p part3
 
   block js_scripts
-    script(type='text/javascript', src='/javascripts/lib/jquery.min.js')
-    script(type='text/javascript', src='/javascripts/lib/underscore-min.js')
-    script(type='text/javascript', src='/javascripts/lib/backbone-min.js')
-    script(type='text/javascript', src='http://code.jquery.com/ui/1.10.3/jquery-ui.js')
+    script(data-main='/javascripts/main.js', src='/javascripts/lib/require.js')
+
