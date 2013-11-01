@@ -55,26 +55,32 @@ block prepend main_section
             div.pure-u-1
               h1.f_x_huge Botón para Calificar
 
-        div#professor_reviews.pure-u-1.bottom_border
-          div#no_reviews_msg.pure-u-1
-            h1.f_x_large.center Nadie calificó a este profesor todavía. Sé el primero
-            h2.f_x_huge.center Calificar
+        div#professor_reviews.pure-u-1
+          div#waiting_msg.pure-u-1.bottom_border.hide
+            h1.f_x_large.center Cargando comentarios. Por favor espera.
 
-        div#reviews.pure-u-1
-          div.review.pure-offset-1-12.pure-u-10-12
-            div.pure-u-1
-              div.pure-u-2-9
-                div.pure-u-1.center
-                  p Calificación Promedio
-                div.pure-u-1.center
-                  p.f_x_huge 8.3
-              div.pure-u-7-9
-                div.pure-u-8-9
-                  p
-                  | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ornare dolor ut congue faucibus. Nam et sodales erat, id facilisis augue. Integer laoreet tortor eu dolor fermentum, et congue felis pretium. Phasellus non nulla vel leo gravida dignissim at ut velit. Etiam ut sodales nisl. Integer pulvinar libero et arcu malesuada, quis tempor diam egestas. Quisque nulla nunc, ultrices non sagittis in, mattis eu libero. Mauris id interdum leo. Donec orci turpis, mollis in fermentum in, sagittis vitae velit. Etiam ut nisi mollis, suscipit arcu nec, vulputate eros. Donec commodo fringilla fringilla. Proin accumsan, nunc quis suscipit cursus, erat lorem pharetra dui, vitae feugiat lorem diam vitae dolor. Nulla eu ante laoreet, tempus lacus in, fermentum ante. Quisque scelerisque sagittis erat ut blandit.
-                  | Aliquam erat volutpat. Etiam a accumsan lorem. Proin pulvinar leo vitae blandit fringilla. Donec nibh libero, adipiscing nec scelerisque sit amet, tristique ac neque. Proin auctor luctus sed.
-            div.pure-u-1
-              div.pure-u-1-2
-                p 50 up - 50 down. ¿Te pareció útil este comentario? <span class="yes_vote">Si</span> o <span class="no_vote">No</span>
-              div.pure-u-1-2
-                p 13 de Agosto del XXXX
+
+          div#reviews.pure-u-1
+            div#no_reviews_msg.pure-u-1.bottom_border.hide
+              h1.f_x_large.center Nadie calificó a este profesor todavía. Sé el primero
+              h2.f_x_huge.center Calificar
+
+            div#reviews_found.pure-offset-1-12.pure-u-10-12.hide
+              div.pure-u-1.review
+                div.pure-u-1
+                  div.pure-u-2-9
+                    div.pure-u-1.center
+                      p Calificación Promedio
+                    div.pure-u-1.center
+                      p.f_x_huge 8.3
+                  div.pure-u-7-9
+                    div.pure-u-8-9
+                      p Acá va un comentario...
+                div.pure-u-1
+                  div.pure-u-1-2
+                    p 50 up - 50 down. ¿Te pareció útil este comentario? <span class="yes_vote">Si</span> o <span class="no_vote">No</span>
+                  div.pure-u-1-2
+                    p 13 de Agosto del XXXX
+
+block append js_scripts
+  include common/_templates

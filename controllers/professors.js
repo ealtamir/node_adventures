@@ -46,13 +46,14 @@ function serve_prof(req, res, query) {
     var app         = req.app;
     var params      = '';
     var prof_name   = req.params.prof_name;
-    var regex       = /^([a-zA-Z]+-)*([a-zA-Z]+)$/g;
+    var regex       = helpers.regex.SERVE_PROF;
 
     var q_str       = "SELECT * FROM professor WHERE POSITION(LOWER(name) in $1) > 0 AND " +
         "POSITION(LOWER(last_name) in $1) > 0 AND CHAR_LENGTH(CONCAT(name, ' ',last_name)) = CHAR_LENGTH($1);";
 
     if (prof_name !== undefined && regex.test(prof_name)) {
         prof_name = prof_name.slice(0, MAX_LEN).replace(/-/g, ' ');
+
 
         models.query_db([prof_name], req.app, q_str, function(result) {
             if (result.rowCount === 1) {
@@ -62,6 +63,7 @@ function serve_prof(req, res, query) {
             }
         });
     } else {
+        console.log('estoy redireccionando');
         res.redirect(app.locals.reverse('professor'));
     }
 

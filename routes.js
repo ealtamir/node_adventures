@@ -28,7 +28,7 @@ var urls = [
         name    : 'professor'
     },
     {
-        pattern : '/profesor/:prof_name/?',
+        pattern : '/profesor/:prof_name',
         view    : professors.serve_prof,
         name    : 'get_prof'
     },

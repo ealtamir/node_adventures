@@ -25,9 +25,12 @@ requirejs.config({
     }
 });
 
-requirejs(['app/index'], function(index) {
+requirejs(['app/index', 'app/constants', 'app/prof_view'], function(index, c, prof_view) {
     var url = window.location.pathname;
 
     index.initialize();
+    if (c.P_VIEW_RGX.test(url)) {
+        prof_view.initialize();
+    }
 });
 

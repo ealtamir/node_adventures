@@ -38,28 +38,84 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
         });
 
-        var ReviewsModel = Backbone.Model.extend({
-            defaults: {
-                positive    : 0,
-                negative    : 0,
-                comment     : 'default comment',
-                timestamp   : 'never',
+        var SingleReviewView = Backbone.View.extend({
 
-                dinamica        : 0,
-                conocimientos   : 0,
-                claridad        : 0,
-                pasion          : 0,
-                compromiso      : 0,
-                total           : 0
+            initialize: function(options) {
             },
 
-            initialize: function() {
+            render: function(id) {
+                var template = _.template($(this.attributes.template_name).html());
+                template = template(this.model.attributes);
+                console.log(template);
+
+                $(id).append(template);
+            },
+
+            events: {
+
             },
         });
 
+        var ReviewContainerView = Backbone.View.extend({
+            initialize: function() {
+                this.nestedViews = [];
+
+
+                this.listenTo(this.collection, 'change:state', this.stateChange);
+                this.listenTo(this.collection, 'add', this.newReview(this));
+
+                this.collection.once('change:data', _.bind(this.showResults, this));
+
+                this.collection.start();
+            },
+
+            newReview: function(view) {
+                return function(model) {
+                    $(view.id + ' #reviews_found').removeClass('hide');
+                    var newView = new SingleReviewView({
+                        model       : model,
+                        attributes  : {
+                            template_name : '#review_template',
+                        }
+                    });
+
+                    view.nestedViews.push(newView);
+                    newView.render(view.id);
+                };
+            },
+
+            render: function() {
+
+            },
+
+            stateChange: function(state) {
+
+                if (state === c.STATE.BUSY) {
+                    $('#waiting_msg').removeClass('hide');
+                    $('#reviews').addClass('hide');
+                } else if (state === c.STATE.READY) {
+                    $('#waiting_msg').addClass('hide');
+                    $('#reviews').removeClass('hide');
+                }
+            },
+
+            showResults: function(resultsFound) {
+                var id = '#' + this.$el.attr('id');
+
+                console.log(id);
+
+                if (resultsFound) {
+                    $(id + ' #reviews_found').removeClass('hide');
+                } else {
+                    $(id + ' #no_reviews_msg').removeClass('hide');
+                }
+            }
+        });
+
         return {
-            SearchBar       : SearchBar,
-            ReviewsModel    : ReviewsModel
+            SearchBar           : SearchBar,
+            SingleReviewView    : SingleReviewView,
+            ReviewContainerView : ReviewContainerView
         };
     }
 );

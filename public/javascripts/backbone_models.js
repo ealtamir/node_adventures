@@ -8,13 +8,12 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                     'last_text'     : '',
                     'source'        : [],
                     'url'           : '',
-                    'state'         : 'ready'
+                    'state'         : c.STATE.READY
                 };
             }()),
 
             initialize: function() {
                 this.on('change:field_text', this.sync);
-                console.log(this.defaults);
             },
 
             sync: (function() {
@@ -58,33 +57,29 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
             }())
         });
 
-        var SingleReviewView = Backbone.View.extend({
+        var ReviewsModel = Backbone.Model.extend({
+            defaults : {
+                positive    : 0,
+                negative    : 0,
+                comment     : 'default comment',
+                timestamp   : 'never',
 
-            tagName: 'div',
-
-            className: 'review pure-offset-1-12 pure-u-10-12',
+                dinamica        : 0,
+                conocimientos   : 0,
+                claridad        : 0,
+                pasion          : 0,
+                compromiso      : 0,
+                total           : 0,
+                state           : c.STATE.READY,
+            },
 
             initialize: function() {
-
             },
-
-            render: function() {
-
-            },
-
-            events: {
-
-            },
-        });
-
-        var ReviewContainerView = Backbone.View.extend({
-
         });
 
         return {
-            DataSource          : DataSource,
-            SingleReviewView    : SingleReviewView,
-            ReviewContainerView : ReviewContainerView
+            ReviewsModel    : ReviewsModel,
+            DataSource      : DataSource
         };
-   }
+    }
 );

@@ -10,6 +10,14 @@ exports.sanitize        = sanitize;
 exports.seed_encrypt    = seed_encrypt;
 exports.set_flash       = set_flash;
 
+// Compile regex patterns once.
+exports.regex = (function() {
+    this.SANITIZE_PATTERN   = /[^0-9a-zA-Z@\-_\.\+ ]/g;
+    this.SERVE_PROF         = /^([a-zA-Z]+-)*([a-zA-Z]+)$/;
+
+    return this;
+}());
+
 function listProps(obj) {
     var keys = [];
 
@@ -20,9 +28,7 @@ function listProps(obj) {
 }
 
 function sanitize(str) {
-    var pattern = /[^0-9a-zA-Z@\-_\.\+ ]/g;
-
-    return str.replace(pattern, '');
+    return str.replace(exports.regex.SANITIZE_PATTERN, '');
 }
 
 function set_flash(obj, res) {

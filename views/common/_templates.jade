@@ -1,0 +1,30 @@
+script#review_template.
+  <div class="pure-u-1 review">
+    <div class="pure-u-1">
+      <div class="pure-u-2-9">
+        <div class="pure-u-1 center">
+          <p>Calificación Promedio</p>
+        </div>
+        <div class="pure-u-1 center">
+          <p class="f_x_huge"><%= total %></p>
+        </div>
+      </div>
+      <div class="pure-u-7-9">
+        <div class="pure-u-8-9">
+          <p>
+            <%= comment %>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="pure-u-1">
+      <div class="pure-u-1-2">
+        <p>
+          <%= positive %> up - <%= negative %> down. ¿Te pareció útil este comentario? <span class="yes_vote">Si</span> o <span class="no_vote">No</span>
+        </p>
+      </div>
+      <div class="pure-u-1-2">
+        <p><%= timestamp %></p>
+      </div>
+    </div>
+  </div>

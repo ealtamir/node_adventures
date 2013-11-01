@@ -35,4 +35,23 @@ function prof_query(req, res) {
 
 function reviews_query(req, res) {
 
+    var last_name   = '';
+    var name        = '';
+    var params      = req.query || {};
+    var q_str       = models.sql.GET_REVIEWS; // Params: name & last_name
+
+    if (helpers.check_valid(params.name, params.last_name)) {
+        name        = helpers.sanitize(params.name);
+        last_name   = helpers.sanitize(last_name);
+
+        models.query_db([name, last_name], req.app, q_str, function(result) {
+            res.json(200, {
+                data: (result.rowCount !== 0)? result.rows : {}
+            });
+        });
+    } else {
+        res.json(500, {
+            error: 'Invalid query. Two params needed: name & last_name.'
+        });
+    }
 }
