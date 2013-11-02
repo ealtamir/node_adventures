@@ -58,7 +58,7 @@ block prepend main_section
 
         div#review_form.pure-u-1.bottom_border
           div.pure-u-1
-            div.pure-offset-1-11.pure-u-4-11
+            div.pure-offset-1-11.pure-u-3-11
               div.pure-u-1
                 div.pure-u-2-11
                   p.pull-right Dinámica
@@ -89,8 +89,20 @@ block prepend main_section
                   p.pull-right Exigencia
                 div.pure-offset-1-12.pure-u-6-11
                   div#star_exigencia
-            div.pure-u-6-11
-              p hola
+            div.pure-u-7-11
+              div.pure-u-1
+                label.input_label(for='review_comment') ¿Qué opinás de este profesor?
+              div.pure-u-1
+                textarea#review_comment(name='review_comment', cols='70', rows='8')
+              div.pure-u-1
+                label.input_label(for='review_advice') ¿Qué le recomendarías a alguien que va a ser alumno de este profesor?
+              div.pure-u-1
+                textarea#review_comment(name='review_advice', cols='70', rows='5')
+
+          div.pure-u-1
+            div.pure-offset-5-11.pure-u-5-11
+              a#commit_review.button.b_large.pull-right(href='#') Enviar Calificación
+              a.pull-right(href='#') Cancelar
 
         div#professor_reviews.pure-u-1
           div#waiting_msg.pure-u-1.bottom_border.hide
