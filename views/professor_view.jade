@@ -24,39 +24,39 @@ block prepend main_section
               div.pure-u-1
                 p Calificación general
               div.pure-u-1
-                p.f_huge 8.3
+                  div#total_score(data-score="3.5")
             div.pure-u-1
               div.pure-u-1-2
-                div.pure-u-2-3
-                  p Conocimiento:
-                div.pure-u-1-3
-                  p 10
-                div.pure-u-2-3
-                  p Claridad:
-                div.pure-u-1-3
-                  p 10
-                div.pure-u-2-3
-                  p Exigencia:
-                div.pure-u-1-3
-                  p 10
+                div.pure-u-3-11
+                  p.pull-right Dinamica
+                div.pure-offset-1-12.pure-u-7-11
+                  div#score_dinamica(data-score="2.9")
+                div.pure-u-3-11
+                  p.pull-right Conocimientos
+                div.pure-offset-1-12.pure-u-7-11
+                  div#score_conocimientos(data-score="4")
+                div.pure-u-3-11
+                  p.pull-right Claridad
+                div.pure-offset-1-12.pure-u-7-11
+                  div#score_claridad(data-score="1.5")
               div.pure-u-1-2
-                div.pure-u-2-3
-                  p Conocimiento:
-                div.pure-u-1-3
-                  p 10
-                div.pure-u-2-3
-                  p Claridad:
-                div.pure-u-1-3
-                  p 10
-                div.pure-u-2-3
-                  p Exigencia:
-                div.pure-u-1-3
-                  p 10
+                div.pure-u-3-11
+                  p.pull-right Pasión
+                div.pure-offset-1-12.pure-u-7-11
+                  div#score_pasion(data-score="5")
+                div.pure-u-3-11
+                  p.pull-right Compromiso
+                div.pure-offset-1-12.pure-u-7-11
+                  div#score_compromiso(data-score="1")
+                div.pure-u-3-11
+                  p.pull-right Exigencia
+                div.pure-offset-1-12.pure-u-7-11
+                  div#score_exigencia(data-score="3.4")
           div.pure-u-1
-            div.pure-offset-4-11.pure-u-5-11
-              a.button.b_large.pull-right(href="#") Calificar
+            div.pure-offset-5-11.pure-u-5-11
+              a#calificar_button.button.b_large.pull-right(href="#claficar_button") Calificar
 
-        div#review_form.pure-u-1.bottom_border
+        div#review_form.pure-u-1.bottom_border.hide
           div.pure-u-1
             div.pure-offset-1-11.pure-u-3-11
               div.pure-u-1
@@ -102,7 +102,7 @@ block prepend main_section
           div.pure-u-1
             div.pure-offset-5-11.pure-u-5-11
               a#commit_review.button.b_large.pull-right(href='#') Enviar Calificación
-              a.pull-right(href='#') Cancelar
+              a#cancel_review.pull-right(href='#professor_content') Cancelar
 
         div#professor_reviews.pure-u-1
           div#waiting_msg.pure-u-1.bottom_border.hide
