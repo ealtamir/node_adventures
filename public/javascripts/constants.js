@@ -8,5 +8,6 @@ define({
         ERROR   : 'error',
         BUSY    : 'busy'
     },
-    P_VIEW_RGX : /\/profesor\/(?:[a-zA-Z]+-)*(?:[a-zA-Z]+)\/?$/,
+    P_VIEW_RGX          : /\/profesor\/(?:[a-zA-Z]+-)*(?:[a-zA-Z]+)\/?$/,
+    P_VIEW_REVIEWS_RGX  : /\/profesor\/((?:[a-zA-Z]+-)*(?:[a-zA-Z]+))\/?/,
 });

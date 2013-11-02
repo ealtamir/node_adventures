@@ -60,7 +60,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             initialize: function() {
                 this.nestedViews = [];
 
-
                 this.listenTo(this.collection, 'change:state', this.stateChange);
                 this.listenTo(this.collection, 'add', this.newReview(this));
 
@@ -71,6 +70,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
 
             newReview: function(view) {
                 return function(model) {
+                    console.log('view added');
+
                     $(view.id + ' #reviews_found').removeClass('hide');
                     var newView = new SingleReviewView({
                         model       : model,
@@ -80,7 +81,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
                     });
 
                     view.nestedViews.push(newView);
-                    newView.render(view.id);
+                    newView.render('#reviews_found');
                 };
             },
 
@@ -102,12 +103,10 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             showResults: function(resultsFound) {
                 var id = '#' + this.$el.attr('id');
 
-                console.log(id);
-
                 if (resultsFound) {
-                    $(id + ' #reviews_found').removeClass('hide');
+                    $('#reviews_found').removeClass('hide');
                 } else {
-                    $(id + ' #no_reviews_msg').removeClass('hide');
+                    $('#no_reviews_msg').removeClass('hide');
                 }
             }
         });

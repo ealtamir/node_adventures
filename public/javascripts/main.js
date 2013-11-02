@@ -17,7 +17,9 @@ requirejs.config({
         'jquery-ui-1.10.3.min' : {
             deps    : ['jquery.min'],
             exports : 'jQuery'
-        }
+        },
+
+        'jquery.raty.min' : ['jquery.min'],
     },
 
     paths: {

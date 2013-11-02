@@ -40,11 +40,10 @@ function reviews_query(req, res) {
     var params      = req.query || {};
     var q_str       = models.sql.GET_REVIEWS; // Params: name & last_name
 
-    if (helpers.check_valid(params.name, params.last_name)) {
-        name        = helpers.sanitize(params.name);
-        last_name   = helpers.sanitize(last_name);
+    if (helpers.check_valid(params.name)) {
+        name = helpers.sanitize(params.name);
 
-        models.query_db([name, last_name], req.app, q_str, function(result) {
+        models.query_db([name], req.app, q_str, function(result) {
             res.json(200, {
                 data: (result.rowCount !== 0)? result.rows : {}
             });

@@ -1,5 +1,5 @@
 define(['jquery.min', 'underscore-min', 'backbone-min',
-            'app/backbone_models', 'app/backbone_views'],
+            'app/models', 'app/views'],
             function($, _, Backbone, models, views) {
                 return {
                     initialize : index($, _, Backbone, models, views),

@@ -31,12 +31,12 @@ function query_db(params, app, q_str, callback) {
 }
 
 exports.sql = (function() {
-    this.GET_REVIEWS = "SELECT r.positive, r.negative, r.comment, r.timestamp, " +
+    this.GET_REVIEWS = "SELECT r.id, r.positive, r.negative, r.comment, r.timestamp, " +
         "s.dinamica, s.conocimientos, s.claridad, s.pasion, s.compromiso, s.exigencia " +
         "FROM review as r " +
         "INNER JOIN score as s ON r.score_id = s.id " +
         "WHERE r.professor_id = " +
-        "(SELECT id FROM professor WHERE name ILIKE $1 AND last_name ILIKE $2)";
+        "(SELECT id FROM professor WHERE (name || ' ' || last_name) ILIKE $1)";
 
     return this;
 }());
