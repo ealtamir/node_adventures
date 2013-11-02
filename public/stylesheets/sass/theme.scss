@@ -65,19 +65,23 @@ body {
     font-size: 3.04em;
     padding: 10px 0;
 }
-input[type=submit].b_small {
+input[type=submit].b_small,
+.b_small {
     padding: $b_h $b_w;
     font-size: $b_f_size;
 }
-input[type=submit].b_normal {
+input[type=submit].b_normal,
+.b_normal {
     padding: $b_h $b_w;
     font-size: $b_f_size*1.25;
 }
-input[type=submit].b_big {
+input[type=submit].b_big,
+.b_big {
     padding: $b_h $b_w;
     font-size: $b_f_size*1.25*1.25;
 }
-input[type=submit].b_large {
+input[type=submit].b_large,
+.b_large {
     padding: $b_h $b_w;
     font-size: $b_f_size*1.25*1.25*1.25;
 }

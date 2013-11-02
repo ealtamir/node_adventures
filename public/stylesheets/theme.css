@@ -46,18 +46,22 @@ body {
   font-size: 3.04em;
   padding: 10px 0; }
 
-input[type=submit].b_small {
+input[type=submit].b_small,
+.b_small {
   padding: 0.5em 0.7em;
   font-size: 1em; }
 
-input[type=submit].b_normal {
+input[type=submit].b_normal,
+.b_normal {
   padding: 0.5em 0.7em;
   font-size: 1.25em; }
 
-input[type=submit].b_big {
+input[type=submit].b_big,
+.b_big {
   padding: 0.5em 0.7em;
   font-size: 1.5625em; }
 
-input[type=submit].b_large {
+input[type=submit].b_large,
+.b_large {
   padding: 0.5em 0.7em;
   font-size: 1.95313em; }

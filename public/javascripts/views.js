@@ -46,7 +46,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             render: function(id) {
                 var template = _.template($(this.attributes.template_name).html());
                 template = template(this.model.attributes);
-                console.log(template);
 
                 $(id).append(template);
             },
@@ -70,7 +69,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
 
             newReview: function(view) {
                 return function(model) {
-                    console.log('view added');
 
                     $(view.id + ' #reviews_found').removeClass('hide');
                     var newView = new SingleReviewView({
