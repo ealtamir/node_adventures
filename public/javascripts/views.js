@@ -1,6 +1,16 @@
 define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants'],
     function($, _, Backbone, c) {
-        var SearchBar   = Backbone.View.extend({
+        var ViewWithForm = Backbone.View.extend({
+
+            checkSize: function() {
+
+            },
+
+            checkValid: function() {
+
+            },
+        });
+        var SearchBar   = ViewWithForm.extend({
             initialize: function(options) {
                 $(options.el).autocomplete({
                     source: options.model.get('source'),
@@ -109,10 +119,73 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             }
         });
 
+        var ReviewFormView = ViewWithForm.extend({
+
+            initialize: function() {
+                this.listenTo(this, 'change:score', this.updateScore);
+
+                var stars_settings = (function(view) {
+                    return {
+                        half    : true,
+                        path    : '/img/',
+                        size    : 24,
+                        starHalf: 'star-half-big.png',
+                        starOff : 'star-off-big.png',
+                        starOn  : 'star-on-big.png',
+                        readOnly: true,
+                        score   : function() {
+                            return $(this).attr('data-score');
+                        },
+                        click: function(score, evt) {
+                            view.trigger('change:score', $(this).attr('id'), score);
+                        }
+                    };
+                }(this));
+
+                $('#total_score').raty(stars_settings);
+
+                // Set prof profile and review form stars.
+                _.each(c.ATTRIBUTES, function(el, index, list) {
+                    $('#score_' + el).raty(stars_settings);
+
+                    stars_settings.readOnly = false;
+
+                    // read only to show professor score.
+                    $('#star_' + el).raty(stars_settings);
+
+                    stars_settings.readOnly = true;
+                });
+
+                $('#calificar_button').click(function() {
+                    $('#review_form').removeClass('hide');
+                    $('#' + this.id).addClass('hide');
+                    $('#professor_profile').removeClass('bottom_border');
+                });
+
+                $('#cancel_review').click(function() {
+                    $('#review_form').addClass('hide');
+                    $('#professor_profile').addClass('bottom_border');
+                    $('#calificar_button').removeClass('hide');
+                });
+            },
+
+            events: {
+
+            },
+
+            updateScore: function(id, score) {
+                // Gets dinamica, compromiso, pasion, etc...
+                var category = id.split('_')[1];
+
+                this.model.set(category, score);
+            }
+        });
+
         return {
             SearchBar           : SearchBar,
             SingleReviewView    : SingleReviewView,
-            ReviewContainerView : ReviewContainerView
+            ReviewContainerView : ReviewContainerView,
+            ReviewFormView      : ReviewFormView
         };
     }
 );

@@ -59,9 +59,11 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
 
         var ReviewsModel = Backbone.Model.extend({
             defaults : {
+                id          : 0,
                 positive    : 0,
                 negative    : 0,
-                comment     : 'default comment',
+                comment     : '',
+                advice      : '',
                 timestamp   : 'never',
 
                 dinamica        : 0,
@@ -73,7 +75,49 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 state           : c.STATE.READY,
             },
 
-            initialize: function() {
+            sync: (function() {
+                var success = function(model) {
+                    return function() {
+
+                    };
+                };
+
+                var error = function(model) {
+                    return function() {
+
+                    };
+                };
+
+                return function() {
+                    if (!this.attrAreValid)
+                        return false;
+
+                    this.set('state', c.STATE.BUSY);
+
+                    $.ajax({
+                        url         : this.get('url'),
+                        type        : 'get',
+                        dataType    : 'json',
+                        data        : this.attributes,
+                        success     : success(this),
+                        error       : error(this)
+                    });
+                };
+            }()),
+
+            attrAreValid: function() {
+                var attr = this.attributes;
+
+                _.each(attr, function(val, key, list) {
+                    if (!!val === false)
+                        return false;
+                    if (key === 'comment' && !!val === false)
+                        return false;
+                    if (_.contains(c.ATTRIBUTES, key) && val > 5 || val < 0)
+                        return false;
+                });
+
+                return true;
             },
         });
 
