@@ -1,6 +1,5 @@
-var crypto      = require('crypto');
-
-var m           = require('./msgs').msg;
+var crypto  = require('crypto');
+var m       = require('./msgs').msg;
 
 exports.check_valid     = check_valid;
 exports.getTimestamp    = getTimestamp;
@@ -9,11 +8,17 @@ exports.login_user      = login_user;
 exports.sanitize        = sanitize;
 exports.seed_encrypt    = seed_encrypt;
 exports.set_flash       = set_flash;
+exports.sym_encrypt     = sym_encrypt;
+exports.sym_decrypt     = sym_decrypt;
+exports.get_username    = get_username;
+
 
 // Compile regex patterns once.
 exports.regex = (function() {
     this.SANITIZE_PATTERN   = /[^0-9a-zA-Z@\-_\.\+ ]/g;
     this.SERVE_PROF         = /^([a-zA-Z]+-)*([a-zA-Z]+)$/;
+    this.EMAIL_VALIDATOR    = /[\w-\.@]+@[\w-\.@]+\.[\w-\.@]{1,3}/;
+    this.IS_HEX             = /^[0-9a-f]+$/i;
 
     return this;
 }());
@@ -58,7 +63,9 @@ function getTimestamp(t_stamp) {
 }
 
 function login_user(username, req, res) {
-    req.session.user_id = username + '_id';
+    req.session.user_id = sym_encrypt(
+        username + '-' + req.app.get('salt')
+    );
     exports.set_flash(m.LOGIN_SUCCESSFUL, res);
 }
 
@@ -76,4 +83,36 @@ function seed_encrypt(str, add_seed, app) {
     str = hash2.digest('hex');
 
     return str;
+}
+function sym_encrypt(str, app) {
+    var cipher = crypto.createCipher(
+        app.get('cipher_type'), app.get('session')
+    );
+    var encrypted = cipher.update(str, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+
+    return encrypted;
+}
+function sym_decrypt(str, app) {
+    if (exports.regex.IS_HEX.test(str)) {
+        var decipher = crypto.createDecipher(
+            app.get('cipher_type'), app.get('session')
+        );
+        var decrypted = decipher.update(str, 'hex', 'utf8');
+
+        return decrypted + decipher.final('utf8');
+    }
+
+    return '';
+}
+
+function get_username(str, app) {
+    var index = 0;
+
+    str = sym_decrypt(str, app);
+    if (!!str === true) {
+        index = str.indexOf('-' + app.get('salt'));
+        return index.splice(0, index);
+    }
+    return '';
 }

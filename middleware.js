@@ -1,6 +1,10 @@
+var helpers = require('./helpers');
+var regex   = require('./msgs').regex;
 
+exports.setFlash = setFlash;
+exports.checkAuth = checkAuth;
 
-exports.setFlash = function(req, res, next) {
+function setFlash(req, res, next) {
     var str = req.cookies.flash;
 
 
@@ -13,4 +17,16 @@ exports.setFlash = function(req, res, next) {
 
     res.clearCookie('flash');
     next();
-};
+}
+
+function checkAuth(req, res, next) {
+    var authData = req.cookies.s;
+
+    if (!!authData === true)
+        authData = helpers.sym_decrypt(authData, req.app);
+
+    if (!!authData === false || !helpers.regex.EMAIL_VALIDATOR.test(authData))
+        req.session = null;
+
+    next();
+}

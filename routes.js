@@ -4,7 +4,7 @@ var auth        = require('./controllers/auth');
 var rgstr       = require('./controllers/register');
 var ajax        = require('./controllers/ajax');
 var professors  = require('./controllers/professors');
-var mware       = require('./middleware');
+var middleware  = require('./middleware');
 
 var urls = [
     {
@@ -44,6 +44,11 @@ var urls = [
         view    : ajax.reviews_query,
         name    : ''
     },
+    {
+        pattern : '/submit_review',
+        view    : ajax.submit_review,
+        name    : ''
+    },
 
     // Catch all
     {
@@ -55,13 +60,14 @@ var urls = [
 
 exports.Routes = function(app) {
 
-    var middleware = [];
+    var active_mdwre = [];
 
-    middleware.push(mware.setFlash);
+    active_mdwre.push(middleware.setFlash);
+    active_mdwre.push(middleware.checkAuth);
 
     urls.forEach(function(url) {
         app.set(url.name, url.pattern);
-        app.all(url.pattern, middleware, url.view);
+        app.all(url.pattern, active_mdwre, url.view);
     });
 
     app.locals.reverse = function(name, params) {
@@ -99,8 +105,11 @@ exports.Routes = function(app) {
 
         return str;
     };
+
+    // TODO: Recordar para qué era esto...
     app.locals.params_from_row = function(row) {
         var result = row.name.split(' ').concat(row.last_name.split(' '));
         return result.map(function(s) { return s.toLowerCase(); });
     };
 };
+

@@ -123,6 +123,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
 
             initialize: function() {
                 this.listenTo(this, 'change:score', this.updateScore);
+                this.listenTo(this.model, 'change:state', this.stateChange);
 
                 var stars_settings = (function(view) {
                     return {
@@ -170,7 +171,13 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
 
             events: {
+                'click #commit_review'      : 'sendRequest',
+                'focusout #review_comment'  : 'updateComments',
+                'focusout #review_advice'   : 'updateComments',
+            },
 
+            sendRequest: function() {
+                this.model.sync();
             },
 
             updateScore: function(id, score) {
@@ -178,7 +185,23 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
                 var category = id.split('_')[1];
 
                 this.model.set(category, score);
+            },
+
+            updateComments: function(event) {
+                var $form   = $(event.currentTarget);
+                var id      = $form.attr('id');
+                var type    = id.split('_')[1]; // comment or advice
+
+                console.log(type + ' ' + id);
+
+                this.model.set(type, $form.val());
+            },
+
+            stateChange: function(e, state) {
+                console.log(param);
             }
+
+
         });
 
         return {

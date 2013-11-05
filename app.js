@@ -17,11 +17,14 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('hash_type', 'sha256');
+app.set('cipher_type', 'aes192');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Seeds
 app.set('seed', 'dis will change ;)');
 app.set('cookie_seed', 'this will change too :)');
+app.set('session', 'i think i\'ll change this toooo :P');
+app.set('salt', 'key i use for several random stuff');
 
 /*
  * Middleware

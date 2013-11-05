@@ -21,6 +21,20 @@ exports.msg = (function() {
         msg: 'Pudiste ingresar con éxtio.'
     };
 
-    return obj;
+    obj.REVIEW_TEXT_ERR = function(type, length) {
+        return {
+            msg: 'El campo \'' + type + '\' no puede estar vacio ni tener más de ' +
+                length + 'caracteres de largo.',
+            status: 'failure',
+        };
+    };
 
+    obj.REVIEW_SCORE_ERR = function(type) {
+        return {
+            msg: 'El atributo \'' + type + '\' debe estar entre 0 y 5.',
+            status: 'failure'
+        };
+    };
+
+    return obj;
 }());

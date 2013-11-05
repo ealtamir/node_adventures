@@ -66,25 +66,30 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 advice      : '',
                 timestamp   : 'never',
 
-                dinamica        : 0,
-                conocimientos   : 0,
-                claridad        : 0,
-                pasion          : 0,
-                compromiso      : 0,
-                total           : 0,
-                state           : c.STATE.READY,
+                score       : {
+                    dinamica        : 0,
+                    conocimientos   : 0,
+                    claridad        : 0,
+                    pasion          : 0,
+                    compromiso      : 0,
+                    exigencia       : 0,
+                },
+                total   : 0,
+                state   : c.STATE.READY,
             },
 
             sync: (function() {
                 var success = function(model) {
                     return function() {
-
+                        model.set('state', c.STATE.READY);
+                        console.log('Review Form sync succeeded.');
                     };
                 };
 
                 var error = function(model) {
                     return function() {
-
+                        model.set('state', c.STATE.READY);
+                        console.log('Review Form sync failed.');
                     };
                 };
 
@@ -92,11 +97,15 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                     if (!this.attrAreValid)
                         return false;
 
+                    if (this.get('state') === c.STATE.BUSY)
+                        return false;
+
                     this.set('state', c.STATE.BUSY);
+                    this.attributes.name = helpers.get_prof_name();
 
                     $.ajax({
                         url         : this.get('url'),
-                        type        : 'get',
+                        type        : 'post',
                         dataType    : 'json',
                         data        : this.attributes,
                         success     : success(this),

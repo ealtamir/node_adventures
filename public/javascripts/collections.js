@@ -1,6 +1,6 @@
 define(['jquery.min', 'underscore-min', 'backbone-min',
-       'app/models', 'app/constants'],
-    function($, _, Backbone, models, c) {
+       'app/models', 'app/constants', 'app/helpers'],
+    function($, _, Backbone, models, c, helpers) {
         var ReviewsCollection = Backbone.Collection.extend({
 
             model: models.ReviewsModel,
@@ -45,15 +45,11 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 return function() {
                     this.trigger('change:state', c.STATE.BUSY);
 
-                    var url = window.location.pathname;
-                    var name = url.match(c.P_VIEW_REVIEWS_RGX)[1];
-                    name = name.replace(/-/g, ' ');
-
                     $.ajax({
                         url         : this.url,
                         type        : 'get',
                         dataType    : 'json',
-                        data        : { name: name },
+                        data        : { name: helpers.get_prof_name() },
                         success     : success(this),
                         error       : error(this)
                     });

@@ -1,11 +1,14 @@
-var helpers     = require('../helpers');
-var models      = require('../models');
+var helpers = require('../helpers');
+var models  = require('../models');
+var _       = require('underscore');
+var msgs    = require('../msgs');
 
 // Constant
 var MIN_QUERY_SIZE  = 3;
 
 exports.prof_query      = prof_query;
 exports.reviews_query   = reviews_query;
+exports.submit_review   = submit_review;
 
 function prof_query(req, res) {
     var params  = req.query || {};
@@ -26,16 +29,15 @@ function prof_query(req, res) {
                 });
             });
         } else {
-            res.json(500, {error: 'Query was too short.'});
+            res.json(500, { error: 'Query was too short.' });
         }
     } else {
-        res.json(500, {error: 'Method wasn\'t GET or wrong query.'});
+        res.json(500, { error: 'Method wasn\'t GET or wrong query.' });
     }
 }
 
 function reviews_query(req, res) {
 
-    var last_name   = '';
     var name        = '';
     var params      = req.query || {};
     var q_str       = models.sql.GET_REVIEWS; // Params: name & last_name
@@ -50,7 +52,59 @@ function reviews_query(req, res) {
         });
     } else {
         res.json(500, {
-            error: 'Invalid query. Two params needed: name & last_name.'
+            error: 'Invalid query. name isn\'t valid.'
         });
     }
+}
+
+function submit_review(req, res) {
+
+    var name            = '';
+    var review_valid    = null;
+    var q_str           = '';
+    var username        = '';
+
+    if (req.route.method.toUpperCase() !== 'POST')
+        res.json(500, { error: 'Request should be POST.' });
+
+
+    review_valid = reviewIsValid(req.body);
+    if (review_valid.passed === false)
+        res.json(500, { error: review_valid });
+
+    username = helpers.get_username(req.cookies.s, req.app);
+
+
+}
+
+function reviewIsValid(obj) {
+
+    var type    = '';
+    var result  = {
+        errors : {},
+        passed : true,
+    };
+
+    if (!!obj === false) {
+        result.passed = false;
+    } else {
+        if (!!obj.comment === false || obj.comment.length > 3000) {
+            type = 'comment';
+            result.errors[type] = msgs.REVIEW_TEXT_ERR(type, 3000);
+            result.passed = false;
+        } else if (!!obj.advice === false || obj.advice.length > 100) {
+            type = 'advice';
+            result.errors[type] = msgs.REVIEW_TEXT_ERR(type, 100);
+            result.passed = false;
+        }
+
+        _.each(obj.score, function(val, key, list) {
+            if (val <= 0 || val > 5) {
+                result.errors[key] = msgs.REVIEW_TEXT_ERR(type);
+                result.passed = false;
+            }
+        });
+    }
+
+    return result;
 }

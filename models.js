@@ -38,5 +38,7 @@ exports.sql = (function() {
         "WHERE r.professor_id = " +
         "(SELECT id FROM professor WHERE (name || ' ' || last_name) ILIKE $1)";
 
+    this.SUBMIT_REVIEW = ''
+
     return this;
 }());

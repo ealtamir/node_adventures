@@ -9,7 +9,9 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
 
 function prof_view($, _, Backbone, models, views, collections) {
     return function() {
-        var reviewsModel = new models.ReviewsModel();
+        var reviewsModel = new models.ReviewsModel({
+            url     : '/submit_review',
+        });
 
         var reviewFormView = new views.ReviewFormView({
             model   : reviewsModel,
