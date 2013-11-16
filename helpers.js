@@ -1,24 +1,27 @@
-var crypto  = require('crypto');
-var m       = require('./msgs').msg;
+var crypto  = require('crypto'),
+    m       = require('./msgs').msg,
+    _       = require('underscore');
 
 exports.check_valid     = check_valid;
+exports.custom_render   = custom_render;
 exports.getTimestamp    = getTimestamp;
+exports.get_username    = get_username;
 exports.listProps       = listProps;
 exports.login_user      = login_user;
 exports.sanitize        = sanitize;
 exports.seed_encrypt    = seed_encrypt;
 exports.set_flash       = set_flash;
-exports.sym_encrypt     = sym_encrypt;
 exports.sym_decrypt     = sym_decrypt;
-exports.get_username    = get_username;
+exports.sym_encrypt     = sym_encrypt;
 
 
 // Compile regex patterns once.
 exports.regex = (function() {
-    this.SANITIZE_PATTERN   = /[^0-9a-zA-Z@\-_\.\+ ]/g;
-    this.SERVE_PROF         = /^([a-zA-Z]+-)*([a-zA-Z]+)$/;
     this.EMAIL_VALIDATOR    = /[\w-\.@]+@[\w-\.@]+\.[\w-\.@]{1,3}/;
     this.IS_HEX             = /^[0-9a-f]+$/i;
+    this.SANITIZE_PATTERN   = /[^0-9a-zA-Z@\-_\.\+ ]/g;
+    this.SANITIZE_SCORE     = /^(?:[0-9]+,)*(?:[0-9])$/;
+    this.SERVE_PROF         = /^([a-zA-Z]+-)*([a-zA-Z]+)$/;
 
     return this;
 }());
@@ -63,10 +66,15 @@ function getTimestamp(t_stamp) {
 }
 
 function login_user(username, req, res) {
-    req.session.user_id = sym_encrypt(
-        username + '-' + req.app.get('salt')
+    var value = sym_encrypt(
+        username + '-' + req.app.get('salt'),
+        req.app
     );
-    exports.set_flash(m.LOGIN_SUCCESSFUL, res);
+    res.cookie('session', value, {
+        path    : '/',
+        expires : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+    });
 }
 
 function seed_encrypt(str, add_seed, app) {
@@ -106,13 +114,19 @@ function sym_decrypt(str, app) {
     return '';
 }
 
-function get_username(str, app) {
-    var index = 0;
+function get_username(req) {
+    var index   = 0,
+        str     = req.cookies.session,
+        app     = req.app;
 
     str = sym_decrypt(str, app);
     if (!!str === true) {
         index = str.indexOf('-' + app.get('salt'));
-        return index.splice(0, index);
+        return str.slice(0, index);
     }
     return '';
+}
+
+function custom_render(res, req, view, params) {
+    return res.render(view, _.extend(params, { STATE: req.state }));
 }

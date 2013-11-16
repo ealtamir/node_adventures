@@ -101,7 +101,7 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                         return false;
 
                     this.set('state', c.STATE.BUSY);
-                    this.attributes.name = helpers.get_prof_name();
+                    this.attributes.prof_name = helpers.get_prof_name();
 
                     $.ajax({
                         url         : this.get('url'),

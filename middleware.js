@@ -19,14 +19,13 @@ function setFlash(req, res, next) {
     next();
 }
 
+// Sets session information in state object for later use.
 function checkAuth(req, res, next) {
-    var authData = req.cookies.s;
+    var auth_data = req.cookies.session;
 
-    if (!!authData === true)
-        authData = helpers.sym_decrypt(authData, req.app);
+    req.state = req.state || {};
 
-    if (!!authData === false || !helpers.regex.EMAIL_VALIDATOR.test(authData))
-        req.session = null;
+    req.state.session = helpers.get_username(req);
 
     next();
 }

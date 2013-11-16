@@ -23,9 +23,6 @@ exports.authenticate = function(req, res) {
 
         models.query_db([username], app, q_str, function(result) {
 
-            console.log(result);
-            console.log(result.rowCount === 1);
-
             if (result.rowCount === 1) {
                 user = result.rows[0];
                 password = helpers.seed_encrypt(
@@ -36,6 +33,7 @@ exports.authenticate = function(req, res) {
 
                 if (password === user.password) {
                     helpers.login_user(username, req, res);
+                    helpers.set_flash(m.LOGIN_SUCCESSFUL, res);
                 } else {
                     helpers.set_flash(m.WRONG_USR_PWD, res);
                 }

@@ -1,7 +1,7 @@
 var helpers = require('../helpers');
 var models  = require('../models');
 var _       = require('underscore');
-var msgs    = require('../msgs');
+var msgs    = require('../msgs').msg;
 
 // Constant
 var MIN_QUERY_SIZE  = 3;
@@ -59,31 +59,65 @@ function reviews_query(req, res) {
 
 function submit_review(req, res) {
 
-    var name            = '';
-    var review_valid    = null;
-    var q_str           = '';
-    var username        = '';
+    var loose_id        = '',
+        name            = '',
+        params          = [],
+        post_params     = req.body,
+        q_str           = models.sql.SUBMIT_REVIEW,
+        review_valid    = null,
+        username        = '',
+        default_uname   = 'enzo.alt@gmail.com';
 
     if (req.route.method.toUpperCase() !== 'POST')
-        res.json(500, { error: 'Request should be POST.' });
+        return res.json(500, { error: 'Request should be POST.' });
 
-
-    review_valid = reviewIsValid(req.body);
+    review_valid = reviewIsValid(post_params);
     if (review_valid.passed === false)
-        res.json(500, { error: review_valid });
+        return res.json(500, { error: review_valid });
 
-    username = helpers.get_username(req.cookies.s, req.app);
+    post_params.score = _.values(post_params.score).join(',');
+    if (helpers.regex.SANITIZE_SCORE.test(post_params.score) === false)
+        return res.json(500, { error: 'Score string didn\'t pass regex test.' });
 
+    q_str = q_str.replace('?score?', post_params.score);
 
+    username = helpers.get_username(req) || default_uname;
+
+    console.log(username);
+    if (username === default_uname) {
+        loose_id = helpers.seed_encrypt(
+            post_params.schore + post_params.comment, '', req.app
+        );
+        res.cookie('loose', loose_id, {
+            // expires an hour later
+            expiration: new Date(Date.now() + 1000 * 60 * 60),
+        });
+        console.log(loose_id);
+    }
+
+    params = [post_params.comment, post_params.advice,
+        loose_id, username, post_params.prof_name];
+
+    models.query_db(params, req.app, q_str, (function(loose) {
+            return function(result) {
+                var response = {
+                    data    : result.rows,
+                    loose   : loose,
+                };
+
+                res.json(200, response);
+            };
+        }(username === default_uname))
+    );
 }
 
 function reviewIsValid(obj) {
 
-    var type    = '';
-    var result  = {
-        errors : {},
-        passed : true,
-    };
+    var type    = '',
+        result  = {
+            errors : {},
+            passed : true,
+        };
 
     if (!!obj === false) {
         result.passed = false;

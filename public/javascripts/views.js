@@ -124,10 +124,12 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             initialize: function() {
                 this.listenTo(this, 'change:score', this.updateScore);
                 this.listenTo(this.model, 'change:state', this.stateChange);
+                this.model.set('comment', $('#review_comment').val());
+                this.model.set('advice', $('#review_advice').val());
 
                 var stars_settings = (function(view) {
                     return {
-                        half    : true,
+                        half    : false,
                         path    : '/img/',
                         size    : 24,
                         starHalf: 'star-half-big.png',
@@ -181,10 +183,11 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
 
             updateScore: function(id, score) {
-                // Gets dinamica, compromiso, pasion, etc...
+                // Gets dinamica or compromiso or pasion, etc...
                 var category = id.split('_')[1];
 
-                this.model.set(category, score);
+                // gets the 'score' object that holds each category.
+                this.model.get('score')[category] = score;
             },
 
             updateComments: function(event) {
@@ -198,10 +201,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
 
             stateChange: function(e, state) {
-                console.log(param);
+                console.log(state);
             }
-
-
         });
 
         return {

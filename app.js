@@ -34,9 +34,6 @@ app.use(express.logger('dev')); // Choose position carefully
 app.use(express.methodOverride());
 app.use(express.urlencoded());
 app.use(express.cookieParser(app.get('cookie_seed')));
-app.use(express.cookieSession({
-    key: 's', secret: 'this will change ;)'
-}));
 
 // Must go after middlewares
 app.use(app.router);

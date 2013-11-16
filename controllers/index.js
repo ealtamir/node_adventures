@@ -1,5 +1,5 @@
 var helpers = require('../helpers');
-var models = require('../models');
+var models  = require('../models');
 
 exports.index = index;
 
@@ -11,12 +11,14 @@ function index(req, res) {
 
     state.q = query.q;
 
+    console.log(req.state);
+
     if (query.q) {
         models.query_db([query.q], req.app, q_str, function(result) {
             res.render('professor', { state: req.state, rows: result.rows });
         });
     } else {
-        res.render('index', { state: req.state });
+        helpers.custom_render(res, req, 'index', {});
     }
 }
 
