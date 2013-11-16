@@ -1,0 +1,12 @@
+mixin login_form
+  form(method='POST', action=locals.reverse('auth'))
+    label.input_label(for='login-un') Nombre de Usuario
+    input.login-un(type='email', name='login_usr', id='login-un', value=STATE.l_un || '')
+
+    label.input_label(for='login-pw') Contraseña
+    input.login-pw(type='password', name='login_psw', id='login-pw')
+
+    label.register-tag(for='login_email') Ingresa tu email
+    input.login-e(type='email', name='login_email', id='login-email')
+
+    input.login-button(type='submit', value='ingresar')

@@ -73,8 +73,11 @@ function login_user(username, req, res) {
     res.cookie('session', value, {
         path    : '/',
         expires : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
     });
+}
+
+function unloose_reviews(username) {
+
 }
 
 function seed_encrypt(str, add_seed, app) {

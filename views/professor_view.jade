@@ -1,6 +1,8 @@
 extends sectioned_layout
 
 include common/search_bar
+include common/login_form
+include common/register_form
 
 block header
   mixin search_bar()
@@ -93,16 +95,24 @@ block prepend main_section
               div.pure-u-1
                 label.input_label(for='review_comment') ¿Qué opinás de este profesor?
               div.pure-u-1
-                textarea#review_comment(name='review_comment', cols='71', rows='8')
+                textarea#review_comment(name='review_comment', cols='71', rows='8', value='')
               div.pure-u-1
                 label.input_label(for='review_advice') ¿Qué le recomendarías a alguien que va a ser alumno de este profesor?
               div.pure-u-1
-                textarea#review_advice(name='review_advice', cols='71', rows='5')
-
+                textarea#review_advice(name='review_advice', cols='71', rows='5', value='')
           div.pure-u-1
             div.pure-offset-5-11.pure-u-5-11
               a#commit_review.button.b_large.pull-right Enviar Calificación
               a#cancel_review.pull-right Cancelar
+
+        div#auth_form.pure-u-1.bottom_border.hide
+          div.pure-offset-1-11.pure-u-9-11
+            div.pure-u-3-5
+              h1.f_huge Regístrate
+              mixin register_form()
+            div.pure-u-2-5.left_border
+              h1.f_huge Ingresa
+              mixin login_form()
 
         div#professor_reviews.pure-u-1
           div#waiting_msg.pure-u-1.bottom_border.hide

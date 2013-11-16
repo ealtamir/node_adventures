@@ -83,14 +83,14 @@ function submit_review(req, res) {
 
     username = helpers.get_username(req) || default_uname;
 
-    console.log(username);
     if (username === default_uname) {
         loose_id = helpers.seed_encrypt(
             post_params.schore + post_params.comment, '', req.app
         );
+        loose_id = ((req.cookies.loose)? req.cookies.loose + '-': '') + loose_id;
         res.cookie('loose', loose_id, {
             // expires an hour later
-            expiration: new Date(Date.now() + 1000 * 60 * 60),
+            expiration: new Date(Date.now() + 1000 * 60 * 30),
         });
         console.log(loose_id);
     }

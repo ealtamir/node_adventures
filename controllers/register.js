@@ -27,8 +27,6 @@ exports.register = function(req, res) {
                 timestamp   = helpers.getTimestamp();
                 password    = helpers.seed_encrypt(password, timestamp, app);
 
-                console.log(timestamp);
-
                 o[0] = username;
                 o[1] = password;
                 o[2] = 'FALSE';
@@ -37,12 +35,13 @@ exports.register = function(req, res) {
                 i_str = 'INSERT INTO usuario (username, password, active, timestamp)' +
                     ' VALUES(' + '\'' + o.join('\',\'') + '\'' +')';
 
-                models.query_db([], app, i_str, (function(m, res) {
+                models.query_db([], app, i_str, (function(m, username, req, res) {
                     return function(result) {
                         helpers.set_flash(m.REGISTRATION_SUCCESS, res);
+                        helpers.login_user(username, req, res);
                         res.redirect(app.locals.reverse('index', {}));
                     };
-                }(m, res)));
+                }(m, username, req, res)));
             } else {
                 helpers.set_flash(m.REGISTRATION_FAILURE, res);
                 res.redirect(app.locals.reverse('index', {}));

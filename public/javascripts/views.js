@@ -57,7 +57,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
                 var template = _.template($(this.attributes.template_name).html());
                 template = template(this.model.attributes);
 
-                $(id).append(template);
+                $(id).prepend(template);
             },
 
             events: {
@@ -124,6 +124,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             initialize: function() {
                 this.listenTo(this, 'change:score', this.updateScore);
                 this.listenTo(this.model, 'change:state', this.stateChange);
+
                 this.model.set('comment', $('#review_comment').val());
                 this.model.set('advice', $('#review_advice').val());
 
@@ -191,18 +192,38 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
 
             updateComments: function(event) {
-                var $form   = $(event.currentTarget);
-                var id      = $form.attr('id');
-                var type    = id.split('_')[1]; // comment or advice
+                var $form   = $(event.currentTarget), // before id
+                    id      = $form.attr('id'),
+                    type    = id.split('_')[1]; // comment or advice
 
                 console.log(type + ' ' + id);
 
                 this.model.set(type, $form.val());
             },
 
-            stateChange: function(e, state) {
+            stateChange: function(e, state, data) {
                 console.log(state);
-            }
+                console.log(data);
+                if (state === c.STATE.READY) {
+                    if (data.loose === true) {
+                        this.requestAuth();
+                    } else {
+                        this.collection.add(this.model);
+                        console.log('add review');
+                    }
+                }
+            },
+
+            requestAuth: function() {
+                var $review_form    = $('#review_form'),
+                    $auth_form      = $('#auth_form');
+
+
+                    $auth_form.removeClass('hide');
+                    $review_form.addClass('hide');
+            },
+
+
         });
 
         return {

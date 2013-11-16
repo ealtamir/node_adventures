@@ -13,15 +13,19 @@ function prof_view($, _, Backbone, models, views, collections) {
             url     : '/submit_review',
         });
 
-        var reviewFormView = new views.ReviewFormView({
-            model   : reviewsModel,
-            id      : 'review_form',
-            el      : 'div#review_form'
-        });
+        var reviewCollection = new collections.ReviewsCollection();
 
         var reviewsView = new views.ReviewContainerView({
             el          : 'div#reviews',
-            collection  : new collections.ReviewsCollection(),
+            collection  : reviewCollection,
         });
+
+        var reviewFormView = new views.ReviewFormView({
+            model       : reviewsModel,
+            id          : 'review_form',
+            el          : 'div#review_form',
+            collection  : reviewCollection,
+        });
+
     };
 }

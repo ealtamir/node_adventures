@@ -1,6 +1,8 @@
 extends sectioned_layout
 
 include common/search_bar
+include common/login_form
+include common/register_form
 
 block prepend main_section
 
@@ -15,30 +17,10 @@ block prepend main_section
           h2.f_big Calificá a tus profesores y conocé la opinión de tus compañeros.
           mixin search_bar
 
-          h1.f_huge Ingresa
-          form(method='POST', action=locals.reverse('auth'))
-            label.input_label(for='login-un') Nombre de Usuario
-            input.login-un(type='email', name='login_usr', id='login-un', value=STATE.l_un || '')
-
-            label.input_label(for='login-pw') Contraseña
-            input.login-pw(type='password', name='login_psw', id='login-pw')
-
-            label.register-tag(for='login_email') Ingresa tu email
-            input.login-e(type='email', name='login_email', id='login-email')
-
-            input.login-button(type='submit', value='ingresar')
-
+          h1 Ingresa
+            mixin login_form()
           h1 Regístrate
-          form(method='POST', action=locals.reverse('register'))
-            label.input_label(for='register-un') Elige un Nombre de Usuario
-            input.register-un(type='email', name='register_usr', id='register-un', value=STATE.r_un || '')
+            mixin register_form()
 
-            label.input_label(for='register-pw') Elige una Contraseña
-            input.register-pw(type='password', name='register_psw', id='register-pw')
-
-            label.register-tag(for='register_email') Ingresa tu email
-            input.register-e(type='email', name='register_email', id='register-email')
-
-            input.login-button(type='submit', value='registrarse')
         div.right-content.pure-u-1-2
           p Stuff that goes on the right.

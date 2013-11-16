@@ -1,3 +1,8 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
 form {
   margin: 0;
   padding: 0;
@@ -64,7 +69,12 @@ a {
 
 .bottom_border {
   padding-bottom: 5px;
+  margin-bottom: 5px;
   border-bottom: solid 1px #E0E4EA; }
+
+.left_border {
+  padding-left: 5px;
+  border-left: solid 1px #E0E4EA; }
 
 .center {
   text-align: center; }

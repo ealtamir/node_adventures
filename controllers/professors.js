@@ -25,9 +25,9 @@ function get_prof(req, res) {
 
         models.query_db(q, req.app, q_str, function(result) {
             if (result.rowCount !== 0) {
-                res.render('professor', { rows: result.rows });
+                helpers.custom_render(res, req, 'professor', { rows: result.rows });
             } else {
-                res.render('professor', { rows: [] });
+                helpers.custom_render(res, req, 'professor', { rows: [] });
             }
         });
     } else {
@@ -35,7 +35,7 @@ function get_prof(req, res) {
             status: 'fail',
             msg: 'Los datos de búsqueda no son válidos.'
         }, res);
-        res.render('professor', { rows: {} });
+        helpers.custom_render(res, req, 'professor', { rows: [] });
     }
 }
 
@@ -57,14 +57,12 @@ function serve_prof(req, res, query) {
 
         models.query_db([prof_name], req.app, q_str, function(result) {
             if (result.rowCount === 1) {
-                res.render('professor_view', { rows: result.rows[0] });
+                helpers.custom_render(res, req, 'professor_view', { rows: result.rows[0] });
             } else {
                 res.redirect(app.locals.reverse('professor'));
             }
         });
     } else {
-        console.log('estoy redireccionando');
         res.redirect(app.locals.reverse('professor'));
     }
-
 }

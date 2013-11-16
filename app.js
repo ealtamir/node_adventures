@@ -40,9 +40,11 @@ app.use(app.router);
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 
-  var db_string = 'postgres://pr_dev:asd@localhost:5432/n_pr_dev';
+    var db_string = 'postgres://pr_dev:asd@localhost:5432/n_pr_dev';
+} else if (process.env.NODE_ENV === 'production') {
+    var db_string = process.env.DATABASE_URL;
 }
 
 // Load routes

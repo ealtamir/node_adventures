@@ -80,16 +80,16 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
 
             sync: (function() {
                 var success = function(model) {
-                    return function() {
-                        model.set('state', c.STATE.READY);
+                    return function(data, status, xhr) {
+                        model.set('state', c.STATE.READY, data);
                         console.log('Review Form sync succeeded.');
                     };
                 };
 
                 var error = function(model) {
-                    return function() {
+                    return function(xhr, status, err) {
                         model.set('state', c.STATE.READY);
-                        console.log('Review Form sync failed.');
+                        console.log(status + ' ' + err);
                     };
                 };
 
