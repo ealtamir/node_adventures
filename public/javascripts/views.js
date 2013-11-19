@@ -1,6 +1,17 @@
 define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants'],
     function($, _, Backbone, c) {
-        var ViewWithForm = Backbone.View.extend({
+
+        var View = Backbone.View.extend({
+            constructor: (function() {
+                var pubSub_obj = _.extend({}, Backbone.Events);
+                return function() {
+                    this.pubSub = pubSub_obj;
+                    Backbone.View.apply(this, arguments);
+                };
+            }()),
+        });
+
+        var ViewWithForm = View.extend({
 
             checkSize: function() {
 
@@ -10,6 +21,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
 
             },
         });
+
         var SearchBar   = ViewWithForm.extend({
             initialize: function(options) {
                 $(options.el).autocomplete({
@@ -48,9 +60,10 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
         });
 
-        var SingleReviewView = Backbone.View.extend({
+        var SingleReviewView = View.extend({
 
             initialize: function(options) {
+
             },
 
             render: function(id) {
@@ -65,7 +78,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
         });
 
-        var ReviewContainerView = Backbone.View.extend({
+        var ReviewContainerView = View.extend({
             initialize: function() {
                 this.nestedViews = [];
 
@@ -180,7 +193,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             },
 
             sendRequest: function() {
-                this.model.sync();
+                if (this.model.get('state') === c.STATE.READY)
+                    this.model.sync();
             },
 
             updateScore: function(id, score) {
@@ -196,33 +210,31 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
                     id      = $form.attr('id'),
                     type    = id.split('_')[1]; // comment or advice
 
-                console.log(type + ' ' + id);
-
                 this.model.set(type, $form.val());
             },
 
             stateChange: function(e, state, data) {
-                console.log(state);
-                console.log(data);
                 if (state === c.STATE.READY) {
                     if (data.loose === true) {
-                        this.requestAuth();
+                        this.$el.addClass('hide');
+                        this.pubSub.trigger('request_auth');
                     } else {
                         this.collection.add(this.model);
-                        console.log('add review');
                     }
                 }
             },
+        });
 
-            requestAuth: function() {
-                var $review_form    = $('#review_form'),
-                    $auth_form      = $('#auth_form');
+        var AuthRequestView = View.extend({
 
-
-                    $auth_form.removeClass('hide');
-                    $review_form.addClass('hide');
+            initialize: function() {
+                this.listenTo(this.pubSub, 'request_auth', this.requestAuth);
             },
 
+            requestAuth: function() {
+                console.log('requesting auth');
+                this.$el.removeClass('hide');
+            }
 
         });
 
@@ -230,7 +242,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             SearchBar           : SearchBar,
             SingleReviewView    : SingleReviewView,
             ReviewContainerView : ReviewContainerView,
-            ReviewFormView      : ReviewFormView
+            ReviewFormView      : ReviewFormView,
+            AuthRequestView     : AuthRequestView
         };
     }
 );

@@ -27,5 +27,10 @@ function prof_view($, _, Backbone, models, views, collections) {
             collection  : reviewCollection,
         });
 
+        var authRequestView = new views.AuthRequestView({
+            id  : 'auth_form',
+            el  : 'div#auth_form'
+        });
+
     };
 }

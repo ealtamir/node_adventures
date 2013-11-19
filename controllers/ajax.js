@@ -59,40 +59,27 @@ function reviews_query(req, res) {
 
 function submit_review(req, res) {
 
-    var loose_id        = '',
+    var default_uname   = 'enzo.alt@gmail.com',
         name            = '',
         params          = [],
         post_params     = req.body,
         q_str           = models.sql.SUBMIT_REVIEW,
-        review_valid    = null,
+        result          = null,
         username        = '',
-        default_uname   = 'enzo.alt@gmail.com';
+        loose_id        = '';
 
-    if (req.route.method.toUpperCase() !== 'POST')
-        return res.json(500, { error: 'Request should be POST.' });
-
-    review_valid = reviewIsValid(post_params);
-    if (review_valid.passed === false)
-        return res.json(500, { error: review_valid });
-
-    post_params.score = _.values(post_params.score).join(',');
-    if (helpers.regex.SANITIZE_SCORE.test(post_params.score) === false)
-        return res.json(500, { error: 'Score string didn\'t pass regex test.' });
+    result = doValidation(req, res, post_params);
+    if (result !== null)
+        return result;
 
     q_str = q_str.replace('?score?', post_params.score);
 
-    username = helpers.get_username(req) || default_uname;
+    username = req.state.session || default_uname;
 
     if (username === default_uname) {
-        loose_id = helpers.seed_encrypt(
-            post_params.schore + post_params.comment, '', req.app
+        loose_id = set_loose_cookie(
+            post_params.score, post_params.comment, req, res
         );
-        loose_id = ((req.cookies.loose)? req.cookies.loose + '-': '') + loose_id;
-        res.cookie('loose', loose_id, {
-            // expires an hour later
-            expiration: new Date(Date.now() + 1000 * 60 * 30),
-        });
-        console.log(loose_id);
     }
 
     params = [post_params.comment, post_params.advice,
@@ -109,6 +96,24 @@ function submit_review(req, res) {
             };
         }(username === default_uname))
     );
+}
+
+function doValidation(req, res, post_params) {
+
+    var review_valid = null;
+
+    if (req.route.method.toUpperCase() !== 'POST')
+        return res.json(500, { error: 'Request should be POST.' });
+
+    review_valid = reviewIsValid(post_params);
+    if (review_valid.passed === false)
+        return res.json(500, { error: review_valid });
+
+    post_params.score = _.values(post_params.score).join(',');
+    if (helpers.regex.SANITIZE_SCORE.test(post_params.score) === false)
+        return res.json(500, { error: 'Score string didn\'t pass regex test.' });
+
+    return null;
 }
 
 function reviewIsValid(obj) {
@@ -141,4 +146,23 @@ function reviewIsValid(obj) {
     }
 
     return result;
+}
+
+function set_loose_cookie(score, comment, req, res) {
+    var loose_id        = '',
+        old_loose_id    = '',
+        new_loose_id    = '';
+
+    loose_id = helpers.seed_encrypt(score + comment, '', req.app);
+    old_loose_id = (req.cookies.loose)?
+        helpers.sym_decrypt(req.cookies.loose, req.app): '';
+    new_loose_id = ((old_loose_id)? old_loose_id + '-': '') + loose_id;
+    new_loose_id = helpers.sym_encrypt(new_loose_id, req.app);
+
+    res.cookie('loose', new_loose_id, {
+        // expires an hour later
+        expiration: new Date(Date.now() + 1000 * 60 * 30),
+    });
+
+    return loose_id;
 }
