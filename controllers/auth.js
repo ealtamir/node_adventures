@@ -1,22 +1,22 @@
 var crypto      = require('crypto');
-
 var helpers     = require('../helpers');
 var models      = require('../models');
 var m           = require('../msgs').msg;
 
-exports.authenticate = function(req, res) {
+exports.authenticate    = authenticate;
+exports.login           = login;
 
-    var app         = req.app;
-    var body        = req.body;
-    var password    = '';
-    var state       = req.state;
-    var user        = null;
-    var username    = '';
+function authenticate(req, res) {
 
-    var q_str = 'SELECT * FROM usuario WHERE username = $1;';
+    var app         = req.app,
+        body        = req.body,
+        password    = '',
+        q_str       = models.sql.USERNAME_QUERY,
+        state       = req.state,
+        user        = null,
+        username    = '';
 
-    var valid = helpers.check_valid(body.login_usr, body.login_psw);
-
+    var valid = helpers.check_valid(body.username, body.login);
 
     if (valid && body.login_email === '') {
         username = helpers.sanitize(body.login_usr);
@@ -50,4 +50,43 @@ exports.authenticate = function(req, res) {
 
         res.redirect(app.locals.reverse('index', state));
     }
-};
+}
+
+// Used for ajax authentication.
+function login(req, res) {
+
+    var app         = req.app,
+        body        = req.body,
+        password    = '',
+        q_str       = models.sql.CHK_VALID_USERNAME,
+        status      = null,
+        state       = req.state,
+        user        = null,
+        username    = '';
+
+
+    var valid = helpers.check_valid(body.username, body.password);
+
+    if (valid && body.email === '') {
+        username = helpers.sanitize(body.username);
+
+        models.query_db([username], app, q_str, function(result) {
+            status = m.WRONG_USR_PWD;
+            if (result.rowCount === 1) {
+                user = result.rows[0];
+                password = helpers.seed_encrypt(
+                    helpers.sanitize(body.password),
+                    helpers.getTimestamp(user.timestamp),
+                    app
+                );
+                if (password === user.password) {
+                    helpers.login_user(username, req, res);
+                    status = m.LOGIN_SUCCESSFUL;
+                }
+            }
+            res.json(200, { result: status });
+        });
+    } else {
+        res.json(200, { result: m.WRONG_USR_PWD });
+    }
+}

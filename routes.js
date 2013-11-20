@@ -49,6 +49,16 @@ var urls = [
         view    : ajax.submit_review,
         name    : ''
     },
+    {
+        pattern : '/login',
+        view    : auth.login,
+        name    : 'login'
+    },
+    {
+        pattern : '/ajax_register',
+        view    : rgstr.ajax_register,
+        name    : 'ajax_register'
+    },
 
     // Catch all
     {

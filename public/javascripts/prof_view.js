@@ -32,5 +32,10 @@ function prof_view($, _, Backbone, models, views, collections) {
             el  : 'div#auth_form'
         });
 
+        var ProfessorProfileView = new views.ProfessorProfileView({
+            id : 'professor_profile',
+            el : 'div#professor_profile'
+        });
+
     };
 }

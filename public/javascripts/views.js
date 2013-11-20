@@ -1,5 +1,6 @@
-define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants'],
-    function($, _, Backbone, c) {
+define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
+       'app/models', 'app/constants'],
+    function($, _, Backbone, models, c) {
 
         var View = Backbone.View.extend({
             constructor: (function() {
@@ -59,22 +60,22 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
 
             },
         });
+        var ProfessorProfileView = View.extend({
+            initialize: function() {
+                this.pubSub.once('review_submitted',
+                                 _.bind(this.addBottomBorder, this));
+            },
+            addBottomBorder: function() {
+                this.$el.addClass('bottom_border');
+            }
+        });
 
         var SingleReviewView = View.extend({
-
-            initialize: function(options) {
-
-            },
-
             render: function(id) {
                 var template = _.template($(this.attributes.template_name).html());
                 template = template(this.model.attributes);
 
                 $(id).prepend(template);
-            },
-
-            events: {
-
             },
         });
 
@@ -137,6 +138,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             initialize: function() {
                 this.listenTo(this, 'change:score', this.updateScore);
                 this.listenTo(this.model, 'change:state', this.stateChange);
+                this.pubSub.once('review_submitted', _.bind(this.hideView, this));
 
                 this.model.set('comment', $('#review_comment').val());
                 this.model.set('advice', $('#review_advice').val());
@@ -192,6 +194,11 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
                 'focusout #review_advice'   : 'updateComments',
             },
 
+            hideView: function() {
+                this.$el.addClass('hide');
+                $('#calificar_button').addClass('hide');
+            },
+
             sendRequest: function() {
                 if (this.model.get('state') === c.STATE.READY)
                     this.model.sync();
@@ -217,25 +224,92 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
                 if (state === c.STATE.READY) {
                     if (data.loose === true) {
                         this.$el.addClass('hide');
+                        this.pubSub.once('auth_success', _.bind(this.addReview, this));
                         this.pubSub.trigger('request_auth');
                     } else {
-                        this.collection.add(this.model);
+                        this.pubSub.trigger('review_submitted');
+                        this.addReview();
                     }
                 }
             },
+            addReview: function() {
+                this.collection.add(this.model);
+            }
         });
 
         var AuthRequestView = View.extend({
 
             initialize: function() {
-                this.listenTo(this.pubSub, 'request_auth', this.requestAuth);
+                this.listenTo(this.pubSub, 'request_auth', this.setupAuth);
+                this.pubSub.once('auth_success', this.authCompleted(this));
             },
 
-            requestAuth: function() {
-                console.log('requesting auth');
-                this.$el.removeClass('hide');
-            }
+            authCompleted: function(view) {
+                return function() {
+                    view.$el.addClass('hide');
+                };
+            },
 
+            setupAuth: function() {
+                this.$el.removeClass('hide');
+
+                this.register_form = new AuthFormView({
+                    id      : 'auth_reg_form',
+                    el      : 'div#auth_reg_form',
+                    model   : new models.AuthDataModel({
+                        url: '/ajax_register'
+                    }),
+                });
+                this.login_form = new AuthFormView({
+                    id      : 'auth_log_form',
+                    el      : 'div#auth_log_form',
+                    model   : new models.AuthDataModel({
+                        url: '/login'
+                    }),
+                });
+            },
+        });
+
+        var AuthFormView = ViewWithForm.extend({
+
+            initialize: function() {
+                this.listenTo(this.model, 'change:state', this.stateChange);
+                this.listenTo(this.model, 'auth_status', this.authStatus);
+            },
+
+            events: {
+                'click input.auth_submit' : 'requestAuth',
+            },
+
+            requestAuth: function(event) {
+                event.preventDefault();
+                if (this.model.get('state') === c.STATE.READY) {
+                    var $username   = this.$('input.username'),
+                        $password   = this.$('input.password'),
+                        $email      = this.$('input.email');
+
+                    this.model.set('username', $username.val());
+                    this.model.set('password', $password.val());
+                    this.model.set('email', $email.val());
+
+                    this.model.sync();
+                }
+            },
+
+            stateChange: function() {
+
+            },
+
+            authStatus: function(data) {
+                var result = data.result;
+
+                if (result.status === 'successful') {
+                    this.pubSub.trigger('auth_success');
+                    this.pubSub.trigger('review_submitted');
+                } else if (result.status === 'failure') {
+                    console.log('auth operation was unsuccessful.');
+                }
+            }
         });
 
         return {
@@ -243,7 +317,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/constants
             SingleReviewView    : SingleReviewView,
             ReviewContainerView : ReviewContainerView,
             ReviewFormView      : ReviewFormView,
-            AuthRequestView     : AuthRequestView
+            AuthRequestView     : AuthRequestView,
+            ProfessorProfileView: ProfessorProfileView
         };
     }
 );

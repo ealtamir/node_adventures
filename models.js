@@ -36,6 +36,19 @@ function query_db(params, app, q_str, callback) {
 exports.sql = (function() {
     var o = {};
 
+    o.CHK_VALID_USERNAME = 'SELECT * FROM usuario WHERE username = $1';
+
+    o.REGISTER_QUERY = "                                            \
+        INSERT INTO                                                 \
+            usuario (username, password, active, timestamp)         \
+        SELECT                                                      \
+            $1, $2, 'FALSE', NOW()                                  \
+        WHERE                                                       \
+            $3 NOT IN (                                     \
+                SELECT username FROM usuario WHERE username ILIKE $4\
+            );                                                      \
+    ";
+
     o.GET_REVIEWS = "                                               \
         SELECT                                                      \
             r.id, r.positive, r.negative, r.comment, r.timestamp,   \

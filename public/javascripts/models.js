@@ -64,7 +64,7 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 negative    : 0,
                 comment     : '',
                 advice      : '',
-                timestamp   : 'never',
+                timestamp   : helpers.getTimestamp(),
 
                 score       : {
                     dinamica        : 0,
@@ -130,9 +130,46 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
             },
         });
 
+        var AuthDataModel = Backbone.Model.extend({
+            defaults: {
+                username : '',
+                password : '',
+                email    : '',
+                state    : c.STATE.READY,
+            },
+            sync: (function() {
+                var success = function(model) {
+                    return function(data, status, xhr) {
+                        model.set('state', c.STATE.READY);
+                        model.trigger('auth_status', data);
+                    };
+                };
+
+                var error = function(model) {
+                    return function(xhr, status, err) {
+                        model.set('state', c.STATE.READY);
+                        model.trigger('auth_status', status);
+                    };
+                };
+                return function() {
+                    this.set('state', c.STATE.BUSY);
+
+                    $.ajax({
+                        url         : this.get('url'),
+                        type        : 'post',
+                        dataType    : 'json',
+                        data        : this.attributes,
+                        success     : success(this),
+                        error       : error(this)
+                    });
+                };
+            }()),
+        });
+
         return {
             ReviewsModel    : ReviewsModel,
-            DataSource      : DataSource
+            DataSource      : DataSource,
+            AuthDataModel   : AuthDataModel,
         };
     }
 );

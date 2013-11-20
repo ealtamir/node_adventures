@@ -1,0 +1,12 @@
+mixin auth_form(username_id, password_id, submit_id)
+  form(action='')
+    label.username_label(for=username_id) Nombre de Usuario
+    input.username(type='email', name='username', id=username_id, value=STATE.l_un || '')
+
+    label.password_label(for=password_id) Contraseña
+    input.password(type='password', name='password', id=password_id)
+
+    label.email_label(for='login_email') Ingresa tu email
+    input.email(type='email', name='email', id='login-email')
+
+    input.auth_submit(type='submit', value='ingresar', id=submit_id)

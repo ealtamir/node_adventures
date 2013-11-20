@@ -19,6 +19,23 @@ define(['app/constants'], function(c) {
             var name = url.match(c.P_VIEW_REVIEWS_RGX)[1];
 
             return name.replace(/-/g, ' ');
+        },
+
+        getTimestamp : function(t_stamp) {
+            var d = null;
+
+            if (t_stamp !== undefined) {
+               d = new Date(t_stamp);
+            } else {
+               d = new Date();
+            }
+
+            var s = '';
+            s += d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getUTCDate();
+            s += ' ';
+            s += d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+            return s;
         }
     };
 });

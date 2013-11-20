@@ -1,8 +1,7 @@
 extends sectioned_layout
 
 include common/search_bar
-include common/login_form
-include common/register_form
+include common/auth_forms
 
 block header
   mixin search_bar()
@@ -107,12 +106,12 @@ block prepend main_section
 
         div#auth_form.pure-u-1.bottom_border.hide
           div.pure-offset-1-11.pure-u-9-11
-            div.pure-u-3-5
+            div#auth_reg_form.pure-u-3-5
               h1.f_huge Regístrate
-              mixin register_form()
-            div.pure-u-2-5.left_border
+              mixin auth_form('auth_reg_username', 'auth_reg_password', 'auth_reg_submit')
+            div#auth_log_form.pure-u-2-5.left_border
               h1.f_huge Ingresa
-              mixin login_form()
+              mixin auth_form('auth_log_username', 'auth_log_passowrd', 'auth_log_submit')
 
         div#professor_reviews.pure-u-1
           div#waiting_msg.pure-u-1.bottom_border.hide

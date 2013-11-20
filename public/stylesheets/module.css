@@ -15,8 +15,7 @@
 .links-container {
   height: 100%; }
 
-.register-tag, .login-e,
-.register-tag, .register-e {
+.email_label, .email {
   display: none; }
 
 .header-logo {

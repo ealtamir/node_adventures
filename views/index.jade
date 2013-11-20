@@ -1,8 +1,7 @@
 extends sectioned_layout
 
 include common/search_bar
-include common/login_form
-include common/register_form
+include common/auth_forms
 
 block prepend main_section
 
@@ -18,9 +17,9 @@ block prepend main_section
           mixin search_bar
 
           h1 Ingresa
-            mixin login_form()
+            mixin auth_form('indx_log_usr_id', 'indx_log_pss_id', 'indx_log_sbt_id')
           h1 Regístrate
-            mixin register_form()
+            mixin auth_form('indx_reg_usr_id', 'indx_reg_pss_id', 'indx_reg_sbt_id')
 
         div.right-content.pure-u-1-2
           p Stuff that goes on the right.
