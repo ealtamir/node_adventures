@@ -99,6 +99,17 @@ exports.sql = (function() {
             )                                                       \
     ";
 
+    o.UNLOOSE_QUERY = "                                             \
+        WITH user as (                                              \
+            SELECT id FROM usuario WHERE username ILIKE $1          \
+            RETURNING *                                             \
+        )                                                           \
+        UPDATE review                                               \
+            SET user_id = user.id                                   \
+        FROM user                                                   \
+        WHERE review.loose_id = $2;                                 \
+    ";
+
     var regex = /[ ]+/g;
     for (var str in o) {
         o[str] = o[str].replace(regex, ' ');

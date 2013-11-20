@@ -1,6 +1,7 @@
 var crypto  = require('crypto'),
     m       = require('./msgs').msg,
-    _       = require('underscore');
+    _       = require('underscore'),
+    models  = require('./models');
 
 exports.check_valid     = check_valid;
 exports.custom_render   = custom_render;
@@ -74,10 +75,24 @@ function login_user(username, req, res) {
         path    : '/',
         expires : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     });
+
+    unloose_reviews(username);
 }
 
-function unloose_reviews(username) {
+function unloose_reviews(username, req, res) {
+    var loose_rev   = req.cookies.loose,
+        reviews     = null,
+        review      = '',
+        q_str       = models.sql.UNLOOSE_QUERY;
 
+    if (loose_rev !== undefined) {
+        loose_rev = sym_decrypt(loose_rev, req.app);
+        reviews = loose_rev.split('-');
+        reviews.forEach(function(v, i, a) {
+            models.query_db([v, username],
+                            req.app, q_str, function(result){});
+        });
+    }
 }
 
 function seed_encrypt(str, add_seed, app) {
@@ -96,25 +111,34 @@ function seed_encrypt(str, add_seed, app) {
     return str;
 }
 function sym_encrypt(str, app) {
-    var cipher = crypto.createCipher(
-        app.get('cipher_type'), app.get('session')
-    );
-    var encrypted = cipher.update(str, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
+    var cipher      = '',
+        encrypted   = '';
+    try {
+        cipher = crypto.createCipher(
+            app.get('cipher_type'), app.get('session')
+        );
+        encrypted = cipher.update(str, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+    } catch (e) {
+        encrypted = '';
+    }
 
     return encrypted;
 }
 function sym_decrypt(str, app) {
-    if (exports.regex.IS_HEX.test(str)) {
-        var decipher = crypto.createDecipher(
+    var decipher    = '',
+        decrypted   = '';
+
+    try {
+        decipher = crypto.createDecipher(
             app.get('cipher_type'), app.get('session')
         );
-        var decrypted = decipher.update(str, 'hex', 'utf8');
+        decrypted = decipher.update(str, 'hex', 'utf8');
 
         return decrypted + decipher.final('utf8');
+    } catch (e) {
+        return '';
     }
-
-    return '';
 }
 
 function get_username(req) {
