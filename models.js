@@ -38,15 +38,51 @@ exports.sql = (function() {
 
     o.CHK_VALID_USERNAME = 'SELECT * FROM usuario WHERE username = $1';
 
-    o.REGISTER_QUERY = "                                            \
-        INSERT INTO                                                 \
-            usuario (username, password, active, timestamp)         \
-        SELECT                                                      \
-            $1, $2, 'FALSE', NOW()                                  \
-        WHERE                                                       \
-            $3 NOT IN (                                     \
-                SELECT username FROM usuario WHERE username ILIKE $4\
-            );                                                      \
+    o.GET_PROFESSOR = "                                             \
+        WITH prof_id AS (                                               \
+            SELECT id FROM professor                                    \
+            WHERE (name || ' ' || last_name) ILIKE $1                   \
+        ),                                                              \
+        scores AS (                                                     \
+            SELECT                                                      \
+                AVG(score.dinamica) as dinamica,                        \
+                AVG(score.conocimientos) as conocimientos,              \
+                AVG(score.claridad) as claridad,                        \
+                AVG(score.pasion) as pasion,                            \
+                AVG(score.compromiso) as compromiso,                    \
+                AVG(score.exigencia) as exigencia                       \
+            FROM score, review, prof_id                                 \
+            WHERE review.professor_id = prof_id.id                      \
+            AND                                                         \
+            review.score_id = score.id                                  \
+        ),                                                              \
+        departments AS (                                                \
+            SELECT name                                                 \
+            FROM                                                        \
+                department,                                             \
+                professor_department_table as pdt,                      \
+                prof_id                                                 \
+            WHERE pdt.professor_id = prof_id.id                         \
+            AND                                                         \
+            pdt.department_id = department.id                           \
+        ),                                                              \
+        universities AS (                                               \
+            SELECT u.name, u.code                                       \
+            FROM                                                        \
+                professor, university as u,                             \
+                professor_university_table as put,                      \
+                prof_id                                                 \
+            WHERE                                                       \
+                put.professor_id = professor.id                         \
+                AND u.id = put.id                                       \
+                AND professor.id = prof_id.id                           \
+        )                                                               \
+        SELECT DISTINCT scores.*, p.*, d.name as d_name,                \
+            u.name as u_name, u.code as u_code                          \
+        FROM                                                            \
+            scores, professor as p, departments as d,                   \
+            universities as u, prof_id                                  \
+        WHERE p.id = prof_id.id                                         \
     ";
 
     o.GET_REVIEWS = "                                               \

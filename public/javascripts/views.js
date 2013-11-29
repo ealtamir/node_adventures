@@ -62,8 +62,16 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         });
         var ProfessorProfileView = View.extend({
             initialize: function() {
+                var total = 0;
                 this.pubSub.once('review_submitted',
                                  _.bind(this.addBottomBorder, this));
+
+                _.each(c.ATTRIBUTES, function(el, index, list) {
+                    total += parseInt($('#score_' + el).attr("data-score"), 10);
+                });
+                total = total / c.ATTRIBUTES.length;
+                $('#total_score').attr('data-score', total);
+                console.log(total);
             },
             addBottomBorder: function() {
                 this.$el.addClass('bottom_border');
