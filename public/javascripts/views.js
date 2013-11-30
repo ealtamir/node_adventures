@@ -80,8 +80,21 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 
         var SingleReviewView = View.extend({
             render: function(id) {
-                var template = _.template($(this.attributes.template_name).html());
-                template = template(this.model.attributes);
+                var template    = _.template($(this.attributes.template_name).html()),
+                    total       = 0,
+                    attrs       = this.model.attributes;
+                    vals        = null;
+
+                // Calculate total score
+                vals = _.values(attrs.score);
+
+                _.each(vals, (function(total) {
+                    return function(val, key, arr) {
+                        total += parseInt(val, 10);
+                    };
+                })(total));
+                attrs.total = total / vals.length;
+                template = template(attrs);
 
                 $(id).prepend(template);
             },
