@@ -1,5 +1,16 @@
-define(['app/constants'], function(c) {
+define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
+       'app/constants'], function($, _, Backbone, c) {
     return {
+        pubsub_view : Backbone.View.extend({
+            constructor: (function() {
+                var pubSub_obj = _.extend({}, Backbone.Events);
+                return function() {
+                    this.pubSub = pubSub_obj;
+                    Backbone.View.apply(this, arguments);
+                };
+            }()),
+        }),
+
         process_data : function(data) {
             var autocom_rows = [];
 

@@ -21,13 +21,16 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                                 positive    : d.positive,
                                 negative    : d.negative,
                                 comment     : d.comment,
+                                advice      : d.advice,
                                 timestamp   : d.timestamp,
 
-                                dinamica        : d.dinamica,
-                                conocimientos   : d.conocimientos,
-                                claridad        : d.claridad,
-                                pasion          : d.pasion,
-                                compromiso      : d.compromiso,
+                                score       : {
+                                    dinamica        : d.dinamica,
+                                    conocimientos   : d.conocimientos,
+                                    claridad        : d.claridad,
+                                    pasion          : d.pasion,
+                                    compromiso      : d.compromiso
+                                },
                                 total           : d.total,
                             });
                         }

@@ -1,16 +1,9 @@
 define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
-       'app/models', 'app/constants'],
-    function($, _, Backbone, models, c) {
+       'app/models', 'app/constants', 'app/components', 'app/helpers'],
+    function($, _, Backbone, models, c, comps, helpers) {
 
-        var View = Backbone.View.extend({
-            constructor: (function() {
-                var pubSub_obj = _.extend({}, Backbone.Events);
-                return function() {
-                    this.pubSub = pubSub_obj;
-                    Backbone.View.apply(this, arguments);
-                };
-            }()),
-        });
+        // Add the pub/sub objects to the view objets
+        var View = helpers.pubsub_view;
 
         var ViewWithForm = View.extend({
 
@@ -78,28 +71,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             }
         });
 
-        var SingleReviewView = View.extend({
-            render: function(id) {
-                var template    = _.template($(this.attributes.template_name).html()),
-                    total       = 0,
-                    attrs       = this.model.attributes;
-                    vals        = null;
-
-                // Calculate total score
-                vals = _.values(attrs.score);
-
-                _.each(vals, (function(total) {
-                    return function(val, key, arr) {
-                        total += parseInt(val, 10);
-                    };
-                })(total));
-                attrs.total = total / vals.length;
-                template = template(attrs);
-
-                $(id).prepend(template);
-            },
-        });
-
         var ReviewContainerView = View.extend({
             initialize: function() {
                 this.nestedViews = [];
@@ -116,7 +87,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 return function(model) {
 
                     $(view.id + ' #reviews_found').removeClass('hide');
-                    var newView = new SingleReviewView({
+                    var newView = new comps.SingleReviewView({
                         model       : model,
                         attributes  : {
                             template_name : '#review_template',
@@ -335,7 +306,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 
         return {
             SearchBar           : SearchBar,
-            SingleReviewView    : SingleReviewView,
             ReviewContainerView : ReviewContainerView,
             ReviewFormView      : ReviewFormView,
             AuthRequestView     : AuthRequestView,
