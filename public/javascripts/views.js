@@ -5,18 +5,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         // Add the pub/sub objects to the view objets
         var View = helpers.pubsub_view;
 
-        var ViewWithForm = View.extend({
-
-            checkSize: function() {
-
-            },
-
-            checkValid: function() {
-
-            },
-        });
-
-        var SearchBar   = ViewWithForm.extend({
+        var SearchBar   = comps.ViewWithForm.extend({
             initialize: function(options) {
                 $(options.el).autocomplete({
                     source: options.model.get('source'),
@@ -56,7 +45,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var ProfessorProfileView = View.extend({
             initialize: function() {
                 var total = 0;
-                this.pubSub.once('review_submitted',
+                this.pubSub.once(c.EVENT.REVIEW_SUBMITTED,
                                  _.bind(this.addBottomBorder, this));
 
                 _.each(c.ATTRIBUTES, function(el, index, list) {
@@ -125,12 +114,12 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             }
         });
 
-        var ReviewFormView = ViewWithForm.extend({
+        var ReviewFormView = comps.ViewWithForm.extend({
 
             initialize: function() {
                 this.listenTo(this, 'change:score', this.updateScore);
                 this.listenTo(this.model, 'change:state', this.stateChange);
-                this.pubSub.once('review_submitted', _.bind(this.hideView, this));
+                this.pubSub.once(c.EVENT.REVIEW_SUBMITTED, _.bind(this.hideView, this));
 
                 this.model.set('comment', $('#review_comment').val());
                 this.model.set('advice', $('#review_advice').val());
@@ -216,24 +205,24 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 if (state === c.STATE.READY) {
                     if (data.loose === true) {
                         this.$el.addClass('hide');
-                        this.pubSub.once('auth_success', _.bind(this.addReview, this));
-                        this.pubSub.trigger('request_auth');
+                        this.pubSub.once(c.EVENT.AUTH_SUCCESS, _.bind(this.addReview, this));
+                        this.pubSub.trigger(c.EVENT.REQUEST_AUTH);
                     } else {
-                        this.pubSub.trigger('review_submitted');
                         this.addReview();
                     }
                 }
             },
             addReview: function() {
                 this.collection.add(this.model);
+                this.pubSub.trigger(c.EVENT.REVIEW_SUBMITTED);
             }
         });
 
         var AuthRequestView = View.extend({
 
             initialize: function() {
-                this.listenTo(this.pubSub, 'request_auth', this.setupAuth);
-                this.pubSub.once('auth_success', this.authCompleted(this));
+                this.listenTo(this.pubSub, c.EVENT.REQUEST_AUTH, this.setupAuth);
+                this.pubSub.once(c.EVENT.AUTH_SUCCESS, this.authCompleted(this));
             },
 
             authCompleted: function(view) {
@@ -245,14 +234,14 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             setupAuth: function() {
                 this.$el.removeClass('hide');
 
-                this.register_form = new AuthFormView({
+                this.register_form = new comps.AuthFormView({
                     id      : 'auth_reg_form',
                     el      : 'div#auth_reg_form',
                     model   : new models.AuthDataModel({
                         url: '/ajax_register'
                     }),
                 });
-                this.login_form = new AuthFormView({
+                this.login_form = new comps.AuthFormView({
                     id      : 'auth_log_form',
                     el      : 'div#auth_log_form',
                     model   : new models.AuthDataModel({
@@ -260,48 +249,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                     }),
                 });
             },
-        });
-
-        var AuthFormView = ViewWithForm.extend({
-
-            initialize: function() {
-                this.listenTo(this.model, 'change:state', this.stateChange);
-                this.listenTo(this.model, 'auth_status', this.authStatus);
-            },
-
-            events: {
-                'click input.auth_submit' : 'requestAuth',
-            },
-
-            requestAuth: function(event) {
-                event.preventDefault();
-                if (this.model.get('state') === c.STATE.READY) {
-                    var $username   = this.$('input.username'),
-                        $password   = this.$('input.password'),
-                        $email      = this.$('input.email');
-
-                    this.model.set('username', $username.val());
-                    this.model.set('password', $password.val());
-                    this.model.set('email', $email.val());
-
-                    this.model.sync();
-                }
-            },
-
-            stateChange: function() {
-
-            },
-
-            authStatus: function(data) {
-                var result = data.result;
-
-                if (result.status === 'successful') {
-                    this.pubSub.trigger('auth_success');
-                    this.pubSub.trigger('review_submitted');
-                } else if (result.status === 'failure') {
-                    console.log('auth operation was unsuccessful.');
-                }
-            }
         });
 
         return {

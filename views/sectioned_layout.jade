@@ -1,5 +1,7 @@
 extends layout
 
+include common/auth_forms
+
 block content
   div.main_div.pure-g-r
     header#main_header
@@ -9,12 +11,20 @@ block content
             img.header-logo(src="/img/h_logo@2.png", alt="none")
         div.pure-u-5-9
           block header
-        div.pure-u-2-9.links-container
+        div#bar_auth_zone.pure-u-2-9.links-container
           nav.header-links
             ul
-              li.h_link Ingresar
-              li.h_link.sep |
-              li.h_link Registrarse
+              li
+                a#bar_login_link(href="#") Ingresar
+              li.sep |
+              li
+                a#bar_register_link(href="#") Registrarse
+          div#bar_login_popover.popover.pure-u-1-1.hide
+            div.arrow-up
+            mixin auth_form('indx_log_usr_id', 'indx_log_pss_id', 'indx_log_sbt_id')
+          div#bar_register_popover.popover.pure-u-1-1.hide
+            div.arrow-up
+            mixin auth_form('indx_reg_usr_id', 'indx_reg_pss_id', 'indx_reg_sbt_id')
     section#main_section
       block main_section
     footer#main_footer

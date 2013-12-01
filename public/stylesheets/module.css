@@ -1,3 +1,27 @@
+.arrow-up {
+  position: absolute;
+  top: -9px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #FFF000; }
+
+#bar_login_popover, #bar_register_popover {
+  top: 5em;
+  right: 8.5%;
+  position: absolute;
+  padding: 20px;
+  z-index: 10;
+  background-color: #FFF000;
+  box-shadow: 2px 2px 2px #888888; }
+
+#bar_login_popover .arrow-up {
+  left: 20%; }
+
+#bar_register_popover .arrow-up {
+  right: 26.5%; }
+
 .header-links {
   float: right;
   height: 5em;

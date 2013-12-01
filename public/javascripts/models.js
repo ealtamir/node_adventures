@@ -141,14 +141,14 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 var success = function(model) {
                     return function(data, status, xhr) {
                         model.set('state', c.STATE.READY);
-                        model.trigger('auth_status', data);
+                        model.trigger(c.EVENT.AUTH_STATUS, data);
                     };
                 };
 
                 var error = function(model) {
                     return function(xhr, status, err) {
                         model.set('state', c.STATE.READY);
-                        model.trigger('auth_status', status);
+                        model.trigger(c.EVENT.AUTH_STATUS, status);
                     };
                 };
                 return function() {

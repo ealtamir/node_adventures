@@ -3,7 +3,7 @@ define({
     MIN_TEXT_SIZE    : 3,        // Min letters before ajax call
     MAX_TEXT_SIZE    : 0,        // Look in data even with 0 chars.
 
-    STATE: {
+    STATE : {
         READY   : 'ready',
         ERROR   : 'error',
         BUSY    : 'busy'
@@ -13,4 +13,12 @@ define({
 
     ATTRIBUTES          :  ['dinamica', 'conocimientos',
         'claridad', 'pasion', 'compromiso', 'exigencia'],
+
+    EVENT: {
+        REVIEW_SUBMITTED    : 'review_submitted',
+        AUTH_SUCCESS        : 'auth_success',
+        REQUEST_AUTH        : 'request_auth',
+        AUTH_STATUS         : 'auth_status',
+        AUTH_REQUESTED      : 'auth_requested',
+    }
 });

@@ -20,6 +20,7 @@ requirejs.config({
         },
 
         'jquery.raty.min' : ['jquery.min'],
+
     },
 
     paths: {
