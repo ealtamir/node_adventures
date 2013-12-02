@@ -1,6 +1,7 @@
 define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
        'app/models', 'app/constants', 'app/components', 'app/helpers'],
     function($, _, Backbone, models, c, comps, helpers) {
+        'use strict';
 
         // Add the pub/sub objects to the view objets
         var View = helpers.pubsub_view;
@@ -26,10 +27,10 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             },
 
             events: {
-                "keyup": "handleKeyup",
+                'keyup': 'handleKeyup',
             },
 
-            handleKeyup: function(e) {
+            handleKeyup: function() {
                 var val = this.$el.val();
 
                 this.model.set('field_text', val);
@@ -48,8 +49,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 this.pubSub.once(c.EVENT.REVIEW_SUBMITTED,
                                  _.bind(this.addBottomBorder, this));
 
-                _.each(c.ATTRIBUTES, function(el, index, list) {
-                    total += parseInt($('#score_' + el).attr("data-score"), 10);
+                _.each(c.ATTRIBUTES, function(el) {
+                    total += parseInt($('#score_' + el).attr('data-score'), 10);
                 });
                 total = total / c.ATTRIBUTES.length;
                 $('#total_score').attr('data-score', total);
@@ -64,10 +65,13 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             initialize: function() {
                 this.nestedViews = [];
 
-                this.listenTo(this.collection, 'change:state', this.stateChange);
-                this.listenTo(this.collection, 'add', this.newReview(this));
+                this.listenTo(this.collection,
+                              'change:state', this.stateChange);
+                this.listenTo(this.collection,
+                              'add', this.newReview(this));
 
-                this.collection.once('change:data', _.bind(this.showResults, this));
+                this.collection.once('change:data',
+                                     _.bind(this.showResults, this));
 
                 this.collection.start();
             },
@@ -104,8 +108,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             },
 
             showResults: function(resultsFound) {
-                var id = '#' + this.$el.attr('id');
-
                 if (resultsFound) {
                     $('#reviews_found').removeClass('hide');
                 } else {
@@ -119,7 +121,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             initialize: function() {
                 this.listenTo(this, 'change:score', this.updateScore);
                 this.listenTo(this.model, 'change:state', this.stateChange);
-                this.pubSub.once(c.EVENT.REVIEW_SUBMITTED, _.bind(this.hideView, this));
+                this.pubSub.once(c.EVENT.REVIEW_SUBMITTED,
+                                 _.bind(this.hideView, this));
 
                 this.model.set('comment', $('#review_comment').val());
                 this.model.set('advice', $('#review_advice').val());
@@ -136,8 +139,9 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                         score   : function() {
                             return $(this).attr('data-score');
                         },
-                        click: function(score, evt) {
-                            view.trigger('change:score', $(this).attr('id'), score);
+                        click: function(score) {
+                            view.trigger('change:score',
+                                         $(this).attr('id'), score);
                         }
                     };
                 }(this));
@@ -145,7 +149,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 $('#total_score').raty(stars_settings);
 
                 // Set prof profile and review form stars.
-                _.each(c.ATTRIBUTES, function(el, index, list) {
+                _.each(c.ATTRIBUTES, function(el) {
                     $('#score_' + el).raty(stars_settings);
 
                     stars_settings.readOnly = false;
@@ -181,8 +185,9 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             },
 
             sendRequest: function() {
-                if (this.model.get('state') === c.STATE.READY)
+                if (this.model.get('state') === c.STATE.READY) {
                     this.model.sync();
+                }
             },
 
             updateScore: function(id, score) {
@@ -205,7 +210,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 if (state === c.STATE.READY) {
                     if (data.loose === true) {
                         this.$el.addClass('hide');
-                        this.pubSub.once(c.EVENT.AUTH_SUCCESS, _.bind(this.addReview, this));
+                        this.pubSub.once(c.EVENT.AUTH_SUCCESS,
+                                         _.bind(this.addReview, this));
                         this.pubSub.trigger(c.EVENT.REQUEST_AUTH);
                     } else {
                         this.addReview();
@@ -221,8 +227,10 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var AuthRequestView = View.extend({
 
             initialize: function() {
-                this.listenTo(this.pubSub, c.EVENT.REQUEST_AUTH, this.setupAuth);
-                this.pubSub.once(c.EVENT.AUTH_SUCCESS, this.authCompleted(this));
+                this.listenTo(this.pubSub,
+                              c.EVENT.REQUEST_AUTH, this.setupAuth);
+                this.pubSub.once(c.EVENT.AUTH_SUCCESS,
+                                 this.authCompleted(this));
             },
 
             authCompleted: function(view) {

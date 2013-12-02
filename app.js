@@ -39,7 +39,7 @@ app.use(express.cookieParser(app.get('cookie_seed')));
 app.use(app.router);
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
     app.use(express.errorHandler());
 
     var db_string = 'postgres://pr_dev:asd@localhost:5432/n_pr_dev';
@@ -63,6 +63,7 @@ server.addListener('request', app);
 server.listen(
     app.get('port'),
     function() {
+        'use strict';
         console.log(listenStr);
     }
 );
