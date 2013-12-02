@@ -1,5 +1,4 @@
 var main        = require('./controllers/index');
-var user        = require('./controllers/user');
 var auth        = require('./controllers/auth');
 var rgstr       = require('./controllers/register');
 var ajax        = require('./controllers/ajax');
@@ -31,6 +30,11 @@ var urls = [
         pattern : '/profesor/:prof_name',
         view    : professors.serve_prof,
         name    : 'get_prof'
+    },
+    {
+        pattern : '/logout',
+        view    : auth.logout,
+        name    : 'logout'
     },
 
     // Ajax calls
@@ -69,7 +73,7 @@ var urls = [
 ];
 
 exports.Routes = function(app) {
-
+    'use strict';
     var active_mdwre = [];
 
     active_mdwre.push(middleware.setFlash);

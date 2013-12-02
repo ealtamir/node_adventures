@@ -21,6 +21,8 @@ requirejs.config({
 
         'jquery.raty.min' : ['jquery.min'],
 
+        'jquery.cookie' : ['jquery.min']
+
     },
 
     paths: {

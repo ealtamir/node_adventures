@@ -15,10 +15,11 @@ define({
         'claridad', 'pasion', 'compromiso', 'exigencia'],
 
     EVENT: {
-        REVIEW_SUBMITTED    : 'review_submitted',
+        AUTH_FAILURE        : 'auth_failure',
+        AUTH_REQUESTED      : 'auth_requested',
+        AUTH_STATUS         : 'auth_status',
         AUTH_SUCCESS        : 'auth_success',
         REQUEST_AUTH        : 'request_auth',
-        AUTH_STATUS         : 'auth_status',
-        AUTH_REQUESTED      : 'auth_requested',
+        REVIEW_SUBMITTED    : 'review_submitted',
     }
 });

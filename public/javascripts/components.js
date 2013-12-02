@@ -1,6 +1,7 @@
 define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
        'app/models', 'app/constants', 'app/helpers'],
     function($, _, Backbone, models, c, helpers) {
+        'use strict';
 
         // Add the pub/sub objects to the view objets
         var View = helpers.pubsub_view;
@@ -20,8 +21,10 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var AuthPopoverView = View.extend({
             initialize: function() {
                 // TODO: Check if session cookie exists, if so update bar
-                this.pubSub.once(c.EVENT.AUTH_SUCCESS, _.bind(this.updateAuthBar, this));
-                this.pubSub.once(c.EVENT.AUTH_REQUESTED, _.bind(this.hidePopover, this));
+                this.pubSub.once(c.EVENT.AUTH_SUCCESS,
+                                 _.bind(this.hidePopover, this));
+                this.pubSub.once(c.EVENT.AUTH_REQUESTED,
+                                 _.bind(this.hidePopover, this));
 
                 var $login      = $('#bar_login_link'),
                     $register   = $('#bar_register_link'),
@@ -61,24 +64,22 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             },
             hidePopover: function() {
                 this.$('.popover').addClass('hide');
-            },
-            updateAuthBar: function() {
-
             }
         });
 
         var SingleReviewView = View.extend({
             render: function(id) {
-                var template    = _.template($(this.attributes.template_name).html()),
+                var template    = _.template(
+                        $(this.attributes.template_name).html()
+                    ),
                     total       = 0,
-                    attrs       = this.model.attributes;
+                    attrs       = this.model.attributes,
                     vals        = null;
-
 
                 // Calculate total score
                 vals = _.values(attrs.score);
 
-                for (var i = 0; i < vals.length; i++) {
+                for (var i = 0; i < vals.length; i += 1) {
                     total += parseInt(vals[i], 10);
                 }
 
@@ -97,8 +98,9 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                         starOn  : 'star-on-big.png',
                         readOnly: true,
                         score   : total,
-                        click: function(score, evt) {
-                            view.trigger('change:score', $(this).attr('id'), score);
+                        click: function(score) {
+                            view.trigger('change:score',
+                                         $(this).attr('id'), score);
                         }
                     };
                 }(this, attrs.total));
@@ -147,11 +149,12 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 
             authStatus: function(data) {
                 var result = data.result;
+                console.dir(data);
 
                 if (result.status === 'successful') {
                     this.pubSub.trigger(c.EVENT.AUTH_SUCCESS);
                 } else if (result.status === 'failure') {
-                    console.log('auth operation was unsuccessful.');
+                    this.pubSub.trigger(c.EVENT.AUTH_FAILURE);
                 }
             }
         });

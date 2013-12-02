@@ -76,16 +76,17 @@ function login_user(username, req, res) {
         expires : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     });
 
-    unloose_reviews(username);
+    unloose_reviews(username, req, res);
 }
 
 function unloose_reviews(username, req, res) {
-    var loose_rev   = req.cookies.loose,
+    var loose_rev   = req.cookies,
         reviews     = null,
         review      = '',
         q_str       = models.sql.UNLOOSE_QUERY;
 
-    if (loose_rev !== undefined) {
+    if (loose_rev !== undefined && loose_rev.loose !== undefined) {
+        loose_rev = loose_rev.loose
         loose_rev = sym_decrypt(loose_rev, req.app);
         reviews = loose_rev.split('-');
         reviews.forEach(function(v, i, a) {

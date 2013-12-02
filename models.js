@@ -135,6 +135,17 @@ exports.sql = (function() {
             )                                                       \
     ";
 
+    o.REGISTER_QUERY = "                                            \
+        INSERT INTO                                                 \
+            usuario (username, password, active, timestamp)         \
+        SELECT                                                      \
+            $1, $2, 'FALSE', NOW()                                  \
+        WHERE                                                       \
+            $3 NOT IN (                                             \
+                SELECT username FROM usuario WHERE username ILIKE $4\
+            );                                                      \
+    ";
+
     o.UNLOOSE_QUERY = "                                             \
         WITH user as (                                              \
             SELECT id FROM usuario WHERE username ILIKE $1          \

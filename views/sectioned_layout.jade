@@ -11,7 +11,7 @@ block content
             img.header-logo(src="/img/h_logo@2.png", alt="none")
         div.pure-u-5-9
           block header
-        div#bar_auth_zone.pure-u-2-9.links-container
+        div#bar_auth_zone.pure-u-2-9.links-container(class=(STATE.session !== '')? 'hide': '')
           nav.header-links
             ul
               li
@@ -25,6 +25,16 @@ block content
           div#bar_register_popover.popover.pure-u-1-1.hide
             div.arrow-up
             mixin auth_form('indx_reg_usr_id', 'indx_reg_pss_id', 'indx_reg_sbt_id')
+        div#logged_in.pure-u-2-9(class=(STATE.session === '')? 'hide': '')
+          nav.header-links
+            ul
+              li
+                ¡Hola! Ya ingresaste
+              li.sep |
+              li
+                a#logout_link(href=locals.reverse('logout')) Salir
+
+
     section#main_section
       block main_section
     footer#main_footer

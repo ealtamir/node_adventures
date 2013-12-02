@@ -1,12 +1,9 @@
-var crypto      = require('crypto');
 var helpers     = require('../helpers');
 var models      = require('../models');
 var m           = require('../msgs').msg;
 
-exports.authenticate    = authenticate;
-exports.login           = login;
-
 function authenticate(req, res) {
+    'use strict';
 
     var app         = req.app,
         body        = req.body,
@@ -54,13 +51,13 @@ function authenticate(req, res) {
 
 // Used for ajax authentication.
 function login(req, res) {
+    'use strict';
 
     var app         = req.app,
         body        = req.body,
         password    = '',
         q_str       = models.sql.CHK_VALID_USERNAME,
         status      = null,
-        state       = req.state,
         user        = null,
         username    = '';
 
@@ -90,3 +87,13 @@ function login(req, res) {
         res.json(200, { result: m.WRONG_USR_PWD });
     }
 }
+
+function logout(req, res) {
+    'use strict';
+    res.clearCookie('session');
+    return res.redirect('back');
+}
+
+exports.authenticate    = authenticate;
+exports.login           = login;
+exports.logout          = logout;

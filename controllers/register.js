@@ -78,16 +78,18 @@ function ajax_register(req, res) {
         params[1] = helpers.seed_encrypt(params[1], timestamp, app);
         params[2] = params[0]; params[3] = params[0];
 
-        models.query_db(params, app, q_str, function(result) {
-            console.log(result);
-            if (result.rowCount === 1) {
-                helpers.login_user(username, req, res);
-                result = m.REGISTRATION_SUCCESS;
-            } else {
-                result = m.REGISTRATION_FAILURE;
-            }
-            return res.json(200, { result : result });
-        });
+        models.query_db(params, app, q_str, (function(req, res, username) {
+            return function(result) {
+                if (result.rowCount === 1) {
+                    helpers.login_user(username, req, res);
+                    result = m.REGISTRATION_SUCCESS;
+                } else {
+                    result = m.REGISTRATION_FAILURE;
+                }
+                return res.json(200, { result : result });
+                };
+            }(req, res, params[0]))
+        );
     } else {
         result = m.WRONG_USR_PWD;
         return res.json(200, { result : result });

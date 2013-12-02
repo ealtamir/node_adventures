@@ -1,5 +1,5 @@
-define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
-       'app/models', 'app/constants', 'app/components', 'app/helpers'],
+define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
+       'app/constants', 'app/components', 'app/helpers', 'jquery.cookie'],
     function($, _, Backbone, models, c, comps, helpers) {
         'use strict';
 
@@ -7,11 +7,20 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var View = helpers.pubsub_view;
 
         var SearchBar   = comps.ViewWithForm.extend({
+
             initialize: function(options) {
+                if ($.cookie('session') === undefined) {
+                    this.pubSub.listenTo(this.pubSub, c.EVENT.AUTH_SUCCESS,
+                                        _.bind(this.refreshBarAuthZone, this));
+                    this.listenTo(options.model, 'change:source', this.render);
+
+                } else {
+                    this.refreshBarAuthZone();
+                }
+
                 $(options.el).autocomplete({
                     source: options.model.get('source'),
                 });
-                this.listenTo(options.model, 'change:source', this.render);
             },
 
             render: function() {
@@ -42,6 +51,12 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 }
 
             },
+
+            // For when user logs in or registers.
+            refreshBarAuthZone: function() {
+                $('#logged_in').removeClass('hide');
+                $('#bar_auth_zone').addClass('hide');
+            }
         });
         var ProfessorProfileView = View.extend({
             initialize: function() {
@@ -258,6 +273,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 });
             },
         });
+
 
         return {
             SearchBar           : SearchBar,
