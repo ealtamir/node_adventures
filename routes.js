@@ -67,7 +67,7 @@ var urls = [
     // Catch all
     {
         pattern : '*',
-        view    : function(req, res) { res.render('404', {}); },
+        view    : function(req, res) { helpers.custom_render(res, req, '404', {}); },
         name    : '404'
     },
 ];

@@ -24,7 +24,14 @@ function get_prof(req, res) {
         }
 
         models.query_db(q, req.app, q_str, function(result) {
-            if (result.rowCount !== 0) {
+            if (result.rowCount === 1) {
+                var name = result.rows[0].name + ' ';
+                name += result.rows[0].last_name;
+
+                name = name.replace(/ /g, '-').toLowerCase();
+
+                res.redirect('/profesor/' + name + '/');
+            } else if (result.rowCount > 0) {
                 helpers.custom_render(res, req, 'professor', { rows: result.rows });
             } else {
                 helpers.custom_render(res, req, 'professor', { rows: [] });
