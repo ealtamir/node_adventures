@@ -18,9 +18,14 @@ script#review_template.
       </div>
     </div>
     <div class="pure-u-1">
-      <div class="pure-u-5-11">
+      <div class="pure-u-5-11 votes_zone">
         <p>
-          <%= positive %> up - <%= negative %> down. ¿Te pareció útil este comentario? <span class="yes_vote">Si</span> o <span class="no_vote">No</span>
+          <%= pos %> up - <%= neg %> down. ¿Te pareció útil este comentario?
+          <span class="votes">
+            <a href="#" class="yes_vote">Si</a>
+            o
+            <a href="#" class="no_vote">No</a>
+          </span>
         </p>
       </div>
       <div class="pure-u-5-11">

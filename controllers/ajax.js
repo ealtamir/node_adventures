@@ -1,3 +1,4 @@
+/* jshint multistr: true */
 var helpers = require('../helpers');
 var models  = require('../models');
 var _       = require('underscore');
@@ -6,24 +7,25 @@ var msgs    = require('../msgs').msg;
 // Constant
 var MIN_QUERY_SIZE  = 3;
 
-exports.prof_query      = prof_query;
-exports.reviews_query   = reviews_query;
-exports.submit_review   = submit_review;
-
 function prof_query(req, res) {
+    'use strict';
     var params  = req.query || {};
     var q       = '';
 
-    var q_str   = "SELECT CONCAT(name, ' ', last_name) AS name " +
-        "FROM professor WHERE LOWER(name) LIKE LOWER(( '%' || $1 || '%' )) " +
-        "OR LOWER(last_name) LIKE LOWER(( '%' || $1 || '%' ));";
+    var q_str   = '                                                     \
+        SELECT CONCAT(name, \' \', last_name) AS name                   \
+        FROM professor                                                  \
+        WHERE                                                           \
+        LOWER(name) LIKE LOWER(( \'%\' || $1 || \'%\' ))                \
+        OR                                                              \
+        LOWER(last_name) LIKE LOWER(( \'%\' || $1 || \'%\' ))           \
+    ;';
 
     if (req.method === 'GET' && params.q !== undefined) {
         q = helpers.sanitize(params.q);
 
         if (q.length <= MIN_QUERY_SIZE) {
             models.query_db([q], req.app, q_str, function(result) {
-                console.log(result);
                 res.json(200, {
                     data: (result.rowCount !== 0)? result.rows: {}
                 });
@@ -37,10 +39,10 @@ function prof_query(req, res) {
 }
 
 function reviews_query(req, res) {
-
-    var name        = '';
-    var params      = req.query || {};
-    var q_str       = models.sql.GET_REVIEWS; // Params: name & last_name
+    'use strict';
+    var name        = '',
+        params      = req.query || {},
+        q_str       = models.sql.GET_REVIEWS; // Params: name & last_name
 
     if (helpers.check_valid(params.name)) {
         name = helpers.sanitize(params.name);
@@ -58,9 +60,8 @@ function reviews_query(req, res) {
 }
 
 function submit_review(req, res) {
-
+    'use strict';
     var default_uname   = 'enzo.alt@gmail.com',
-        name            = '',
         params          = [],
         post_params     = req.body,
         q_str           = models.sql.SUBMIT_REVIEW,
@@ -69,8 +70,9 @@ function submit_review(req, res) {
         loose_id        = '';
 
     result = doValidation(req, res, post_params);
-    if (result !== null)
+    if (result !== null) {
         return result;
+    }
 
     q_str = q_str.replace('?score?', post_params.score);
 
@@ -99,25 +101,30 @@ function submit_review(req, res) {
 }
 
 function doValidation(req, res, post_params) {
-
+    'use strict';
     var review_valid = null;
 
-    if (req.route.method.toUpperCase() !== 'POST')
+    if (req.route.method.toUpperCase() !== 'POST') {
         return res.json(500, { error: 'Request should be POST.' });
+    }
 
     review_valid = reviewIsValid(post_params);
-    if (review_valid.passed === false)
+    if (review_valid.passed === false) {
         return res.json(500, { error: review_valid });
+    }
 
     post_params.score = _.values(post_params.score).join(',');
-    if (helpers.regex.SANITIZE_SCORE.test(post_params.score) === false)
-        return res.json(500, { error: 'Score string didn\'t pass regex test.' });
+    if (helpers.regex.SANITIZE_SCORE.test(post_params.score) === false) {
+        return res.json(500, {
+            error: 'Score string didn\'t pass regex test.'
+        });
+    }
 
     return null;
 }
 
 function reviewIsValid(obj) {
-
+    'use strict';
     var type    = '',
         result  = {
             errors : {},
@@ -149,6 +156,7 @@ function reviewIsValid(obj) {
 }
 
 function set_loose_cookie(score, comment, req, res) {
+    'use strict';
     var loose_id        = '',
         old_loose_id    = '',
         new_loose_id    = '';
@@ -166,3 +174,35 @@ function set_loose_cookie(score, comment, req, res) {
 
     return loose_id;
 }
+
+function process_review_vote(req, res) {
+    'use strict';
+
+    var params      = req.body.data || {},
+        username    = req.state.session,
+        q_str       = models.sql.PROCESS_VOTE,
+        positive    = 0,
+        negative    = 0;
+
+    if (!!username === true) {
+        positive = (parseInt(params.positive, 10) > 0)? 1: 0;
+        negative = (positive === 1)? 0: 1;
+        params = [positive, negative, params.review_id, username];
+
+        models.query_db(params, req.app, q_str, function(result) {
+            console.dir(result);
+            if (result.rowCount === 1) {
+                return res.json(200, { data: 'success' });
+            } else {
+                return res.json(200, { data: 'couldn\'t process vote' });
+            }
+        });
+    } else {
+        return res.json(200, { data: 'user is not logged in' });
+    }
+}
+
+exports.prof_query          = prof_query;
+exports.reviews_query       = reviews_query;
+exports.submit_review       = submit_review;
+exports.process_review_vote = process_review_vote;

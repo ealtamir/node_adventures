@@ -18,8 +18,8 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
 
                             collection.add({
                                 id          : d.id,
-                                positive    : d.positive,
-                                negative    : d.negative,
+                                pos         : (d.pos === null)? 0: d.pos,
+                                neg         : (d.neg === null)? 0: d.neg,
                                 comment     : d.comment,
                                 advice      : d.advice,
                                 timestamp   : d.timestamp,

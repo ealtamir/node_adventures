@@ -1,9 +1,10 @@
-var main        = require('./controllers/index');
-var auth        = require('./controllers/auth');
-var rgstr       = require('./controllers/register');
 var ajax        = require('./controllers/ajax');
-var professors  = require('./controllers/professors');
+var auth        = require('./controllers/auth');
+var helpers     = require('./helpers');
+var main        = require('./controllers/index');
 var middleware  = require('./middleware');
+var professors  = require('./controllers/professors');
+var rgstr       = require('./controllers/register');
 
 var urls = [
     {
@@ -62,6 +63,11 @@ var urls = [
         pattern : '/ajax_register',
         view    : rgstr.ajax_register,
         name    : 'ajax_register'
+    },
+    {
+        pattern : '/vote',
+        view    : ajax.process_review_vote,
+        name    : ''
     },
 
     // Catch all

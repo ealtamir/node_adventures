@@ -30,12 +30,15 @@ requirejs.config({
     }
 });
 
-requirejs(['app/index', 'app/constants', 'app/prof_view'], function(index, c, prof_view) {
-    var url = window.location.pathname;
+requirejs(['app/index', 'app/constants', 'app/prof_view'],
+    function(index, c, prof_view) {
+        'use strict';
+        var url = window.location.pathname;
 
-    index.initialize();
-    if (c.P_VIEW_RGX.test(url)) {
-        prof_view.initialize();
+        index.initialize();
+        if (c.P_VIEW_RGX.test(url)) {
+            prof_view.initialize();
+        }
     }
-});
+);
 

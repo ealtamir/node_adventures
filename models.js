@@ -1,19 +1,18 @@
 /* jshint multistr: true */
+var pg = require('pg');
 
-var app_file    = require('./app'),
-    helpers     = require('./helpers'),
-    pg          = require('pg'),
-    _           = require('underscore');
-
-exports.query_db    = query_db;
 
 function query_db(params, app, q_str, callback) {
+    'use strict';
     var db_str = app.get('db_string');
     var query = null;
 
     pg.connect(db_str, function(err, client, done) {
-        if (err)
-            return console.error('Error at requesting a connection from the pool.');
+        if (err) {
+            return console.error(
+                'Error at requesting a connection from the pool.'
+            );
+        }
 
         query = client.query(q_str, params);
 
@@ -34,14 +33,15 @@ function query_db(params, app, q_str, callback) {
 }
 
 exports.sql = (function() {
+    'use strict';
     var o = {};
 
     o.CHK_VALID_USERNAME = 'SELECT * FROM usuario WHERE username = $1';
 
-    o.GET_PROFESSOR = "                                             \
+    o.GET_PROFESSOR = '                                                 \
         WITH prof_id AS (                                               \
             SELECT id FROM professor                                    \
-            WHERE (name || ' ' || last_name) ILIKE $1                   \
+            WHERE (name || \' \' || last_name) ILIKE $1                 \
         ),                                                              \
         scores AS (                                                     \
             SELECT                                                      \
@@ -83,26 +83,39 @@ exports.sql = (function() {
             scores, professor as p, departments as d,                   \
             universities as u, prof_id                                  \
         WHERE p.id = prof_id.id                                         \
-    ";
+    ';
 
-    o.GET_REVIEWS = "                                               \
-        SELECT                                                      \
-            r.id, r.positive, r.negative, r.comment, r.timestamp,   \
-            s.dinamica, s.conocimientos, s.claridad, s.pasion,      \
-            s.compromiso, s.exigencia                               \
-        FROM                                                        \
-            review as r                                             \
-        INNER JOIN                                                  \
-            score as s ON r.score_id = s.id                         \
-        WHERE r.professor_id =                                      \
-        (                                                           \
-            SELECT id                                               \
-            FROM professor                                          \
-            WHERE                                                   \
-                (name || ' ' || last_name) ILIKE $1                 \
-        )";
+    o.GET_REVIEWS = '                                                   \
+        SELECT                                                          \
+            r.id,                                                       \
+            r.comment,                                                  \
+            r.timestamp,                                                \
+            sum(vut.positive)       as pos,                             \
+            sum(vut.negative)       as neg,                             \
+            sum(s.dinamica)         as dinamica,                        \
+            sum(s.conocimientos)    as conocimientos,                   \
+            sum(s.claridad)         as claridad,                        \
+            sum(s.pasion)           as pasion,                          \
+            sum(s.compromiso)       as compromiso,                      \
+            sum(s.exigencia)        as exigencia                        \
+        FROM review as r                                                \
+        LEFT OUTER JOIN vote_user_table vut                             \
+        ON vut.review_id = r.id                                         \
+        INNER JOIN score as s                                           \
+        ON r.score_id = s.id                                            \
+        WHERE                                                           \
+            r.professor_id = (                                          \
+                SELECT id                                               \
+                FROM professor                                          \
+                WHERE (name || \' \' || last_name)                      \
+                ILIKE $1                                                \
+            )                                                           \
+            AND r.score_id = s.id                                       \
+        GROUP BY r.id                                                   \
+        ORDER BY pos DESC                                               \
+    ;';
 
-    o.SUBMIT_REVIEW = "                                             \
+    o.SUBMIT_REVIEW = '                                             \
         WITH saved_score as (                                       \
             INSERT INTO score (                                     \
                 dinamica, conocimientos, claridad, pasion,          \
@@ -131,22 +144,22 @@ exports.sql = (function() {
             professor.id in (                                       \
                 SELECT id                                           \
                 FROM professor                                      \
-                WHERE (name || ' ' || last_name) ILIKE $5           \
+                WHERE (name || \' \' || last_name) ILIKE $5         \
             )                                                       \
-    ";
+    ';
 
-    o.REGISTER_QUERY = "                                            \
+    o.REGISTER_QUERY = '                                            \
         INSERT INTO                                                 \
             usuario (username, password, active, timestamp)         \
         SELECT                                                      \
-            $1, $2, 'FALSE', NOW()                                  \
+            $1, $2, \'FALSE\', NOW()                                \
         WHERE                                                       \
             $3 NOT IN (                                             \
                 SELECT username FROM usuario WHERE username ILIKE $4\
             );                                                      \
-    ";
+    ';
 
-    o.UNLOOSE_QUERY = "                                             \
+    o.UNLOOSE_QUERY = '                                             \
         WITH user as (                                              \
             SELECT id FROM usuario WHERE username ILIKE $1          \
             RETURNING *                                             \
@@ -155,12 +168,41 @@ exports.sql = (function() {
             SET user_id = user.id                                   \
         FROM user                                                   \
         WHERE review.loose_id = $2;                                 \
-    ";
+    ';
+
+    o.PROCESS_VOTE = '                                              \
+        WITH updated AS (                                           \
+            UPDATE vote_user_table v                                \
+            SET                                                     \
+                positive = $1,                                      \
+                negative = $2                                       \
+            FROM                                                    \
+                usuario u                                           \
+            WHERE                                                   \
+                v.review_id = $3                                    \
+                AND v.user_id = u.id                                \
+                AND u.username ILIKE $4                             \
+            RETURNING v.id                                          \
+        )                                                           \
+        INSERT INTO vote_user_table                                 \
+            (review_id, user_id, positive, negative)                \
+        SELECT                                                      \
+            $3, u.id, $1, $2                                        \
+        FROM                                                        \
+            usuario u                                               \
+        WHERE                                                       \
+            NOT EXISTS (SELECT 1 FROM updated)                      \
+            AND u.username ILIKE $4                                 \
+    ;';
 
     var regex = /[ ]+/g;
     for (var str in o) {
-        o[str] = o[str].replace(regex, ' ');
+        if (o.hasOwnProperty(str)) {
+            o[str] = o[str].replace(regex, ' ');
+        }
     }
 
     return o;
 }());
+
+exports.query_db    = query_db;

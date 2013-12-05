@@ -7,7 +7,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
         var View = helpers.pubsub_view;
 
         var SearchBar   = comps.ViewWithForm.extend({
-
             initialize: function(options) {
                 if ($.cookie('session') === undefined) {
                     this.pubSub.listenTo(this.pubSub, c.EVENT.AUTH_SUCCESS,
@@ -69,7 +68,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                 });
                 total = total / c.ATTRIBUTES.length;
                 $('#total_score').attr('data-score', total);
-                console.log(total);
             },
             addBottomBorder: function() {
                 this.$el.addClass('bottom_border');
@@ -97,6 +95,9 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                     $(view.id + ' #reviews_found').removeClass('hide');
                     var newView = new comps.SingleReviewView({
                         model       : model,
+                        model2      : new models.ReviewVotesModel({
+                            url : '/vote'
+                        }),
                         attributes  : {
                             template_name : '#review_template',
                         }

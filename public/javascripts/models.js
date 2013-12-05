@@ -1,6 +1,7 @@
 define(['jquery.min', 'underscore-min', 'backbone-min',
        'app/constants', 'app/helpers'],
     function($, _, Backbone, c, helpers) {
+        'use strict';
         var DataSource = Backbone.Model.extend({
             defaults: (function() {
                 return {
@@ -19,11 +20,10 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
             sync: (function() {
                 var success = function(model) {
                     return function(data, status, xhr) {
-                        console.log('ajax call got success: ');
-                        console.log(data);
-
-                        if (!!data.data === true)
-                            model.set('source', helpers.process_data(data.data));
+                        if (!!data.data === true) {
+                            model.set('source',
+                                      helpers.process_data(data.data));
+                        }
 
                         model.set('state', c.STATE.READY);
                     };
@@ -57,11 +57,53 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
             }())
         });
 
+        var ReviewVotesModel = Backbone.Model.extend({
+            defaults : {
+                review_id   : 0,
+                positive    : 0,
+                negative    : 0,
+                state       : c.STATE.READY,
+            },
+
+            initialize : function() {
+
+            },
+
+            sync: (function() {
+                var success = function(model) {
+                    'strict mode';
+                    return function(data, status, xhr) {
+                        model.set('state', c.STATE.READY, data);
+                        console.log('Review vote succeeded.');
+                    };
+                };
+                var error   = function(model) {
+                    'strict mode';
+                    return function(xhr, status, err) {
+                        model.set('state', c.STATE.READY, status);
+                        console.log('Review vote failed.');
+                    };
+                };
+                return function() {
+                    this.set('state', c.STATE.BUSY);
+
+                    return $.ajax({
+                        url         : this.get('url'),
+                        type        : 'post',
+                        dataType    : 'json',
+                        data        : { data: this.attributes },
+                        success     : success(this),
+                        error       : error(this)
+                    });
+                };
+            }()),
+        });
+
         var ReviewsModel = Backbone.Model.extend({
             defaults : {
                 id          : 0,
-                positive    : 0,
-                negative    : 0,
+                pos         : 0,
+                neg         : 0,
                 comment     : '',
                 advice      : '',
                 timestamp   : helpers.getTimestamp(),
@@ -94,11 +136,12 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 };
 
                 return function() {
-                    if (!this.attrAreValid)
+                    if (!this.attrAreValid) {
                         return false;
-
-                    if (this.get('state') === c.STATE.BUSY)
+                    }
+                    if (this.get('state') === c.STATE.BUSY) {
                         return false;
+                    }
 
                     this.set('state', c.STATE.BUSY);
                     this.attributes.prof_name = helpers.get_prof_name();
@@ -118,12 +161,15 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 var attr = this.attributes;
 
                 _.each(attr, function(val, key, list) {
-                    if (!!val === false)
+                    if (!!val === false) {
                         return false;
-                    if (key === 'comment' && !!val === false)
+                    }
+                    if (key === 'comment' && !!val === false) {
                         return false;
-                    if (_.contains(c.ATTRIBUTES, key) && val > 5 || val < 0)
+                    }
+                    if (_.contains(c.ATTRIBUTES, key) && val > 5 || val < 0) {
                         return false;
+                    }
                 });
 
                 return true;
@@ -170,6 +216,7 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
             ReviewsModel    : ReviewsModel,
             DataSource      : DataSource,
             AuthDataModel   : AuthDataModel,
+            ReviewVotesModel: ReviewVotesModel,
         };
     }
 );

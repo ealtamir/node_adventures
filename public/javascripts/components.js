@@ -1,5 +1,5 @@
 define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
-       'app/models', 'app/constants', 'app/helpers'],
+       'app/models', 'app/constants', 'app/helpers', 'jquery.cookie'],
     function($, _, Backbone, models, c, helpers) {
         'use strict';
 
@@ -16,7 +16,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 
             },
         });
-
 
         var AuthPopoverView = View.extend({
             initialize: function() {
@@ -46,7 +45,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 
                 $login.click(click_action);
                 $register.click(click_action);
-
                 this.login_form = new AuthFormView({
                     id      : 'bar_login_popover',
                     el      : 'div#bar_login_popover',
@@ -68,6 +66,13 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         });
 
         var SingleReviewView = View.extend({
+            initialize: function(options) {
+                this.model2 = options.model2;
+
+                this.listenTo(this.model2, 'change:state',
+                                 _.bind(this.updateVoteZone, this));
+            },
+
             render: function(id) {
                 var template    = _.template(
                         $(this.attributes.template_name).html()
@@ -75,6 +80,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                     total       = 0,
                     attrs       = this.model.attributes,
                     vals        = null;
+
+                console.dir(attrs);
 
                 // Calculate total score
                 vals = _.values(attrs.score);
@@ -105,9 +112,48 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                     };
                 }(this, attrs.total));
 
-
                 $('#review_star_' + attrs.id).raty(stars_settings);
+
+                this.setElement(id);
+                // Not using events object
+                this.$('.votes_zone a[class$="_vote"]')
+                    .click(_.bind(this.processVote, this));
             },
+
+            processVote: function(e) {
+                e.preventDefault();
+
+                if ($.cookie('session') === undefined) {
+                    // TODO: Do something to signal that you should be loggedin
+                    console.log('you should be logged in');
+                    return;
+                }
+
+                var model           = this.model2,
+                    target_class    = e.target.className;
+
+                if (target_class.search('yes') === 0) {
+                    model.set('positive', 1);
+                } else if (target_class.search('no') === 0) {
+                    model.set('negative', 1);
+                } else {
+                    return;
+                }
+
+                console.log('llegué acá');
+                model.set('review_id', this.model.get('id'));
+                model.sync();
+            },
+
+            updateVoteZone: function() {
+                var state = this.model2.get('state');
+
+                if (state === c.STATE.BUSY) {
+                    return;
+                }
+
+                console.log('Vote updated!');
+            }
         });
 
         var AuthFormView = ViewWithForm.extend({
