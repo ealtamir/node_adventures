@@ -1,10 +1,4 @@
-$h_h            : 5em;
-$foo_h          : 10%;
-$page_width     : 80%;
-$section_height : 100%;
-
-$page_min_w     : 1024px;
-$page_min_h     : 768px;
+@import '_constants.scss';
 
 @mixin content-dims() {
     min-height: $page_min_h;
@@ -45,4 +39,8 @@ html, body {
 }
 .section-content {
     padding-top: $h_h * 1.05;
+}
+.middle {
+    width: 100%;
+    margin: 0 auto;
 }

@@ -1,14 +1,37 @@
-$header_bg_c    : rgba(52, 152, 219, 0.8);
-$footer_bg_c    : #34495e;
-$mains_bg_c     : #3498db;
-$bg_blue        : #3498db;
-$bg_green       : #2ecc71;
-$f_color        : #ecf0f1;
-$filters_bg     : #E5F4FE;
+@import '_constants.scss';
+@import "compass/utilities/color/contrast";
 
-$b_w        : 0.7em;
-$b_h        : 0.5em;
-$b_f_size   : 1em;
+$bg_green       : #2ecc71;
+$initial_f_size : 1em;
+$f_multiplier   : 1.25;
+
+$initial_p_size : 1px;
+$f_p_multiplier : $f_multiplier + 0.20;
+
+
+$f_x1 : $initial_f_size * $f_multiplier;
+$f_x2 : $f_x1 * $f_multiplier;
+$f_x3 : $f_x2 * $f_multiplier;
+$f_x4 : $f_x3 * $f_multiplier;
+$f_x5 : $f_x4 * $f_multiplier;
+$f_x6 : $f_x5 * $f_multiplier;
+$f_x7 : $f_x6 * $f_multiplier;
+$f_x8 : $f_x7 * $f_multiplier;
+$f_x9 : $f_x8 * $f_multiplier;
+$f_x10 : $f_x9 * $f_multiplier;
+
+$f_p1 : $initial_p_size * $f_p_multiplier;
+$f_p2 : $f_p1 * $f_p_multiplier;
+$f_p3 : $f_p2 * $f_p_multiplier;
+$f_p4 : $f_p3 * $f_p_multiplier;
+$f_p5 : $f_p4 * $f_p_multiplier;
+$f_p6 : $f_p5 * $f_p_multiplier;
+$f_p7 : $f_p6 * $f_p_multiplier;
+$f_p8 : $f_p7 * $f_p_multiplier;
+$f_p9 : $f_p8 * $f_p_multiplier;
+$f_p10 : $f_p9 * $f_p_multiplier;
+
+$primary_button_color : #153F5B;
 
 #main_header {
     background-color: $header_bg_c;
@@ -51,19 +74,57 @@ body {
 }
 .f_large {
     font-size: 1.56em;
-    padding: 1px 0;
+    padding: 1px;
 }
 .f_x_large {
     font-size: 1.95em;
-    padding: 4px 0;
+    padding: 4px;
 }
 .f_huge {
     font-size: 2.43em;
-    padding: 7px 0;
+    padding: 7px;
 }
 .f_x_huge {
     font-size: 3.04em;
-    padding: 10px 0;
+    padding: 10px;
+}
+.f_x1, .f_x2, .f_x3, .f_x4, .f_x5,
+.f_x6, .f_x7, .f_x8, .f_x9, .f_x10 {
+    line-height: normal;
+}
+.f_x1 {
+    font-size: $f_x1;
+}
+.f_x2 {
+    font-size: $f_x2;
+}
+.f_x3 {
+    font-size: $f_x3;
+}
+.f_x4 {
+    font-size: $f_x4;
+}
+.f_x5 {
+    font-size: $f_x5;
+}
+.f_x6 {
+    font-size: $f_x6;
+}
+.f_x7 {
+    font-size: $f_x7;
+}
+.f_x8 {
+    font-size: $f_x8;
+}
+.f_x9 {
+    font-size: $f_x9;
+}
+.f_x10 {
+    font-size: $f_x10;
+}
+h1 {
+    text-align: center;
+    margin: 20px;
 }
 input[type=submit].b_small,
 .b_small {
@@ -85,3 +146,11 @@ input[type=submit].b_large,
     padding: $b_h $b_w;
     font-size: $b_f_size*1.25*1.25*1.25;
 }
+.primary_c {
+    background-color: $primary_button_color !important;
+    @include contrasted($primary_button_color);
+}
+.primary_c:hover {
+    background-color: #1E5B85 !important;
+}
+

@@ -1,9 +1,8 @@
-$logo_width     : 21.8em;
-$h_h            : 5em;
-$sfield_w       : 80%;
-$sfield_h       : 40px;
-$min_page_w     : 1024px;
-$min_page_h     : 768px;
+@import '_constants.scss';
+$button_width       : 10%;
+$remaining_width    : $button_width * 0.1;
+$s_form_min_w       : 390px;
+$index_icons_c      : #7EC0ED;
 
 .arrow-up {
     position: absolute;
@@ -59,22 +58,35 @@ $min_page_h     : 768px;
     width: $logo_width;
     height: auto;
 }
-#main_sfield {
-    width: $sfield_w;
-    height: $sfield_h;
-    font-size: 24px;
-    margin-right: 5px;
-}
 #search_button {
-    height: $sfield_h;
+    font-size: 3em;
+    position: relative;
+    top: 4px;
+    margin-left: 3px;
+    padding: 0 10px;
+    line-height: 45px;
     width: 10%;
-    background: {
-        image: url(/img/icon-search@2.png);
-        position: 50%;
-        size: 25px 25px;
-        repeat: no-repeat;
-    }
-    color: transparent;
+}
+#main_sfield {
+    height: 45px;
+    padding: 8px 5px;
+    font-size: 2.0em;
+    min-width: $s_form_min_w;
+    width: 100% - $button_width - $remaining_width;
+}
+#index_title {
+    color: #F2F2F2;
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
+}
+#index_container {
+    position: relative;
+    top: 60px;
+}
+#index_form {
+    margin-bottom: 150px;
+}
+#index_descriptions i, #index_descriptions p {
+    color: $index_icons_c;
 }
 
 //
@@ -91,7 +103,7 @@ $min_page_h     : 768px;
     border-radius: 2px;
     min-height: 40%;
     width: 100%;
-    max-width: $min_page_w * 0.8;
+    max-width: $page_min_w * 0.8;
     padding: 10px;
     margin: 0 auto;
 }

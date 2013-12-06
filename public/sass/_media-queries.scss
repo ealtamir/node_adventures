@@ -1,0 +1,8 @@
+@import '_theme.scss';
+@import '_module.scss';
+
+@media (max-width: 1075px) {
+    .f_x10 {
+        font-size: $f_x9;
+    }
+}

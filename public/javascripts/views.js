@@ -11,11 +11,11 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                 if ($.cookie('session') === undefined) {
                     this.pubSub.listenTo(this.pubSub, c.EVENT.AUTH_SUCCESS,
                                         _.bind(this.refreshBarAuthZone, this));
-                    this.listenTo(options.model, 'change:source', this.render);
-
                 } else {
                     this.refreshBarAuthZone();
                 }
+                // Search form listener.
+                this.listenTo(options.model, 'change:source', this.render);
 
                 $(options.el).autocomplete({
                     source: options.model.get('source'),
