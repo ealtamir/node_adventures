@@ -18,6 +18,7 @@ html, body {
     position: fixed;
     min-width: $page_min_w;
     top: 0;
+    z-index: 100;
 }
 #main_section {
     min-height: 100%;

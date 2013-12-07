@@ -33,6 +33,14 @@ $f_p10 : $f_p9 * $f_p_multiplier;
 
 $primary_button_color : #153F5B;
 
+@mixin primary_button() {
+    background-color: $primary_button_color !important;
+    @include contrasted($primary_button_color);
+    &:hover {
+        background-color: #1E5B85 !important;
+    }
+}
+
 #main_header {
     background-color: $header_bg_c;
 }
@@ -147,13 +155,22 @@ input[type=submit].b_large,
     font-size: $b_f_size*1.25*1.25*1.25;
 }
 .primary_c {
-    background-color: $primary_button_color !important;
-    @include contrasted($primary_button_color);
-}
-.primary_c:hover {
-    background-color: #1E5B85 !important;
+    @include primary_button();
 }
 .bold {
     font-weight: bold;
 }
 
+#indx_log_usr_id, #indx_log_pss_id,
+#indx_reg_usr_id, #indx_reg_pss_id {
+    @include border-radius(0px);
+    width: 230px;
+    padding: 15px 10px;
+    font-size: 1.6em;
+}
+
+#indx_log_sbt_id, #indx_reg_sbt_id {
+    @include primary_button();
+    font-size: $f_x2;
+    padding: 5px;
+}

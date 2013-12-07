@@ -1,40 +1,62 @@
 @import '_constants.scss';
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+
 $button_width       : 10%;
 $remaining_width    : $button_width * 0.1;
 $s_form_min_w       : 390px;
 $index_icons_c      : #7EC0ED;
+$popover_bg_c       : rgba(227, 229, 255, 0.95); // #E3E5FF
+$popover_title_c    : #A1ABCC;
 
+.close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+
+}
 .arrow-up {
     position: absolute;
-    top: -10px + 1;
+    top: -10px;
     width: 0;
     height: 0;
     border: {
         left: 10px solid transparent;
         right: 10px solid transparent;
-        bottom: 10px solid #FFF000;
+        bottom: 10px solid $popover_bg_c;
     }
+    left: 45%;
 }
 #bar_login_popover, #bar_register_popover {
     top: $h_h;
-    right: 8.5%;
     position: absolute;
-    padding: 20px;
     z-index: 10;
-    background-color: #FFF000;
-    box-shadow: 2px 2px 2px #888888;
-}
-#bar_login_popover .arrow-up {
-    left: 20%;
-}
-#bar_register_popover .arrow-up {
-    right: 26.5%;
-}
+    background-color: $popover_bg_c;
 
+    @include border-radius(2px);
+    //@include box-shadow(#2A7CB2);
+}
+#bar_register_popover {
+    right: 5%;
+}
+#bar_login_popover {
+    right: 12.5%;
+}
+.popover-title {
+    text-align: center;
+    border-bottom: {
+        style: solid;
+        width: 1px;
+        color: rgba(189, 202, 240, 0.8);
+    }
+    padding: 5px 70px;
+    color: $popover_title_c;
+}
 .header-links {
     float: right;
     height: $h_h;
     line-height: $h_h;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     ul  {
         margin: 0;
         padding: 0;
@@ -44,7 +66,21 @@ $index_icons_c      : #7EC0ED;
             display: inline;
             padding-right: 10px;
             position: relative;
+            letter-spacing: 0.5px;
+            margin-left: 20px;
+            color: $index_icons_c;
         }
+        li.underline:hover {
+            text-decoration: underline;
+        }
+    }
+}
+.auth-form-list {
+    list-style-type: none;
+    padding: 0 10px;
+    li {
+        margin: 0;
+        margin-bottom: 3px;
     }
 }
 .links-container {

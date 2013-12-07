@@ -28,16 +28,21 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 var $login      = $('#bar_login_link'),
                     $register   = $('#bar_register_link'),
                     $log_popvr  = $('#bar_login_popover'),
-                    $reg_popvr  = $('#bar_register_popover');
+                    $reg_popvr  = $('#bar_register_popover'),
+                    $close      = $('#bar_auth_zone a.close');
 
                 var click_action = function(e) {
                     e.preventDefault();
                     var target = e.target.id.split('_')[1];
 
                     if (target === 'login') {
+                        $register.css('text-decoration', 'none');
+                        $login.css('text-decoration', 'underline');
                         $log_popvr.removeClass('hide');
                         $reg_popvr.addClass('hide');
                     } else if (target === 'register') {
+                        $login.css('text-decoration', 'none');
+                        $register.css('text-decoration', 'underline');
                         $log_popvr.addClass('hide');
                         $reg_popvr.removeClass('hide');
                     }
@@ -59,9 +64,13 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                         url: '/ajax_register'
                     }),
                 });
+
+                $close.click(_.bind(this.hidePopover, this));
             },
-            hidePopover: function() {
-                this.$('.popover').addClass('hide');
+            hidePopover: function(e) {
+                e.preventDefault();
+                $('.popover').addClass('hide');
+                $('.header-links a').css('text-decoration', 'none');
             }
         });
 

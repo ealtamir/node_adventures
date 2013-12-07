@@ -1,12 +1,17 @@
-mixin auth_form(username_id, password_id, submit_id)
+mixin auth_form(username_id, password_id, submit_id, btn_value, username_label, password_label)
   form
-    label.username_label(for=username_id) Nombre de Usuario
-    input.username(type='email', name='username', id=username_id, value=STATE.l_un || '')
+    ul.auth-form-list
+      li
+        label.username_label(for=username_id, value=username_label)
+        input.username(type='email', name='username', id=username_id, value=STATE.l_un || '', placeholder='Nombre de Usuario')
 
-    label.password_label(for=password_id) Contraseña
-    input.password(type='password', name='password', id=password_id)
+      li
+        label.password_label(for=password_id, value=password_label)
+        input.password(type='password', name='password', id=password_id, placeholder='Contraseña')
 
-    label.email_label(for='login_email') Ingresa tu email
-    input.email(type='email', name='email')
+      li
+        label.email_label(for='login_email') Ingresa tu email
+        input.email(type='email', name='email')
 
-    input.auth_submit(type='submit', value='ingresar', id=submit_id)
+      li
+        input.auth_submit(type='submit', value=btn_value, id=submit_id)

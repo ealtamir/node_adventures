@@ -14,25 +14,33 @@ block content
         div#bar_auth_zone.pure-u-2-9.links-container(class=(STATE.session !== '')? 'hide': '')
           nav.header-links
             ul
-              li
-                a#bar_login_link(href="#") Ingresar
-              li.sep |
-              li
-                a#bar_register_link(href="#") Registrarse
+              li.f_x1.underline
+                a#bar_login_link(href="#") INGRESAR
+              li.f_x1.underline
+                a#bar_register_link(href="#") REGISTRARSE
           div#bar_login_popover.popover.pure-u-1-1.hide
             div.arrow-up
-            mixin auth_form('indx_log_usr_id', 'indx_log_pss_id', 'indx_log_sbt_id')
+            div.popover-title.pure-u-1
+              h2.f_x3 Ingresar
+              a.close(href="#")
+                i.f_x4.icon.ion-close-round
+            div.pure-u-1
+              mixin auth_form('indx_log_usr_id', 'indx_log_pss_id', 'indx_log_sbt_id', 'Ingresar','', '')
           div#bar_register_popover.popover.pure-u-1-1.hide
             div.arrow-up
-            mixin auth_form('indx_reg_usr_id', 'indx_reg_pss_id', 'indx_reg_sbt_id')
+            div.popover-title.pure-u-1
+              h2.f_x3 Registrarse
+              a.close(href="#")
+                i.f_x4.icon.ion-close-round
+            div.pure-u-1
+              mixin auth_form('indx_reg_usr_id', 'indx_reg_pss_id', 'indx_reg_sbt_id', 'Registrarse','', '')
         div#logged_in.pure-u-2-9(class=(STATE.session === '')? 'hide': '')
           nav.header-links
             ul
-              li
+              li.f_x1
                 ¡Hola! Ya ingresaste
-              li.sep |
-              li
-                a#logout_link(href=locals.reverse('logout')) Salir
+              li.f_x1.underline
+                a#logout_link(href=locals.reverse('logout')) SALIR
 
 
     section#main_section

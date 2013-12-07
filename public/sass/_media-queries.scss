@@ -6,3 +6,8 @@
         font-size: $f_x9;
     }
 }
+@media (max-width: 1270px) {
+    #bar_login_popover {
+        right: 14%;
+    }
+}
