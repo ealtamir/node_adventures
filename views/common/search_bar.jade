@@ -1,7 +1,7 @@
-mixin search_bar
+mixin search_bar(input_class, button_class, placeholder)
   form(method='GET', action=locals.reverse('professor'))
-    input#main_sfield(type='text', name='q', autocomplete="off", placeholder="Nombre o parte del nombre de un profesor")
-    button#search_button.primary_c
+    input#main_sfield(class=input_class, type='text', name='q', autocomplete="off", placeholder=placeholder)
+    button#search_button(class=button_class).primary_c
       span
         i.icon.ion-ios7-search-strong
 

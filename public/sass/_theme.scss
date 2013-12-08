@@ -2,23 +2,8 @@
 @import "compass/utilities/color/contrast";
 
 $bg_green       : #2ecc71;
-$initial_f_size : 1em;
-$f_multiplier   : 1.25;
-
-$initial_p_size : 1px;
-$f_p_multiplier : $f_multiplier + 0.20;
 
 
-$f_x1 : $initial_f_size * $f_multiplier;
-$f_x2 : $f_x1 * $f_multiplier;
-$f_x3 : $f_x2 * $f_multiplier;
-$f_x4 : $f_x3 * $f_multiplier;
-$f_x5 : $f_x4 * $f_multiplier;
-$f_x6 : $f_x5 * $f_multiplier;
-$f_x7 : $f_x6 * $f_multiplier;
-$f_x8 : $f_x7 * $f_multiplier;
-$f_x9 : $f_x8 * $f_multiplier;
-$f_x10 : $f_x9 * $f_multiplier;
 
 $f_p1 : $initial_p_size * $f_p_multiplier;
 $f_p2 : $f_p1 * $f_p_multiplier;
@@ -129,10 +114,6 @@ body {
 }
 .f_x10 {
     font-size: $f_x10;
-}
-h1 {
-    text-align: center;
-    margin: 20px;
 }
 input[type=submit].b_small,
 .b_small {

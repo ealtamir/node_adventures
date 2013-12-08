@@ -23,3 +23,20 @@ $sfield_h       : 40px;
 
 $main_title_white   : #F2F2F2;
 $index_icons_c      : #7EC0ED;
+
+// Letter Sizes
+$initial_f_size : 1em;
+$f_multiplier   : 1.25;
+$initial_p_size : 1px;
+$f_p_multiplier : $f_multiplier + 0.20;
+
+$f_x1 : $initial_f_size * $f_multiplier;
+$f_x2 : $f_x1 * $f_multiplier;
+$f_x3 : $f_x2 * $f_multiplier;
+$f_x4 : $f_x3 * $f_multiplier;
+$f_x5 : $f_x4 * $f_multiplier;
+$f_x6 : $f_x5 * $f_multiplier;
+$f_x7 : $f_x6 * $f_multiplier;
+$f_x8 : $f_x7 * $f_multiplier;
+$f_x9 : $f_x8 * $f_multiplier;
+$f_x10 : $f_x9 * $f_multiplier;

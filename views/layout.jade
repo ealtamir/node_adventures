@@ -1,3 +1,5 @@
+include common/social_networks
+
 doctype 5
 html
   head
@@ -7,4 +9,5 @@ html
     link(rel='stylesheet', href='/stylesheets/jquery-ui-1.10.3.min.css')
     link(rel='shortcut icon', href='/img/favicon@2.ico', type='image/x-icon')
   body
+    mixin facebook_sdk()
     block content

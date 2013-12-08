@@ -4,7 +4,8 @@ include common/search_bar
 include common/auth_forms
 
 block header
-  mixin search_bar()
+  div#bar_search_zone.pure-u-1.center
+    mixin search_bar('bar_sfield', 'bar_sbutton', '')
 
 block prepend main_section
   section.content-section#first-section
@@ -13,12 +14,12 @@ block prepend main_section
         div#professor_profile.pure-u-1.bottom_border
           div.pure-u-2-9
             div.pure-u-1
-              img.professor_img.pull-right(src="/img/default_prof_img.jpg", alt="prof_img")
+              img.professor_img.pull-right(src="/img/default_prof_img.png", alt="prof_img")
             div.pure-u-1.professor_social.pull-right
                 p Facebook Twitter Linkedin
           div.pure-u-7-9
             div.pure-u-3-5
-              h1.f_x_huge= rows[0].name + ' ' + rows[0].last_name
+              h1=rows[0].name + ' ' + rows[0].last_name
               h2=rows[0].u_name + ' - (' + rows[0].u_code + ')'
               h3=rows[0].d_name
             div.pure-u-2-5
@@ -107,21 +108,21 @@ block prepend main_section
         div#auth_form.pure-u-1.bottom_border.hide
           div.pure-offset-1-11.pure-u-9-11
             div#auth_reg_form.pure-u-3-5
-              h1.f_huge Regístrate
+              h1 Regístrate
               mixin auth_form('auth_reg_username', 'auth_reg_password', 'auth_reg_submit')
             div#auth_log_form.pure-u-2-5.left_border
-              h1.f_huge Ingresa
+              h1 Ingresa
               mixin auth_form('auth_log_username', 'auth_log_passowrd', 'auth_log_submit')
 
         div#professor_reviews.pure-u-1
           div#waiting_msg.pure-u-1.bottom_border.hide
-            h1.f_x_large.center Cargando comentarios. Por favor espera.
+            h1.center Cargando comentarios. Por favor espera.
 
 
           div#reviews.pure-u-1
             div#no_reviews_msg.pure-u-1.bottom_border.hide
-              h1.f_x_large.center Nadie calificó a este profesor todavía. Sé el primero
-              h2.f_x_huge.center Calificar
+              h1.center Nadie calificó a este profesor todavía. Sé el primero
+              h2.center Calificar
 
             div#reviews_found.pure-offset-1-12.pure-u-10-12.hide
               //div.pure-u-1.review

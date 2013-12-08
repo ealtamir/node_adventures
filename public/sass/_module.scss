@@ -67,7 +67,7 @@ $popover_title_c    : #A1ABCC;
             padding-right: 10px;
             position: relative;
             letter-spacing: 0.5px;
-            margin-left: 20px;
+            margin-left: 10px;
             color: $index_icons_c;
         }
         li.underline:hover {
@@ -94,7 +94,7 @@ $popover_title_c    : #A1ABCC;
     width: $logo_width;
     height: auto;
 }
-#search_button {
+button.index_sbutton {
     font-size: 3em;
     position: relative;
     top: 4px;
@@ -103,12 +103,27 @@ $popover_title_c    : #A1ABCC;
     line-height: 45px;
     width: 10%;
 }
-#main_sfield {
+input.index_sfield {
     height: 45px;
     padding: 8px 5px;
     font-size: 2.0em;
     min-width: $s_form_min_w;
     width: 100% - $button_width - $remaining_width;
+}
+input.bar_sfield {
+    font-size: $f_x3;
+    width: 60%;
+}
+button.bar_sbutton {
+    font-size: $f_x4;
+    width: 8%;
+    position: relative;
+    padding: 1px 0;
+    top: 1px;
+    margin-left: 3px;
+}
+#bar_search_zone {
+    margin-top: 8px;
 }
 #index_title {
     color: #F2F2F2;
@@ -129,6 +144,13 @@ $popover_title_c    : #A1ABCC;
 }
 #love {
     color: #CC88BB;
+}
+#social_networks {
+    position: relative;
+    top: 20px;
+}
+#widget {
+    text-align: center !important;
 }
 
 //
