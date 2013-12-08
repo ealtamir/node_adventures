@@ -144,6 +144,13 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                 this.model.set('comment', $('#review_comment').val());
                 this.model.set('advice', $('#review_advice').val());
 
+                this.startChecker(
+                    '#review_comment', '#comment_form .comment_counter', 3000
+                );
+                this.startChecker(
+                    '#review_advice', '#advice_form .advice_counter', 150
+                );
+
                 var stars_settings = (function(view) {
                     return {
                         half    : false,

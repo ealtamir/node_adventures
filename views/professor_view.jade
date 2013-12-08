@@ -35,28 +35,28 @@ block prepend main_section
             div.pure-u-1
               div.pure-u-1-2
                 div.pure-u-5-11
-                  p.f_x2.pull-right Dinamica
+                  p.f_x2.pull-right(data-tip="Para una clase didáctica donde se fomente la participación de los alumnos y se trate la aplicabilidad del tema.") Dinámica
                 div.pure-u-6-11
                   div#score_dinamica(data-score=rows[0].dinamica)
                 div.pure-u-5-11
-                  p.f_x2.pull-right Conocimientos
+                  p.f_x2.pull-right(data-tip="Del profesor respecto a la materia.") Conocimientos
                 div.pure-u-6-11
                   div#score_conocimientos(data-score=rows[0].conocimientos)
                 div.pure-u-5-11
-                  p.f_x2.pull-right Claridad
+                  p.f_x2.pull-right(data-tip="Para transmitir los conocimientos.") Claridad
                 div.pure-u-6-11
                   div#score_claridad(data-score=rows[0].claridad)
               div.pure-u-1-2
                 div.pure-u-3-11
-                  p.f_x2.pull-right Pasión
+                  p.f_x2.pull-right(data-tip="Por la clase y la materia.") Pasión
                 div.pure-u-6-11
                   div#score_pasion(data-score=rows[0].pasion)
                 div.pure-u-3-11
-                  p.f_x2.pull-right Compromiso
+                  p.f_x2.pull-right(data-tip="Con los alumnos para que aprendan.") Compromiso
                 div.pure-u-6-11
                   div#score_compromiso(data-score=rows[0].compromiso)
                 div.pure-u-3-11
-                  p.f_x2.pull-right Exigencia
+                  p.f_x2.pull-right(data-tip="En el volumen de trabajos prácticos y dificultad de exámenes.") Exigencia
                 div.pure-u-6-11
                   div#score_exigencia(data-score=rows[0].exigencia)
         div.pure-u-1.bottom_border.center
@@ -99,12 +99,18 @@ block prepend main_section
             div.pure-u-7-11
               div.pure-u-1
                 label.f_x1.input_label(for='review_comment') ¿Qué opinás de este profesor?
-              div.pure-u-1
-                textarea#review_comment(name='review_comment', cols='71', rows='8', value='')
+              div#comment_form.pure-u-1
+                div.pure-u-1
+                  textarea#review_comment(name='review_comment', cols='71', rows='8', value='')
+                div.pure-u-1
+                  span.comment_counter.secondary.f_x1 Some random text that i use for testing purposes.
               div.pure-u-1
                 label.f_x1.input_label(for='review_advice') ¿Qué le recomendarías a alguien que va a ser alumno de este profesor?
-              div.pure-u-1
-                textarea#review_advice(name='review_advice', cols='71', rows='5', value='')
+              div#advice_form.pure-u-1
+                div.pure-u-1
+                  textarea#review_advice(name='review_advice', cols='71', rows='5', value='')
+                div.pure-u-1
+                  span.advice_counter.secondary.f_x1 Some random text that i use for testing purposes.
           div.pure-u-1.center
             button#commit_review.f_x4.confirm_c
               i.icon.ion-paper-airplane    Enviar Calificación

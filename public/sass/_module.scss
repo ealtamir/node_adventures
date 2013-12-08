@@ -235,8 +235,8 @@ button.bar_sbutton {
     top: 12px;
     left: 6px;
 }
-#review_comment {
-    margin-bottom: 25px;
+#comment_form {
+    margin-bottom: 10px;
 }
 #commit_review {
     margin: 15px 0 20px;
@@ -254,4 +254,9 @@ button.bar_sbutton {
 }
 .review {
     padding: 15px 0;
+}
+#review_comment, #review_advice {
+    padding: 5px;
+    font-size: $f_x1;
+    width: 90%;
 }

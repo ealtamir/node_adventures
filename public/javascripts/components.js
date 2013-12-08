@@ -7,7 +7,22 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var View = helpers.pubsub_view;
 
         var ViewWithForm = View.extend({
-            initialize: function() {
+            startChecker: function(form, counter, max_chars) {
+                var count = function() {
+                    var txtVal = $(form).val(),
+                        chars = txtVal.length;
+
+                    $(counter).html(
+                        '<span class="' +
+                        ((chars > max_chars)? 'neg_num': '') + '">' +
+                        chars + '</span> caracteres (' +
+                        max_chars + ' máximo).'
+                    );
+                };
+                count();
+                $(form).on('keyup propertychange paste', function(){
+                    count();
+                });
             },
 
             checkSize: function() {
