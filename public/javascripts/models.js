@@ -107,6 +107,7 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 comment     : '',
                 advice      : '',
                 timestamp   : helpers.getTimestamp(),
+                error       : null,
 
                 score       : {
                     dinamica        : 0,
@@ -124,6 +125,7 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 var success = function(model) {
                     return function(data, status, xhr) {
                         model.set('state', c.STATE.READY, data);
+                        model.error = null;
                         console.log('Review Form sync succeeded.');
                     };
                 };
@@ -131,6 +133,7 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                 var error = function(model) {
                     return function(xhr, status, err) {
                         model.set('state', c.STATE.READY);
+                        model.error = [xhr, status, err];
                         console.log(status + ' ' + err);
                     };
                 };

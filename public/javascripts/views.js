@@ -6,6 +6,49 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
         // Add the pub/sub objects to the view objets
         var View = helpers.pubsub_view;
 
+        var StatusBar   = View.extend({
+            initialize: function() {
+                var f = _.bind(this.showMessage, this);
+
+                this.currentTimer = null;
+
+                this.pubSub.on(c.EVENT.AUTH_FAILURE, f);
+                this.pubSub.on(c.EVENT.REQUEST_AUTH, f);
+                this.pubSub.on(c.EVENT.AUTH_SUCCESS, f);
+
+                console.dir(this.$('a'));
+                this.$('a').click((function(view) {
+                    return function(e) {
+                        e.preventDefault();
+                        view.$el.css('display', 'none');
+                        clearTimeout(view.currentTimer);
+                    };
+                }(this)));
+                this.pubSub.trigger(c.EVENT.AUTH_FAILURE, 'holaaaa', c.M_TYPES.FAILURE);
+            },
+            showMessage: function(str, type) {
+                this.$('p').html(str);
+                this.$el.removeClass().addClass('pure-u-1');
+                console.log(str + ' ' + type);
+
+                if (type === c.M_TYPES.INFORMATIVE) {
+                    this.$el.addClass('informative_status');
+                } else if (type === c.M_TYPES.SUCCESS) {
+                    this.$el.addClass('positive_status');
+                } else if (type === c.M_TYPES.FAILURE) {
+                    this.$el.addClass('negative_status');
+                }
+                this.$el.fadeIn('slow', (function(view) {
+                    return function() {
+                        view.currentTimer = setTimeout(function() {
+                            view.$el.fadeOut('slow');
+                            view.currentTimer = null;
+                        }, 10000);
+                    };
+                }(this)));
+            }
+        });
+
         var SearchBar   = comps.ViewWithForm.extend({
             initialize: function(options) {
                 if ($.cookie('session') === undefined) {
@@ -148,7 +191,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                     '#review_comment', '#comment_form .comment_counter', 3000
                 );
                 this.startChecker(
-                    '#review_advice', '#advice_form .advice_counter', 150
+                    '#review_advice', '#advice_form .advice_counter', 100
                 );
 
                 var stars_settings = (function(view) {
@@ -235,20 +278,30 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
             },
 
             stateChange: function(e, state, data) {
-                if (state === c.STATE.READY) {
+                if (state === c.STATE.READY && this.model.error === null) {
                     if (data.loose === true) {
                         this.$el.addClass('hide');
                         this.pubSub.once(c.EVENT.AUTH_SUCCESS,
                                          _.bind(this.addReview, this));
-                        this.pubSub.trigger(c.EVENT.REQUEST_AUTH);
+                        this.pubSub.trigger(
+                            c.EVENT.REQUEST_AUTH,
+                            c.EVENT_MSGS.REQUEST_AUTH,
+                            c.M_TYPES.INFORMATIVE
+                        );
                     } else {
                         this.addReview();
                     }
+                } else {
+                    console.log('there was an error submitting the rewview');
                 }
             },
             addReview: function() {
                 this.collection.add(this.model);
-                this.pubSub.trigger(c.EVENT.REVIEW_SUBMITTED);
+                this.pubSub.trigger(
+                    c.EVENT.REVIEW_SUBMITTED,
+                    c.EVENT_MSGS.REVIEW_SUBMITTED,
+                    c.M_TYPES.SUCCESS
+                );
             }
         });
 
@@ -289,6 +342,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
 
 
         return {
+            StatusBar           : StatusBar,
             SearchBar           : SearchBar,
             ReviewContainerView : ReviewContainerView,
             ReviewFormView      : ReviewFormView,

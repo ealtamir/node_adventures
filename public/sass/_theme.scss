@@ -1,9 +1,9 @@
 @import '_constants.scss';
+
 @import "compass/utilities/color/contrast";
+@import "compass/css3/border-radius";
 
 $bg_green       : #2ecc71;
-
-
 
 $f_p1 : $initial_p_size * $f_p_multiplier;
 $f_p2 : $f_p1 * $f_p_multiplier;
@@ -21,6 +21,9 @@ $primary_color_s    : #1E5B85;
 
 $confirm_color      : #2ECC71;
 $confirm_color_s    : #31D978;
+
+$positive_c         : #27ae60;
+$negative_c         : #c0392b;
 
 @mixin button($button_color, $saturated_color) {
     background-color: $button_color !important;
@@ -170,10 +173,10 @@ input[type=submit].b_large,
     color: #84A1AB;
 }
 .pos_num {
-    color: #27ae60;
+    color: $positive_c;
 }
 .neg_num {
-    color: #c0392b;
+    color: $negative_c;
 }
 .separator {
     color: #D2E3F0;
@@ -183,4 +186,16 @@ input[type=submit].b_large,
 }
 .striped {
     background-color: #DBEDFA;
+}
+.positive_status {
+    background-color: rgba(39, 174, 96, 0.98);
+    color: #114C2A;
+}
+.negative_status {
+    background-color: rgba(192, 57, 43, 0.98);
+    color: #5E1C15;
+}
+.informative_status {
+    background-color: rgba(241, 196, 15, 0.98);
+    color: #7F6808;
 }

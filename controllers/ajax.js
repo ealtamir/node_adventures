@@ -110,7 +110,7 @@ function doValidation(req, res, post_params) {
 
     review_valid = reviewIsValid(post_params);
     if (review_valid.passed === false) {
-        return res.json(500, { error: review_valid });
+        return res.json(500, review_valid);
     }
 
     post_params.score = _.values(post_params.score).join(',');

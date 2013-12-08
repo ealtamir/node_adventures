@@ -9,11 +9,20 @@ $index_icons_c      : #7EC0ED;
 $popover_bg_c       : rgba(227, 229, 255, 0.95); // #E3E5FF
 $popover_title_c    : #A1ABCC;
 
+#status_bar {
+    margin-top: 10px;
+    @include border-radius(5px);
+    i {
+        position: relative;
+        top: 8px;
+        left: 40px;
+    }
+}
+
 .close {
     position: absolute;
     right: 10px;
     top: 5px;
-
 }
 .arrow-up {
     position: absolute;

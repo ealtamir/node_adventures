@@ -39,7 +39,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 // TODO: Check if session cookie exists, if so update bar
                 this.pubSub.once(c.EVENT.AUTH_SUCCESS,
                                  _.bind(this.hidePopover, this));
-                this.pubSub.once(c.EVENT.AUTH_REQUESTED,
+                this.pubSub.once(c.EVENT.REQUEST_AUTH,
                                  _.bind(this.hidePopover, this));
 
                 var $login      = $('#bar_login_link'),
@@ -203,7 +203,11 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             requestAuth: function(event) {
                 event.preventDefault();
                 console.log('requested!');
-                this.pubSub.trigger(c.EVENT.AUTH_REQUESTED);
+                this.pubSub.trigger(
+                    c.EVENT.REQUEST_AUTH,
+                    c.EVENT_MSGS.REQUEST_AUTH,
+                    c.M_TYPES.INFORMATIVE
+                );
 
                 if (this.model.get('state') === c.STATE.READY) {
                     var $username   = this.$('input.username'),
@@ -227,9 +231,17 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 console.dir(data);
 
                 if (result.status === 'successful') {
-                    this.pubSub.trigger(c.EVENT.AUTH_SUCCESS);
+                    this.pubSub.trigger(
+                        c.EVENT.AUTH_SUCCESS,
+                        c.EVENT_MSGS.AUTH_SUCCESS,
+                        c.M_TYPES.SUCCESS
+                    );
                 } else if (result.status === 'failure') {
-                    this.pubSub.trigger(c.EVENT.AUTH_FAILURE);
+                    this.pubSub.trigger(
+                        c.EVENT.AUTH_FAILURE,
+                        c.EVENT_MSGS.AUTH_SUCCESS,
+                        c.M_TYPES.FAILURE
+                    );
                 }
             }
         });

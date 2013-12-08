@@ -1,4 +1,5 @@
 exports.msg = (function() {
+    'use strict';
     var obj     = {},
         SUCCESS = 'successful',
         FAILURE = 'failure';
@@ -20,13 +21,13 @@ exports.msg = (function() {
 
     obj.LOGIN_SUCCESSFUL = {
         status: SUCCESS,
-        msg: 'Pudiste ingresar con éxtio.'
+        msg: 'Pudiste ingresar con éxito.'
     };
 
     obj.REVIEW_TEXT_ERR = function(type, length) {
         return {
-            msg: 'El campo \'' + type + '\' no puede estar vacio ni tener más de ' +
-                length + 'caracteres de largo.',
+            msg: 'El campo \'' + type + '\' no puede estar vacio ni tener' +
+                'más de ' + length + ' caracteres de largo.',
             status: FAILURE,
         };
     };

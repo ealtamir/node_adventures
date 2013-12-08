@@ -16,10 +16,21 @@ define({
 
     EVENT: {
         AUTH_FAILURE        : 'auth_failure',
-        AUTH_REQUESTED      : 'auth_requested',
         AUTH_STATUS         : 'auth_status',
         AUTH_SUCCESS        : 'auth_success',
         REQUEST_AUTH        : 'request_auth',
         REVIEW_SUBMITTED    : 'review_submitted',
+        REVIEW_INPUT_ERROR  : 'review_input_error',
+    },
+    M_TYPES: {
+        INFORMATIVE     : 'informative',
+        SUCCESS         : 'success',
+        FAILURE         : 'failure',
+    },
+    EVENT_MSGS: {
+        REQUEST_AUTH    : 'Debes ingresar o registrarte antes de poder' +
+            'completar esa acción.',
+        AUTH_SUCCESS    : 'Pudiste ingresar con éxito.',
+        AUTH_FAILURE    : 'Hubo un error con la registración. Por favor vuelve a intentarlo.',
     }
 });

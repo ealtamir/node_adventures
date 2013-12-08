@@ -1,6 +1,7 @@
 define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             'app/models', 'app/views', 'app/components'],
             function($, _, Backbone, models, views, comps) {
+                'use strict';
                 return {
                     initialize : index($, _, Backbone, models, views, comps),
                 };
@@ -8,7 +9,12 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 );
 
 function index($, _, Backbone, models, views, comps) {
+    'use strict';
     return function () {
+        var statusBar           = new views.StatusBar({
+            id: 'status_bar',
+            el: 'div#status_bar',
+        });
         var auth_popover        = new comps.AuthPopoverView({
             id: 'bar_auth_zone'
         });
