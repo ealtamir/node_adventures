@@ -1,35 +1,43 @@
 script#review_template.
   <div class="pure-u-1 review">
-    <div class="pure-u-1">
-      <div class="pure-u-2-11">
-        <div class="pure-u-1 center">
-          <p>Calificación Promedio</p>
+    <div class="pure-offset-1-9 pure-u-7-9">
+        <div class="pure-u-1">
+            <div class="pure-u-1-7 center">
+                <div id="review_star_<%= id %>"></div>
+            </div>
+            <div class="f_x1 bold pure-offset-1-12 pure-u-6-9">
+                <%= advice %>
+            </div>
         </div>
-        <div class="pure-u-1 center">
-          <div id="review_star_<%= id %>"></div>
+        <div class="pure-u-1">
+            <p>
+                <%= comment %>
+            </p>
         </div>
-      </div>
-      <div class="pure-u-8-11">
-        <div class="pure-u-8-9">
-          <p>
-            <%= comment %>
-          </p>
+        <div class="pure-u-1">
+            <div class="pure-u-2-11 votes_zone">
+                <p>
+                    <span class="pos_num f_x2"><i class="icon ion-arrow-up-a"></i><%= pos %></span> 
+                    <span class="separator f_x2">|</span>
+                    <span class="neg_num f_x2"><i class="icon ion-arrow-down-a"></i><%= neg %></span>
+                </p>
+            </div>
+            <div class="pure-u-5-11">
+                <p>
+                    <span class="bold">
+                        ¿Te pareció útil este comentario?
+                    </span>
+                    <span class="votes">
+                        <a href="#" class="yes_vote pos_num f_x2 underline">Si</a>
+                        <span class="bold">o</span>
+                        <a href="#" class="no_vote neg_num f_x2 underline">No</a>
+                    </span>
+                </p>
+            </div>
+              <div class="pure-u-3-11 pull-right">
+                <p><%= timestamp %></p>
+              </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="pure-u-1">
-      <div class="pure-u-5-11 votes_zone">
-        <p>
-          <%= pos %> up - <%= neg %> down. ¿Te pareció útil este comentario?
-          <span class="votes">
-            <a href="#" class="yes_vote">Si</a>
-            o
-            <a href="#" class="no_vote">No</a>
-          </span>
-        </p>
-      </div>
-      <div class="pure-u-5-11">
-        <p><%= timestamp %></p>
-      </div>
     </div>
   </div>

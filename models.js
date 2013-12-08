@@ -89,6 +89,7 @@ exports.sql = (function() {
         SELECT                                                          \
             r.id,                                                       \
             r.comment,                                                  \
+            r.advice,                                                   \
             r.timestamp,                                                \
             sum(vut.positive)       as pos,                             \
             sum(vut.negative)       as neg,                             \

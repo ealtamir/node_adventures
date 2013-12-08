@@ -16,13 +16,17 @@ $f_p8 : $f_p7 * $f_p_multiplier;
 $f_p9 : $f_p8 * $f_p_multiplier;
 $f_p10 : $f_p9 * $f_p_multiplier;
 
-$primary_button_color : #153F5B;
+$primary_color      : #153F5B;
+$primary_color_s    : #1E5B85;
 
-@mixin primary_button() {
-    background-color: $primary_button_color !important;
-    @include contrasted($primary_button_color);
+$confirm_color      : #2ECC71;
+$confirm_color_s    : #31D978;
+
+@mixin button($button_color, $saturated_color) {
+    background-color: $button_color !important;
+    @include contrasted($button_color);
     &:hover {
-        background-color: #1E5B85 !important;
+        background-color: $saturated_color !important;
     }
 }
 
@@ -136,7 +140,11 @@ input[type=submit].b_large,
     font-size: $b_f_size*1.25*1.25*1.25;
 }
 .primary_c {
-    @include primary_button();
+    @include button($primary_color, $primary_color_s);
+}
+.confirm_c {
+    @include button($confirm_color, $confirm_color_s);
+    color: #114C2A !important;
 }
 .bold {
     font-weight: bold;
@@ -151,7 +159,28 @@ input[type=submit].b_large,
 }
 
 #indx_log_sbt_id, #indx_reg_sbt_id {
-    @include primary_button();
+    @include button($primary_color, $primary_color_s);
     font-size: $f_x2;
     padding: 5px;
+}
+#professor_profile {
+    color: #123953;
+}
+.secondary {
+    color: #84A1AB;
+}
+.pos_num {
+    color: #27ae60;
+}
+.neg_num {
+    color: #c0392b;
+}
+.separator {
+    color: #D2E3F0;
+}
+.underline:hover {
+    text-decoration: underline;
+}
+.striped {
+    background-color: #DBEDFA;
 }

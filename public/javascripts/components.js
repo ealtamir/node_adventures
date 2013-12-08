@@ -7,6 +7,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var View = helpers.pubsub_view;
 
         var ViewWithForm = View.extend({
+            initialize: function() {
+            },
 
             checkSize: function() {
 
@@ -77,6 +79,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var SingleReviewView = View.extend({
             initialize: function(options) {
                 this.model2 = options.model2;
+                this.setStripe = options.attributes.setStripe;
 
                 this.listenTo(this.model2, 'change:state',
                                  _.bind(this.updateVoteZone, this));
@@ -89,8 +92,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                     total       = 0,
                     attrs       = this.model.attributes,
                     vals        = null;
-
-                console.dir(attrs);
 
                 // Calculate total score
                 vals = _.values(attrs.score);
@@ -108,10 +109,10 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                     return {
                         half    : true,
                         path    : '/img/',
-                        size    : 24,
-                        starHalf: 'star-half-big.png',
-                        starOff : 'star-off-big.png',
-                        starOn  : 'star-on-big.png',
+                        size    : 16,
+                        starHalf: 'star-half-small.png',
+                        starOff : 'star-off-small.png',
+                        starOn  : 'star-on-small.png',
                         readOnly: true,
                         score   : total,
                         click: function(score) {
@@ -123,10 +124,14 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 
                 $('#review_star_' + attrs.id).raty(stars_settings);
 
-                this.setElement(id);
+                this.setElement(id + ' div.review:first-child');
                 // Not using events object
                 this.$('.votes_zone a[class$="_vote"]')
                     .click(_.bind(this.processVote, this));
+
+                if (this.setStripe) {
+                    this.$el.addClass('striped');
+                }
             },
 
             processVote: function(e) {

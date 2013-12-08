@@ -87,6 +87,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                                      _.bind(this.showResults, this));
 
                 this.collection.start();
+
+                this.setStripe = false;
             },
 
             newReview: function(view) {
@@ -100,16 +102,15 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                         }),
                         attributes  : {
                             template_name : '#review_template',
+                            setStripe     : this.setStripe,
                         }
                     });
+
+                    this.setStripe = (this.setStripe)? false: true;
 
                     view.nestedViews.push(newView);
                     newView.render('#reviews_found');
                 };
-            },
-
-            render: function() {
-
             },
 
             stateChange: function(state) {
@@ -164,6 +165,10 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
 
                 $('#total_score').raty(stars_settings);
 
+                stars_settings.starHalf = 'star-half-small.png';
+                stars_settings.starOff  = 'star-off-small.png';
+                stars_settings.starOn   = 'star-on-small.png';
+
                 // Set prof profile and review form stars.
                 _.each(c.ATTRIBUTES, function(el) {
                     $('#score_' + el).raty(stars_settings);
@@ -179,12 +184,12 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                 $('#calificar_button').click(function() {
                     $('#review_form').removeClass('hide');
                     $('#' + this.id).addClass('hide');
-                    $('#professor_profile').removeClass('bottom_border');
+                    $('#professor_profile + div').removeClass('bottom_border');
                 });
 
                 $('#cancel_review').click(function() {
                     $('#review_form').addClass('hide');
-                    $('#professor_profile').addClass('bottom_border');
+                    $('#professor_profile + div').addClass('bottom_border');
                     $('#calificar_button').removeClass('hide');
                 });
             },

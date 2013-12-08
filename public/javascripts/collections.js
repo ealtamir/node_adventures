@@ -22,7 +22,7 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
                                 neg         : (d.neg === null)? 0: d.neg,
                                 comment     : d.comment,
                                 advice      : d.advice,
-                                timestamp   : d.timestamp,
+                                timestamp   : helpers.formatTime(d.timestamp),
 
                                 score       : {
                                     dinamica        : d.dinamica,

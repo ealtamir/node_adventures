@@ -65,16 +65,14 @@ button {
     @include form-input-defaults();
 }
 .pull-right {
-    display: block;
+    clear: both;
     float: right;
 }
 .pull-left {
-    display: block;
+    clear: both;
     float: left;
 }
 .bottom_border {
-    padding-bottom: 5px;
-    margin-bottom: 5px;
     border: {
         bottom: solid 1px #E0E4EA;
     }

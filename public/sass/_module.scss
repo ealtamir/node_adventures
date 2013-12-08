@@ -168,7 +168,7 @@ button.bar_sbutton {
     min-height: 40%;
     width: 100%;
     max-width: $page_min_w * 0.8;
-    padding: 10px;
+    padding: 10px 0;
     margin: 0 auto;
 }
 .professor_pill {
@@ -184,16 +184,74 @@ button.bar_sbutton {
 .professor_img {
     padding: 5px 10px 0 5px;
 }
+.professor_social {
+    position: relative;
+    top: 5px;
+}
 
 //
 //
 // PROFESSOR VIEW
 //
 //
-#professor_reviews {
-    padding-top: 10px;
-}
 
 #review_form {
-    height: 290px;
+    padding: 10px 0;
+    background-color: #DDF0FE;
+}
+#score_dinamica, #score_conocimientos, #score_claridad,
+#score_pasion, #score_compromiso, #score_exigencia {
+    position: relative;
+    top: 16px;
+    left: 8px;
+}
+
+#total_score {
+    position: relative;
+    left: 55px;
+    top: -9px;
+}
+#total_score_zone {
+    text-align: center;
+    background-color: rgba(135, 209, 232, 0.2);
+    padding: 0px;
+    position: relative;
+    right: 10px;
+    @include border-radius(15px);
+}
+#score_dinamica, #score_conocimientos, #score_claridad,
+#score_pasion, #score_compromiso, #score_exigencia {
+    position: relative;
+    top: 16px;
+    left: 7px;
+}
+#calificar_button {
+    width: 30%;
+    margin: 15px 0 20px;
+}
+#star_dinamica, #star_conocimientos, #star_claridad,
+#star_pasion, #star_compromiso, #star_exigencia {
+    position: relative;
+    top: 12px;
+    left: 6px;
+}
+#review_comment {
+    margin-bottom: 25px;
+}
+#commit_review {
+    margin: 15px 0 20px;
+    padding: 5px 0;
+    width: 35%;
+    position: relative;
+    left: 37px;
+}
+#cancel_review {
+    position: relative;
+    left: 200px;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.review {
+    padding: 15px 0;
 }

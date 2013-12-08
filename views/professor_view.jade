@@ -11,99 +11,104 @@ block prepend main_section
   section.content-section#first-section
     div.section-content.pure-g-r
       div.pure-u-1#professor_content
-        div#professor_profile.pure-u-1.bottom_border
+        div#professor_profile.pure-u-1
           div.pure-u-2-9
             div.pure-u-1
               img.professor_img.pull-right(src="/img/default_prof_img.png", alt="prof_img")
-            div.pure-u-1.professor_social.pull-right
-                p Facebook Twitter Linkedin
+            div.pure-u-1.professor_social
+              div.pure-u-1
+                mixin facebook()
+              div.pure-u-1
+                mixin twitter()
+              div.pure-u-1
+                mixin linkedin()
           div.pure-u-7-9
             div.pure-u-3-5
-              h1=rows[0].name + ' ' + rows[0].last_name
-              h2=rows[0].u_name + ' - (' + rows[0].u_code + ')'
-              h3=rows[0].d_name
-            div.pure-u-2-5
-              div.pure-u-1
-                p Calificación general
+              h1#prof_name.f_x4=rows[0].name + ' ' + rows[0].last_name
+              h2.secondary.f_x1=rows[0].u_name + ' - (' + rows[0].u_code + ')'
+              h3.secondary.f_x1=rows[0].d_name
+            div#total_score_zone.pure-u-2-5
+              div.pure-u-1.center
+                p.f_x2 Calificación General:
               div.pure-u-1
                   div#total_score(data-score="2.9")
             div.pure-u-1
               div.pure-u-1-2
-                div.pure-u-3-11
-                  p.pull-right Dinamica
-                div.pure-offset-1-12.pure-u-7-11
+                div.pure-u-5-11
+                  p.f_x2.pull-right Dinamica
+                div.pure-u-6-11
                   div#score_dinamica(data-score=rows[0].dinamica)
-                div.pure-u-3-11
-                  p.pull-right Conocimientos
-                div.pure-offset-1-12.pure-u-7-11
+                div.pure-u-5-11
+                  p.f_x2.pull-right Conocimientos
+                div.pure-u-6-11
                   div#score_conocimientos(data-score=rows[0].conocimientos)
-                div.pure-u-3-11
-                  p.pull-right Claridad
-                div.pure-offset-1-12.pure-u-7-11
+                div.pure-u-5-11
+                  p.f_x2.pull-right Claridad
+                div.pure-u-6-11
                   div#score_claridad(data-score=rows[0].claridad)
               div.pure-u-1-2
                 div.pure-u-3-11
-                  p.pull-right Pasión
-                div.pure-offset-1-12.pure-u-7-11
+                  p.f_x2.pull-right Pasión
+                div.pure-u-6-11
                   div#score_pasion(data-score=rows[0].pasion)
                 div.pure-u-3-11
-                  p.pull-right Compromiso
-                div.pure-offset-1-12.pure-u-7-11
+                  p.f_x2.pull-right Compromiso
+                div.pure-u-6-11
                   div#score_compromiso(data-score=rows[0].compromiso)
                 div.pure-u-3-11
-                  p.pull-right Exigencia
-                div.pure-offset-1-12.pure-u-7-11
+                  p.f_x2.pull-right Exigencia
+                div.pure-u-6-11
                   div#score_exigencia(data-score=rows[0].exigencia)
-          div.pure-u-1
-            div.pure-offset-5-11.pure-u-5-11
-              a#calificar_button.button.b_large.pull-right Calificar
+        div.pure-u-1.bottom_border.center
+          button#calificar_button.f_x5.primary_c
+            i.icon.ion-compose  Calificar
 
-        div#review_form.pure-u-1.bottom_border.hide
+        div#review_form.pure-u-1.hide
           div.pure-u-1
             div.pure-offset-1-11.pure-u-3-11
               div.pure-u-1
-                div.pure-u-2-11
-                  p.pull-right Dinámica
-                div.pure-offset-1-12.pure-u-6-11
+                div.pure-u-4-11
+                  p.f_x1.pull-right Dinámica
+                div.pure-u-6-11
                   div#star_dinamica
               div.pure-u-1
-                div.pure-u-2-11
-                  p.pull-right Conocimientos
-                div.pure-offset-1-12.pure-u-6-11
+                div.pure-u-4-11
+                  p.f_x1.pull-right Conocimientos
+                div.pure-u-6-11
                   div#star_conocimientos
               div.pure-u-1
-                div.pure-u-2-11
-                  p.pull-right Claridad
-                div.pure-offset-1-12.pure-u-6-11
+                div.pure-u-4-11
+                  p.f_x1.pull-right Claridad
+                div.pure-u-6-11
                   div#star_claridad
               div.pure-u-1
-                div.pure-u-2-11
-                  p.pull-right Pasion
-                div.pure-offset-1-12.pure-u-6-11
+                div.pure-u-4-11
+                  p.f_x1.pull-right Pasion
+                div.pure-u-6-11
                   div#star_pasion
               div.pure-u-1
-                div.pure-u-2-11
-                  p.pull-right Compromiso
-                div.pure-offset-1-12.pure-u-6-11
+                div.pure-u-4-11
+                  p.f_x1.pull-right Compromiso
+                div.pure-u-6-11
                   div#star_compromiso
               div.pure-u-1
-                div.pure-u-2-11
-                  p.pull-right Exigencia
-                div.pure-offset-1-12.pure-u-6-11
+                div.pure-u-4-11
+                  p.f_x1.pull-right Exigencia
+                div.pure-u-6-11
                   div#star_exigencia
             div.pure-u-7-11
               div.pure-u-1
-                label.input_label(for='review_comment') ¿Qué opinás de este profesor?
+                label.f_x1.input_label(for='review_comment') ¿Qué opinás de este profesor?
               div.pure-u-1
                 textarea#review_comment(name='review_comment', cols='71', rows='8', value='')
               div.pure-u-1
-                label.input_label(for='review_advice') ¿Qué le recomendarías a alguien que va a ser alumno de este profesor?
+                label.f_x1.input_label(for='review_advice') ¿Qué le recomendarías a alguien que va a ser alumno de este profesor?
               div.pure-u-1
                 textarea#review_advice(name='review_advice', cols='71', rows='5', value='')
-          div.pure-u-1
-            div.pure-offset-5-11.pure-u-5-11
-              a#commit_review.button.b_large.pull-right Enviar Calificación
-              a#cancel_review.pull-right Cancelar
+          div.pure-u-1.center
+            button#commit_review.f_x4.confirm_c
+              i.icon.ion-paper-airplane    Enviar Calificación
+            a#cancel_review.f_x1 Cancelar
 
         div#auth_form.pure-u-1.bottom_border.hide
           div.pure-offset-1-11.pure-u-9-11
@@ -124,7 +129,7 @@ block prepend main_section
               h1.center Nadie calificó a este profesor todavía. Sé el primero
               h2.center Calificar
 
-            div#reviews_found.pure-offset-1-12.pure-u-10-12.hide
+            div#reviews_found.pure-u-1.hide
               //div.pure-u-1.review
                 div.pure-u-1
                   div.pure-u-2-9

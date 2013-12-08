@@ -47,6 +47,13 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             s += d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
             return s;
+        },
+
+        formatTime : function(t_stamp) {
+            // Get day/month/year
+            var t = t_stamp.split('T')[0].split('-');
+
+            return t[2] + '/' + t[1] + '/' + t[0];
         }
     };
 });
