@@ -18,6 +18,7 @@ define({
         AUTH_FAILURE        : 'auth_failure',
         AUTH_STATUS         : 'auth_status',
         AUTH_SUCCESS        : 'auth_success',
+        AUTH_FOR_SUBMIT     : 'auth_for_submit',
         REQUEST_AUTH        : 'request_auth',
         REVIEW_SUBMITTED    : 'review_submitted',
         REVIEW_INPUT_ERROR  : 'review_input_error',
@@ -28,9 +29,13 @@ define({
         FAILURE         : 'failure',
     },
     EVENT_MSGS: {
-        REQUEST_AUTH    : 'Debes ingresar o registrarte antes de poder' +
+        REVIEW_INPUT_ERROR  : 'No se pudo enviar la calificación. Por favor, ' +
+            'revisa que no hayas excedido el límite de palabras y que hayas ' +
+            'elegido una calificación para cada criterio.',
+        REQUEST_AUTH        : 'Debes ingresar o registrarte antes de poder ' +
             'completar esa acción.',
-        AUTH_SUCCESS    : 'Pudiste ingresar con éxito.',
-        AUTH_FAILURE    : 'Hubo un error con la registración. Por favor vuelve a intentarlo.',
+        AUTH_SUCCESS        : 'Pudiste ingresar con éxito.',
+        AUTH_FAILURE        : 'Hubo un error con la registración. Por favor ' +
+            'vuelve a intentarlo.',
     }
 });

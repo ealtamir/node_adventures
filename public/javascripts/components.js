@@ -39,7 +39,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 // TODO: Check if session cookie exists, if so update bar
                 this.pubSub.once(c.EVENT.AUTH_SUCCESS,
                                  _.bind(this.hidePopover, this));
-                this.pubSub.once(c.EVENT.REQUEST_AUTH,
+                this.pubSub.on(c.EVENT.REQUEST_AUTH,
                                  _.bind(this.hidePopover, this));
 
                 var $login      = $('#bar_login_link'),
@@ -85,7 +85,9 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 $close.click(_.bind(this.hidePopover, this));
             },
             hidePopover: function(e) {
-                e.preventDefault();
+                if (e !== undefined && e.target !== undefined) {
+                    e.preventDefault();
+                }
                 $('.popover').addClass('hide');
                 $('.header-links a').css('text-decoration', 'none');
             }
@@ -141,8 +143,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
 
                 this.setElement(id + ' div.review:first-child');
                 // Not using events object
-                this.$('.votes_zone a[class$="_vote"]')
-                    .click(_.bind(this.processVote, this));
+                this.$('a').click(_.bind(this.processVote, this));
 
                 if (this.setStripe) {
                     this.$el.addClass('striped');
@@ -153,8 +154,11 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 e.preventDefault();
 
                 if ($.cookie('session') === undefined) {
-                    // TODO: Do something to signal that you should be loggedin
-                    console.log('you should be logged in');
+                    this.pubSub.trigger(
+                        c.EVENT.REQUEST_AUTH,
+                        c.EVENT_MSGS.REQUEST_AUTH,
+                        c.M_TYPES.INFORMATIVE
+                    );
                     return;
                 }
 
@@ -169,7 +173,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                     return;
                 }
 
-                console.log('llegué acá');
                 model.set('review_id', this.model.get('id'));
                 model.sync();
             },
@@ -188,12 +191,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
         var AuthFormView = ViewWithForm.extend({
 
             initialize: function() {
-                this.listenTo(this.model, 'change:state', this.stateChange);
                 this.listenTo(this.model, c.EVENT.AUTH_STATUS, this.authStatus);
-                this.$('input.auth_submit').click(function(e) {
-                    e.preventDefault();
-                    console.log('do some crazy shit man');
-                });
             },
 
             events: {
@@ -203,11 +201,6 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
             requestAuth: function(event) {
                 event.preventDefault();
                 console.log('requested!');
-                this.pubSub.trigger(
-                    c.EVENT.REQUEST_AUTH,
-                    c.EVENT_MSGS.REQUEST_AUTH,
-                    c.M_TYPES.INFORMATIVE
-                );
 
                 if (this.model.get('state') === c.STATE.READY) {
                     var $username   = this.$('input.username'),
@@ -222,13 +215,8 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 }
             },
 
-            stateChange: function() {
-
-            },
-
             authStatus: function(data) {
                 var result = data.result;
-                console.dir(data);
 
                 if (result.status === 'successful') {
                     this.pubSub.trigger(
@@ -239,7 +227,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min',
                 } else if (result.status === 'failure') {
                     this.pubSub.trigger(
                         c.EVENT.AUTH_FAILURE,
-                        c.EVENT_MSGS.AUTH_SUCCESS,
+                        result.msg,
                         c.M_TYPES.FAILURE
                     );
                 }

@@ -15,21 +15,24 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                 this.pubSub.on(c.EVENT.AUTH_FAILURE, f);
                 this.pubSub.on(c.EVENT.REQUEST_AUTH, f);
                 this.pubSub.on(c.EVENT.AUTH_SUCCESS, f);
+                this.pubSub.on(c.EVENT.REVIEW_INPUT_ERROR, f);
 
-                console.dir(this.$('a'));
                 this.$('a').click((function(view) {
                     return function(e) {
                         e.preventDefault();
                         view.$el.css('display', 'none');
                         clearTimeout(view.currentTimer);
+                        view.currentTimer = null;
                     };
                 }(this)));
-                this.pubSub.trigger(c.EVENT.AUTH_FAILURE, 'holaaaa', c.M_TYPES.FAILURE);
             },
+
             showMessage: function(str, type) {
+                if (this.currentTimer !== null) {
+                    return;
+                }
                 this.$('p').html(str);
                 this.$el.removeClass().addClass('pure-u-1');
-                console.log(str + ' ' + type);
 
                 if (type === c.M_TYPES.INFORMATIVE) {
                     this.$el.addClass('informative_status');
@@ -42,6 +45,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                     return function() {
                         view.currentTimer = setTimeout(function() {
                             view.$el.fadeOut('slow');
+                            clearTimeout(view.currentTimer);
                             view.currentTimer = null;
                         }, 10000);
                     };
@@ -279,6 +283,7 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
 
             stateChange: function(e, state, data) {
                 if (state === c.STATE.READY && this.model.error === null) {
+                    console.dir(data);
                     if (data.loose === true) {
                         this.$el.addClass('hide');
                         this.pubSub.once(c.EVENT.AUTH_SUCCESS,
@@ -288,11 +293,17 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
                             c.EVENT_MSGS.REQUEST_AUTH,
                             c.M_TYPES.INFORMATIVE
                         );
+                        this.pubSub.trigger(c.EVENT.AUTH_FOR_SUBMIT);
                     } else {
                         this.addReview();
                     }
                 } else {
-                    console.log('there was an error submitting the rewview');
+                    this.pubSub.trigger(
+                        c.EVENT.REVIEW_INPUT_ERROR,
+                        c.EVENT_MSGS.REVIEW_INPUT_ERROR,
+                        c.M_TYPES.FAILURE
+                    );
+                    this.model.error = null;
                 }
             },
             addReview: function() {
@@ -309,18 +320,16 @@ define(['jquery-ui-1.10.3.min', 'underscore-min', 'backbone-min', 'app/models',
 
             initialize: function() {
                 this.listenTo(this.pubSub,
-                              c.EVENT.REQUEST_AUTH, this.setupAuth);
+                              c.EVENT.AUTH_FOR_SUBMIT, this.setupAuth);
                 this.pubSub.once(c.EVENT.AUTH_SUCCESS,
-                                 this.authCompleted(this));
+                                 _.bind(this.authCompleted, this));
             },
 
-            authCompleted: function(view) {
-                return function() {
-                    view.$el.addClass('hide');
-                };
+            authCompleted: function() {
+                this.$el.addClass('hide');
             },
 
-            setupAuth: function() {
+            setupAuth: function(e) {
                 this.$el.removeClass('hide');
 
                 this.register_form = new comps.AuthFormView({

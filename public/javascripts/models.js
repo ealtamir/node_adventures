@@ -132,9 +132,8 @@ define(['jquery.min', 'underscore-min', 'backbone-min',
 
                 var error = function(model) {
                     return function(xhr, status, err) {
-                        model.set('state', c.STATE.READY);
                         model.error = [xhr, status, err];
-                        console.log(status + ' ' + err);
+                        model.set('state', c.STATE.READY);
                     };
                 };
 

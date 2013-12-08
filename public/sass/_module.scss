@@ -11,6 +11,7 @@ $popover_title_c    : #A1ABCC;
 
 #status_bar {
     margin-top: 10px;
+    padding: 5px;
     @include border-radius(5px);
     i {
         position: relative;
